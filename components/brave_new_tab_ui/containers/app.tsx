@@ -45,6 +45,7 @@ class DefaultPage extends React.Component<Props, {}> {
           saveShowRewards={PreferencesAPI.saveShowRewards}
           onDismissBrandedWallpaperNotification={onDismissBrandedWallpaperNotification}
           saveBrandedWallpaperOptIn={PreferencesAPI.saveBrandedWallpaperOptIn}
+          saveShowBinance={PreferencesAPI.saveShowBinance}
         />
       )
   }

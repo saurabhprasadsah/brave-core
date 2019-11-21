@@ -29,6 +29,7 @@ interface Props {
   saveShowRewards: (value: boolean) => void
   saveBrandedWallpaperOptIn: (value: boolean) => void
   onDismissBrandedWallpaperNotification: () => void
+  saveShowBinance: (value: boolean) => void
 }
 
 interface State {
@@ -155,6 +156,7 @@ class NewTabPage extends React.Component<Props, State> {
     )
   }
 
+<<<<<<< HEAD
   disableBrandedWallpaper = () => {
     this.props.saveBrandedWallpaperOptIn(false)
   }
@@ -163,6 +165,32 @@ class NewTabPage extends React.Component<Props, State> {
     this.props.saveBrandedWallpaperOptIn(
       !this.props.newTabData.brandedWallpaperOptIn
     )
+=======
+  toggleShowBinance = () => {
+    this.props.saveShowBinance(
+      !this.props.newTabData.showBinance
+    )
+  }
+
+  connectBinance = () => {
+    this.props.actions.connectToBinance()
+    window.open('https://www.binance.us/en/login', '_blank')
+    setTimeout(() => {
+      this.props.actions.onBinanceConnectComplete()
+    }, 12000)
+  }
+
+  depositBinance = () => {
+    window.open('https://www.binance.us/en/usercenter/wallet/deposit/BTC', '_blank')
+  }
+
+  tradeBinance = () => {
+    window.open('https://www.binance.us/en/usercenter/wallet/balances', '_blank')
+  }
+
+  binanceDetails = () => {
+    window.open('https://www.binance.us/en/usercenter/dashboard/overview', '_blank')
+>>>>>>> Binance Widget Prototyping
   }
 
   enableAds = () => {
@@ -342,6 +370,8 @@ class NewTabPage extends React.Component<Props, State> {
               brandedWallpaperOptIn={newTabData.brandedWallpaperOptIn}
               allowBrandedWallpaperUI={newTabData.featureFlagBraveNTPBrandedWallpaper}
               toggleShowRewards={this.toggleShowRewards}
+              showBinance={newTabData.showBinance}
+              toggleShowBinance={this.toggleShowBinance}
             />
           </Page.Footer>
         </Page.Page>

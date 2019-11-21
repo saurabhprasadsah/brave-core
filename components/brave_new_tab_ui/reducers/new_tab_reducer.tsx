@@ -446,6 +446,15 @@ export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.S
       }
       break
 
+    case types.CONNECT_TO_BINANCE:
+      state.binanceState.authInProgress = true
+      break
+
+    case types.ON_BINANCE_CONNECT_COMPLETE:
+      state.binanceState.userAuthed = true
+      state.binanceState.authInProgress = false
+      break
+
     default:
       break
   }

@@ -125,3 +125,8 @@ export const onPromotionFinish = (result: NewTab.RewardsResult, promotion: NewTa
   result,
   promotion
 })
+
+export const connectToBinance = () => action(types.CONNECT_TO_BINANCE)
+
+// Exists only for prototyping right now
+export const onBinanceConnectComplete = () => action(types.ON_BINANCE_CONNECT_COMPLETE)
