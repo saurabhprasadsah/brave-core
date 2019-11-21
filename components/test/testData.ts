@@ -58,6 +58,12 @@ export const newTabInitialState: NewTab.ApplicationState = {
       javascriptBlockedStat: 0,
       httpsUpgradesStat: 0,
       fingerprintingBlockedStat: 0
+    },
+    binanceState: {
+      authInProgress: false,
+      authFailed: false,
+      userAuthed: false,
+      btcBalance: '0.00'
     }
   }
 }
