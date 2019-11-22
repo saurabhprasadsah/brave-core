@@ -156,7 +156,6 @@ class NewTabPage extends React.Component<Props, State> {
     )
   }
 
-<<<<<<< HEAD
   disableBrandedWallpaper = () => {
     this.props.saveBrandedWallpaperOptIn(false)
   }
@@ -165,7 +164,8 @@ class NewTabPage extends React.Component<Props, State> {
     this.props.saveBrandedWallpaperOptIn(
       !this.props.newTabData.brandedWallpaperOptIn
     )
-=======
+  }
+
   toggleShowBinance = () => {
     this.props.saveShowBinance(
       !this.props.newTabData.showBinance
@@ -190,7 +190,10 @@ class NewTabPage extends React.Component<Props, State> {
 
   binanceDetails = () => {
     window.open('https://www.binance.us/en/usercenter/dashboard/overview', '_blank')
->>>>>>> Binance Widget Prototyping
+  }
+
+  setHideBalance = (hide: boolean) => {
+    this.props.actions.setHideBalance(hide)
   }
 
   enableAds = () => {
