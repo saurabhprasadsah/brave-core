@@ -128,9 +128,15 @@ export const onPromotionFinish = (result: NewTab.RewardsResult, promotion: NewTa
 
 export const connectToBinance = () => action(types.CONNECT_TO_BINANCE)
 
-// Exists only for prototyping right now
-export const onBinanceConnectComplete = () => action(types.ON_BINANCE_CONNECT_COMPLETE)
-
 export const setHideBalance = (hide: boolean) => action(types.SET_HIDE_BALANCE, {
   hide
+})
+
+export const setApiKeys = (apiKey: string, secretKey: string) => action(types.SET_API_KEYS, {
+  apiKey,
+  secretKey
+})
+
+export const onBinanceBalance = (balance: string) => action(types.ON_BINANCE_BALANCE, {
+  balance
 })
