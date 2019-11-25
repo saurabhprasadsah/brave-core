@@ -174,10 +174,10 @@ class NewTabPage extends React.Component<Props, State> {
 
   connectBinance = () => {
     this.props.actions.connectToBinance()
-    window.open('https://www.binance.us/en/login', '_blank')
-    setTimeout(() => {
-      this.props.actions.onBinanceConnectComplete()
-    }, 12000)
+  }
+
+  binanceConnected = () => {
+    this.props.actions.onBinanceConnectComplete()
   }
 
   depositBinance = () => {
@@ -190,6 +190,10 @@ class NewTabPage extends React.Component<Props, State> {
 
   binanceDetails = () => {
     window.open('https://www.binance.us/en/usercenter/dashboard/overview', '_blank')
+  }
+
+  generateNewKey = () => {
+    window.open('https://www.binance.us/en/usercenter/settings/api-management', '_blank')
   }
 
   setHideBalance = (hide: boolean) => {
