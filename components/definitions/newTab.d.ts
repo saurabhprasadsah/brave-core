@@ -113,6 +113,8 @@ declare namespace NewTab {
     btcBalance: string
     hideBalance: boolean
     userTLD: BinanceTLD
+    apiCredError: boolean
+    validationInProgress: boolean
   }
 
   export type BinanceTLD = 'us' | 'com'
