@@ -19,7 +19,7 @@ import * as dndAPI from '../api/topSites/dnd'
 import { registerViewCount } from '../api/brandedWallpaper'
 import * as storage from '../storage'
 import { getTotalContributions } from '../rewards-utils'
-import { getUSDPrice} from '../binance-utils'
+import { getUSDPrice } from '../binance-utils'
 
 const initialState = storage.load()
 
@@ -497,6 +497,14 @@ export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.S
       state = { ...state }
       const accountBTCBalance = state.binanceState.btcBalance
       state.binanceState.btcBalanceValue = getUSDPrice(accountBTCBalance, payload.price)
+      break
+
+    case types.DISCONNECT_BINANCE:
+      state = { ...state }
+      state.binanceState = {
+        ...storage.defaultState.binanceState
+      }
+      chrome.binanceWidget.setAPIKey('', '')
       break
 
     default:
