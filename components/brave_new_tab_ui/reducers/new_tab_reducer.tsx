@@ -19,7 +19,7 @@ import * as dndAPI from '../api/topSites/dnd'
 import { registerViewCount } from '../api/brandedWallpaper'
 import * as storage from '../storage'
 import { getTotalContributions } from '../rewards-utils'
-import { getUSDValue } from '../binance-utils'
+import { getUSDPrice} from '../binance-utils'
 
 const initialState = storage.load()
 
@@ -489,14 +489,14 @@ export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.S
       state.binanceState.validationInProgress = false
       break
 
-    case types.ON_BTC_USD_VALUE:
-      if (!payload.value) {
+    case types.ON_BTC_USD_PRICE:
+      if (!payload.price) {
         break
       }
 
       state = { ...state }
       const accountBTCBalance = state.binanceState.btcBalance
-      state.binanceState.btcBalanceValue = getUSDValue(accountBTCBalance, payload.value)
+      state.binanceState.btcBalanceValue = getUSDPrice(accountBTCBalance, payload.price)
       break
 
     default:
