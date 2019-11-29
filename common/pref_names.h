@@ -69,6 +69,8 @@ extern const char kAutocompleteEnabled[];
 extern const char kBraveDarkMode[];
 extern const char kBinanceWidgetAPIKey[];
 extern const char kBinanceWidgetSecretKey[];
+extern const char kBinanceAPIKey[];
+extern const char kBinanceSecretKey[];
 
 #if defined(OS_ANDROID)
 extern const char kDesktopModeEnabled[];

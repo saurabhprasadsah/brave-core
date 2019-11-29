@@ -195,8 +195,8 @@ void RegisterProfilePrefs(user_prefs::PrefRegistrySyncable* registry) {
   registry->RegisterBooleanPref(kAutocompleteEnabled, true);
 
   // Binance widget
-  registry->RegisterStringPref(kBinanceWidgetAPIKey, "");
-  registry->RegisterStringPref(kBinanceWidgetSecretKey, "");
+  registry->RegisterStringPref(kBinanceAPIKey, "");
+  registry->RegisterStringPref(kBinanceSecretKey, "");
   RegisterProfilePrefsForMigration(registry);
 }
 
