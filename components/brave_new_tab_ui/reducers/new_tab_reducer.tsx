@@ -450,6 +450,7 @@ export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.S
     case types.CONNECT_TO_BINANCE:
       state = { ...state }
       state.binanceState.authInProgress = true
+      state.binanceState.apiCredsInvalid = false
       break
 
     case types.SET_HIDE_BALANCE:
@@ -505,6 +506,11 @@ export const newTabReducer: Reducer<NewTab.State | undefined> = (state: NewTab.S
         ...storage.defaultState.binanceState
       }
       chrome.binance.setAPIKey('', '')
+      break
+
+    case types.ON_API_KEYS_INVALID:
+      state = { ...state }
+      state.binanceState.apiCredsInvalid = true
       break
 
     default:
