@@ -44,6 +44,7 @@ BraveWalletNavigationThrottle::WillStartRequest() {
 
   // Is this navigation targeting an extension resource?
   const GURL& url = navigation_handle()->GetURL();
+  LOG(ERROR) << "===brave wallet URL for network throttle is: " << url.spec();
   if (url.SchemeIs(content::kChromeUIScheme) &&
       url.host() == ethereum_remote_client_host) {
     // If a user has explicitly disabled the Brave Wallet,
@@ -51,8 +52,8 @@ BraveWalletNavigationThrottle::WillStartRequest() {
     content::BrowserContext* browser_context =
         web_contents->GetBrowserContext();
     Profile* profile = Profile::FromBrowserContext(browser_context);
-    if (!profile->GetPrefs()->GetBoolean(kBraveWalletEnabled) ||
-        brave::IsTorProfile(profile)) {
+    if (brave::IsTorProfile(profile)) {
+      LOG(ERROR) << "====TOR PROFILE SO BLOCKIKNG REQUEST";
       return content::NavigationThrottle::BLOCK_REQUEST;
     }
     auto* registry = ExtensionRegistry::Get(browser_context);
@@ -66,6 +67,7 @@ BraveWalletNavigationThrottle::WillStartRequest() {
         static_cast<extensions::BraveComponentLoader*>(loader)->
             AddEthereumRemoteClientExtension();
       }
+      LOG(ERROR) << "====deferring for ERC because it is not ready";
       return content::NavigationThrottle::DEFER;
     }
   }
@@ -108,6 +110,7 @@ void BraveWalletNavigationThrottle::WalletBackgroundScriptTimer() {
 }
 
 void BraveWalletNavigationThrottle::ResumeThrottle() {
+  LOG(ERROR) << "====RESUMING ERC Throttle";
   timer_.Stop();
   resume_pending_ = false;
   Resume();

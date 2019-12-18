@@ -1,0 +1,15 @@
+source_set("browser") {
+  sources = [
+    "web3_provider_controller.cc",
+    "web3_provider_controller.h",
+    "web3_provider_service.cc",
+    "web3_provider_service.h",
+  ]
+
+  deps = [
+    "//base",
+    "//components/keyed_service/content",
+    "//components/keyed_service/core",
+    "//content/public/browser",
+  ]
+}

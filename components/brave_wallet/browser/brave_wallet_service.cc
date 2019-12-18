@@ -17,6 +17,7 @@ BraveWalletService::BraveWalletService(content::BrowserContext* context)
     : context_(context),
       controller_(new BraveWalletController(context)),
       weak_factory_(this) {
+  LOG(ERROR) << "============BraveWalletService::BraveWalletService";
 }
 
 BraveWalletService::~BraveWalletService() {}

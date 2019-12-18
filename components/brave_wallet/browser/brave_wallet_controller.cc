@@ -7,7 +7,7 @@
 
 #include <utility>
 
-#include "chrome/browser/lifetime/application_lifetime.h"
+#include "brave/common/brave_wallet_constants.h"
 #include "base/bind.h"
 #include "base/files/file_util.h"
 #include "base/task/post_task.h"
@@ -23,9 +23,14 @@
 #include "components/prefs/pref_service.h"
 #include "content/public/browser/web_contents.h"
 #include "content/public/common/url_constants.h"
+#include "chrome/browser/lifetime/application_lifetime.h"
 #include "chrome/browser/ui/browser.h"
 #include "chrome/browser/ui/browser_list.h"
 #include "chrome/browser/ui/tabs/tab_strip_model.h"
+#include "components/prefs/pref_change_registrar.h"
+#include "components/prefs/pref_service.h"
+#include "extensions/browser/extension_system.h"
+#include "extensions/browser/shared_user_script_master.h"
 
 namespace {
   bool ResetCryptoWalletsOnFileTaskRunner(
@@ -35,12 +40,22 @@ namespace {
 }
 
 BraveWalletController::BraveWalletController(content::BrowserContext* context)
-    : context_(context),
-    file_task_runner_(base::CreateSequencedTaskRunner(
+    : context_(context), extension_registry_observer_(this),
+      file_task_runner_(base::CreateSequencedTaskRunner(
           {base::ThreadPool(), base::MayBlock(),
            base::TaskPriority::BEST_EFFORT,
            base::TaskShutdownBehavior::BLOCK_SHUTDOWN})),
     weak_factory_(this) {
+  Profile* profile = Profile::FromBrowserContext(context_);
+  LOG(ERROR) << "======Registering for Brave Wallet web3 provider listener";
+  pref_change_registrar_ = std::make_unique<PrefChangeRegistrar>();
+  pref_change_registrar_->Init(profile->GetPrefs());
+  pref_change_registrar_->Add(kBraveWalletWeb3Provider,
+    base::Bind(&BraveWalletController::OnPreferenceChanged,
+        base::Unretained(this)));
+  // In case any web3 providers have already loaded content scripts at this point
+  RemoveUnusedWeb3ProviderContentScripts();
+  extension_registry_observer_.Add(extensions::ExtensionRegistry::Get(context));
 }
 
 BraveWalletController::~BraveWalletController() {
@@ -230,4 +245,57 @@ std::string BraveWalletController::GetWalletSeed(
   derived = BraveWalletController::GetEthereumRemoteClientSeedFromRootSeed(
       seed);
   return derived;
+}
+
+void BraveWalletController::RemoveUnusedWeb3ProviderContentScripts() {
+  Profile* profile = Profile::FromBrowserContext(context_);
+  auto* shared_user_script_master =
+      extensions::ExtensionSystem::Get(context_)->shared_user_script_master();
+  auto* registry = extensions::ExtensionRegistry::Get(profile);
+  auto* metamask_extension =
+      registry->enabled_extensions().GetByID(metamask_extension_id);
+  auto* erc_extension =
+      registry->enabled_extensions().GetByID(ethereum_remote_client_extension_id);
+  auto provider = static_cast<BraveWalletWeb3ProviderTypes>(
+      profile->GetPrefs()->GetInteger(kBraveWalletWeb3Provider));
+  if (metamask_extension) {
+    LOG(ERROR) << "======REMOVING web3 providers for metamask";
+    shared_user_script_master->OnExtensionUnloaded(
+        context_, metamask_extension,
+        extensions::UnloadedExtensionReason::DISABLE);
+  } else {
+    LOG(ERROR) << "Trying to update but metamask not available yet";
+  }
+  if (erc_extension) {
+    LOG(ERROR) << "======REMOVING web3 providers for crypto wallets";
+    shared_user_script_master->OnExtensionUnloaded(
+        context_, erc_extension,
+        extensions::UnloadedExtensionReason::DISABLE);
+  } else {
+    LOG(ERROR) << "Trying to update but erc not available yet";
+  }
+  if (provider == BraveWalletWeb3ProviderTypes::CRYPTO_WALLETS) {
+    if (erc_extension) {
+      LOG(ERROR) << "======Web3ProviderController:: Brave Crypto Wallets extension id selected";
+      shared_user_script_master->OnExtensionLoaded(context_, erc_extension);
+    }
+  } else if (provider == BraveWalletWeb3ProviderTypes::METAMASK) {
+    if (erc_extension) {
+      LOG(ERROR) << "======Web3ProviderController:: METAMASK extension id selected";
+      shared_user_script_master->OnExtensionLoaded(
+          context_, metamask_extension);
+    }
+  }
+}
+
+void BraveWalletController::OnPreferenceChanged() {
+  LOG(ERROR) << "===BraveWalletController::OnPreferenceChanged";
+  RemoveUnusedWeb3ProviderContentScripts();
+}
+
+void BraveWalletController::OnExtensionLoaded(
+    content::BrowserContext* browser_context,
+    const extensions::Extension* extension) {
+  LOG(ERROR) << "===BraveWalletController::OnExtensionLoaded: extension id: " << extension->id();
+  RemoveUnusedWeb3ProviderContentScripts();
 }
