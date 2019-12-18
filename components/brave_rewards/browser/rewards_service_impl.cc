@@ -4714,4 +4714,10 @@ void RewardsServiceImpl::ReconcileStampReset() {
   }
 }
 
+void RewardsServiceImpl::RunDBTransaction(
+    ledger::DBTransactionPtr transaction,
+    ledger::RunDBTransactionCallback callback) {
+
+}
+
 }  // namespace brave_rewards
