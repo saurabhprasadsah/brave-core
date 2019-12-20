@@ -101,7 +101,7 @@
         ]
       },
       {
-        "name": "classIdStylesheet",
+        "name": "hiddenClassIdSelectors",
         "type": "function",
         "description": "Get a stylesheet of generic rules that may apply to the given set of classes and ids without any of the given excepted selectors",
         "parameters": [
@@ -125,7 +125,7 @@
             "name": "callback",
             "parameters": [
               {
-                "name": "stylesheet",
+                "name": "selectorsJson",
                 "type": "string"
               }
             ]

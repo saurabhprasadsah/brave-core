@@ -65,15 +65,16 @@ BraveShieldsHostnameCosmeticResourcesFunction::Run() {
   return RespondNow(ArgumentList(std::move(result_list)));
 }
 
-ExtensionFunction::ResponseAction BraveShieldsClassIdStylesheetFunction::Run() {
-  std::unique_ptr<brave_shields::ClassIdStylesheet::Params> params(
-      brave_shields::ClassIdStylesheet::Params::Create(*args_));
+ExtensionFunction::ResponseAction
+BraveShieldsHiddenClassIdSelectorsFunction::Run() {
+  std::unique_ptr<brave_shields::HiddenClassIdSelectors::Params> params(
+      brave_shields::HiddenClassIdSelectors::Params::Create(*args_));
   EXTENSION_FUNCTION_VALIDATE(params.get());
 
   std::string stylesheet = g_brave_browser_process->
-      ad_block_service()->ClassIdStylesheet(params->classes,
-                                            params->ids,
-                                            params->exceptions);
+      ad_block_service()->HiddenClassIdSelectors(params->classes,
+                                                 params->ids,
+                                                 params->exceptions);
   return RespondNow(OneArgument(std::make_unique<base::Value>(stylesheet)));
 }
 

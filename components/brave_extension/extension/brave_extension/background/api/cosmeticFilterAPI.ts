@@ -21,12 +21,15 @@ const generateCosmeticBlockingStylesheet = (hideSelectors: string[], styleSelect
 }
 
 export const injectClassIdStylesheet = (tabId: number, classes: string[], ids: string[], exceptions: string[]) => {
-  chrome.braveShields.classIdStylesheet(classes, ids, exceptions, stylesheet => {
+  chrome.braveShields.hiddenClassIdSelectors(classes, ids, exceptions, (jsonSelectors) => {
+    const hideSelectors = JSON.parse(jsonSelectors)
+    /*
     chrome.tabs.insertCSS(tabId, {
       code: stylesheet,
       cssOrigin: 'user',
       runAt: 'document_start'
     })
+    */
   })
 }
 

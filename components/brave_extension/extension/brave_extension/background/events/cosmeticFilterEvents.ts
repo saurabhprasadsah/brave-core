@@ -50,7 +50,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
       rule.host = msg.baseURI
       break
     }
-    case 'classIdStylesheet': {
+    case 'hiddenClassIdSelectors': {
       const tab = sender.tab
       if (tab === undefined) {
         break

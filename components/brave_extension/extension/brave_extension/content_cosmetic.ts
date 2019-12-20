@@ -41,7 +41,7 @@ const getClassesAndIds = function (addedNodes: Element[]) {
 const handleNewNodes = (newNodes: Element[]) => {
   const { classes, ids } = getClassesAndIds(newNodes)
   chrome.runtime.sendMessage({
-    type: 'classIdStylesheet',
+    type: 'hiddenClassIdSelectors',
     classes,
     ids
   })

@@ -21,12 +21,12 @@ class BraveShieldsHostnameCosmeticResourcesFunction : public ExtensionFunction {
   ResponseAction Run() override;
 };
 
-class BraveShieldsClassIdStylesheetFunction : public ExtensionFunction {
+class BraveShieldsHiddenClassIdSelectorsFunction : public ExtensionFunction {
  public:
-  DECLARE_EXTENSION_FUNCTION("braveShields.classIdStylesheet", UNKNOWN)
+  DECLARE_EXTENSION_FUNCTION("braveShields.hiddenClassIdSelectors", UNKNOWN)
 
  protected:
-  ~BraveShieldsClassIdStylesheetFunction() override {}
+  ~BraveShieldsHiddenClassIdSelectorsFunction() override {}
 
   ResponseAction Run() override;
 };

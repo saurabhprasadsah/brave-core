@@ -49,7 +49,7 @@ class AdBlockBaseService : public BaseBraveShieldsService {
 
   base::Optional<base::Value> HostnameCosmeticResources(
           const std::string& hostname);
-  std::string ClassIdStylesheet(
+  std::string HiddenClassIdSelectors(
           const std::vector<std::string>& classes,
           const std::vector<std::string>& ids,
           const std::vector<std::string>& exceptions);
