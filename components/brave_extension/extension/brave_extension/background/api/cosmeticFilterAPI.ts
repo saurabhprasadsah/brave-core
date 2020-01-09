@@ -55,6 +55,14 @@ export const applyAdblockCosmeticFilters = (tabId: number, hostname: string) => 
   })
 }
 
+export const hideThirdPartySelectors = (tabId: number, selectors: string[]) => {
+  chrome.tabs.insertCSS(tabId, {
+    code: `${selectors.join(',')}{display:none!important;}`,
+    cssOrigin: 'user',
+    runAt: 'document_start'
+  })
+}
+
 // User generated cosmetic filtering below
 export const applyCSSCosmeticFilters = (tabId: number, hostname: string) => {
   chrome.storage.local.get('cosmeticFilterList', (storeData = {}) => {

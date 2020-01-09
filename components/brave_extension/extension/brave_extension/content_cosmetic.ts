@@ -222,6 +222,18 @@ const hideSubtree = (elm: HTMLElement) => {
   }
 }
 
+const hideSelectors = (selectors: string[]) => {
+  if (selectors.length === 0) {
+    return
+  }
+
+  chrome.runtime.sendMessage({
+    type: 'hideThirdPartySelectors',
+    selectors
+  })
+}
+
+const alreadyHiddenSelectors = new Set()
 const alreadyHiddenThirdPartySubTrees = new WeakSet()
 const allSelectorsSet = new Set()
 const firstRunQueue = new Set()
@@ -249,16 +261,25 @@ const pumpCosmeticFilterQueues = () => {
     const currentWorkLoad = Array.from(currentQueue.values()).slice(0, maxWorkSize)
     const comboSelector = currentWorkLoad.join(',')
     const matchingElms = document.querySelectorAll(comboSelector)
+    const selectorsToHide = []
+
     for (const aMatchingElm of Array.from(matchingElms)) {
       if (alreadyHiddenThirdPartySubTrees.has(aMatchingElm)) {
         continue
       }
       const elmSubtreeIsFirstParty = isSubTreeFirstParty(aMatchingElm)
       if (elmSubtreeIsFirstParty === false) {
-        hideSubtree(aMatchingElm as HTMLElement)
+        for (const selector of currentWorkLoad) {
+          if (aMatchingElm.matches(selector) && !alreadyHiddenSelectors.has(selector)) {
+            selectorsToHide.push(selector)
+            alreadyHiddenSelectors.add(selector)
+          }
+        }
         alreadyHiddenThirdPartySubTrees.add(aMatchingElm)
       }
     }
+
+    hideSelectors(selectorsToHide)
 
     for (const aUsedSelector of currentWorkLoad) {
       currentQueue.delete(aUsedSelector)
