@@ -12,29 +12,14 @@
 
 namespace ads {
 
-NotificationInfo::NotificationInfo() :
-    id(""),
-    creative_set_id(""),
-    category(""),
-    advertiser(""),
-    text(""),
-    url(""),
-    uuid(""),
-    type(ConfirmationType::UNKNOWN) {}
+NotificationInfo::NotificationInfo() = default;
 
-NotificationInfo::NotificationInfo(const NotificationInfo& info) :
-    id(info.id),
-    creative_set_id(info.creative_set_id),
-    category(info.category),
-    advertiser(info.advertiser),
-    text(info.text),
-    url(info.url),
-    uuid(info.uuid),
-    type(info.type) {}
+NotificationInfo::NotificationInfo(
+    const NotificationInfo& info) = default;
 
 NotificationInfo::~NotificationInfo() = default;
 
-const std::string NotificationInfo::ToJson() const {
+std::string NotificationInfo::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -51,7 +36,7 @@ Result NotificationInfo::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("id")) {
@@ -87,10 +72,12 @@ Result NotificationInfo::FromJson(
     type = ConfirmationType(confirmation_type);
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const NotificationInfo& info) {
+void SaveToJson(
+    JsonWriter* writer,
+    const NotificationInfo& info) {
   writer->StartObject();
 
   writer->String("id");

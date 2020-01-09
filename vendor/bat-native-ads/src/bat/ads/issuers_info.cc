@@ -9,17 +9,14 @@
 
 namespace ads {
 
-IssuersInfo::IssuersInfo() :
-    public_key(""),
-    issuers({}) {}
+IssuersInfo::IssuersInfo() = default;
 
-IssuersInfo::IssuersInfo(const IssuersInfo& info) :
-    public_key(info.public_key),
-    issuers(info.issuers) {}
+IssuersInfo::IssuersInfo(
+    const IssuersInfo& info) = default;
 
 IssuersInfo::~IssuersInfo() = default;
 
-const std::string IssuersInfo::ToJson() const {
+std::string IssuersInfo::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -36,7 +33,7 @@ Result IssuersInfo::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   // Public key
@@ -45,7 +42,7 @@ Result IssuersInfo::FromJson(
       *error_description = "Catalog issuers public key is missing";
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   public_key = document["public_key"].GetString();
@@ -56,7 +53,7 @@ Result IssuersInfo::FromJson(
       *error_description = "No catalog issuers";
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   std::vector<IssuerInfo> new_issuers = {};
@@ -70,10 +67,12 @@ Result IssuersInfo::FromJson(
 
   issuers = new_issuers;
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const IssuersInfo& info) {
+void SaveToJson(
+    JsonWriter* writer,
+    const IssuersInfo& info) {
   writer->StartObject();
 
   // Public key

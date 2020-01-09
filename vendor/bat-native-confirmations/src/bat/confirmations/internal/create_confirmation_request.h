@@ -12,8 +12,7 @@
 #include "bat/confirmations/confirmations_client.h"
 #include "bat/confirmations/internal/token_info.h"
 #include "bat/confirmations/confirmation_type.h"
-
-#include "wrapper.hpp"  // NOLINT
+#include "wrapper.hpp"
 
 using challenge_bypass_ristretto::BlindedToken;
 

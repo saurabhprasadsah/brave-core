@@ -24,7 +24,7 @@ class DailyCapFrequencyCap : public ExclusionRule {
   bool ShouldExclude(
       const AdInfo& ad) override;
 
-  const std::string GetLastMessage() const override;
+  std::string GetLastMessage() const override;
 
  private:
   const FrequencyCapping* const frequency_capping_;  // NOT OWNED

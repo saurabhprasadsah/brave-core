@@ -9,7 +9,6 @@
 #include "bat/confirmations/internal/ads_serve_helper.h"
 #include "bat/confirmations/internal/string_helper.h"
 #include "bat/confirmations/internal/security_helper.h"
-
 #include "base/logging.h"
 #include "base/json/json_writer.h"
 #include "base/values.h"

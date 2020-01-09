@@ -68,7 +68,7 @@ class BatAdsHistoryConfirmationFilterTest : public ::testing::Test {
   }
 
   void OnAdsImplInitialize(const Result result) {
-    EXPECT_EQ(Result::SUCCESS, result);
+    EXPECT_EQ(Result::kSuccess, result);
   }
 
   void TearDown() override {
@@ -194,11 +194,11 @@ TEST_F(BatAdsHistoryConfirmationFilterTest,
     NoFilteredResultsForUnrecognisedConfirmationTypes) {
   // Arrange
   ConfirmationType::Value confirmation_types[] = {
-    ConfirmationType::Value::UNKNOWN,
-    ConfirmationType::Value::FLAG,
-    ConfirmationType::Value::UPVOTE,
-    ConfirmationType::Value::DOWNVOTE,
-    ConfirmationType::Value::LANDED,
+    ConfirmationType::Value::kUnknown,
+    ConfirmationType::Value::kFlagged,
+    ConfirmationType::Value::kUpvoted,
+    ConfirmationType::Value::kDownvoted,
+    ConfirmationType::Value::kLanded,
   };
 
   size_t size_of_confirmation_types = sizeof(confirmation_types) /
@@ -218,12 +218,12 @@ TEST_F(BatAdsHistoryConfirmationFilterTest,
     FilteredDismissResultWithUnrecognisedConfirmationTypes) {
   // Arrange
   ConfirmationType::Value confirmation_types[] = {
-    ConfirmationType::Value::UNKNOWN,
-    ConfirmationType::Value::FLAG,
-    ConfirmationType::Value::DISMISS,  // Trump
-    ConfirmationType::Value::UPVOTE,
-    ConfirmationType::Value::DOWNVOTE,
-    ConfirmationType::Value::LANDED,
+    ConfirmationType::Value::kUnknown,
+    ConfirmationType::Value::kFlagged,
+    ConfirmationType::Value::kDismissed,  // Trump
+    ConfirmationType::Value::kUpvoted,
+    ConfirmationType::Value::kDownvoted,
+    ConfirmationType::Value::kLanded,
   };
 
   size_t size_of_confirmation_types = sizeof(confirmation_types) /
@@ -249,8 +249,8 @@ TEST_F(BatAdsHistoryConfirmationFilterTest,
     ExpectLatestDismiss) {
   // Arrange
   ConfirmationType::Value confirmation_types[] = {
-    ConfirmationType::Value::DISMISS,
-    ConfirmationType::Value::DISMISS,  // Trump
+    ConfirmationType::Value::kDismissed,
+    ConfirmationType::Value::kDismissed,  // Trump
   };
 
   size_t size_of_confirmation_types = sizeof(confirmation_types) /
@@ -276,12 +276,12 @@ TEST_F(BatAdsHistoryConfirmationFilterTest,
     ViewTrumpsDismiss) {
   // Arrange
   const ConfirmationType::Value expected_confirmation_type =
-    ConfirmationType::Value::VIEW;
+    ConfirmationType::Value::kViewed;
 
   ConfirmationType::Value confirmation_types[] = {
-    ConfirmationType::Value::DISMISS,
+    ConfirmationType::Value::kDismissed,
     expected_confirmation_type,
-    ConfirmationType::Value::DISMISS,
+    ConfirmationType::Value::kDismissed,
   };
 
   size_t size_of_confirmation_types = sizeof(confirmation_types) /
@@ -295,12 +295,12 @@ TEST_F(BatAdsHistoryConfirmationFilterTest,
     ClickTrumpsDismiss) {
   // Arrange
   const ConfirmationType::Value expected_confirmation_type =
-    ConfirmationType::Value::CLICK;
+    ConfirmationType::Value::kClicked;
 
   ConfirmationType::Value confirmation_types[] = {
-    ConfirmationType::Value::DISMISS,
+    ConfirmationType::Value::kDismissed,
     expected_confirmation_type,
-    ConfirmationType::Value::DISMISS,
+    ConfirmationType::Value::kDismissed,
   };
 
   size_t size_of_confirmation_types = sizeof(confirmation_types) /
@@ -314,12 +314,12 @@ TEST_F(BatAdsHistoryConfirmationFilterTest,
     ClickTrumpsView) {
   // Arrange
   const ConfirmationType::Value expected_confirmation_type =
-    ConfirmationType::Value::CLICK;
+    ConfirmationType::Value::kClicked;
 
   ConfirmationType::Value confirmation_types[] = {
-    ConfirmationType::Value::VIEW,
+    ConfirmationType::Value::kViewed,
     expected_confirmation_type,
-    ConfirmationType::Value::VIEW,
+    ConfirmationType::Value::kViewed,
   };
 
   size_t size_of_confirmation_types = sizeof(confirmation_types) /
@@ -333,12 +333,12 @@ TEST_F(BatAdsHistoryConfirmationFilterTest,
     ClickTrumpsViewAndDismiss) {
   // Arrange
   const ConfirmationType::Value expected_confirmation_type =
-    ConfirmationType::Value::CLICK;
+    ConfirmationType::Value::kClicked;
 
   ConfirmationType::Value confirmation_types[] = {
-    ConfirmationType::Value::DISMISS,
+    ConfirmationType::Value::kDismissed,
     expected_confirmation_type,
-    ConfirmationType::Value::VIEW,
+    ConfirmationType::Value::kViewed,
   };
 
   size_t size_of_confirmation_types = sizeof(confirmation_types) /
@@ -354,10 +354,10 @@ TEST_F(BatAdsHistoryConfirmationFilterTest,
   size_t size_of_confirmation_types = 0;
 
   ConfirmationType::Value confirmationTypesForAd1[] = {
-    ConfirmationType::Value::DISMISS,
-    ConfirmationType::Value::DISMISS,
-    ConfirmationType::Value::VIEW,  // Trump
-    ConfirmationType::Value::DISMISS,
+    ConfirmationType::Value::kDismissed,
+    ConfirmationType::Value::kDismissed,
+    ConfirmationType::Value::kViewed,  // Trump
+    ConfirmationType::Value::kDismissed,
   };
 
   size_of_confirmation_types = sizeof(confirmationTypesForAd1) /
@@ -366,10 +366,10 @@ TEST_F(BatAdsHistoryConfirmationFilterTest,
       size_of_confirmation_types, 1);
 
   ConfirmationType::Value confirmationTypesForAd2[] = {
-    ConfirmationType::Value::DISMISS,
-    ConfirmationType::Value::CLICK,  // Trump
-    ConfirmationType::Value::VIEW,
-    ConfirmationType::Value::DISMISS,
+    ConfirmationType::Value::kDismissed,
+    ConfirmationType::Value::kClicked,  // Trump
+    ConfirmationType::Value::kViewed,
+    ConfirmationType::Value::kDismissed,
   };
 
   size_of_confirmation_types = sizeof(confirmationTypesForAd2) /
@@ -378,9 +378,9 @@ TEST_F(BatAdsHistoryConfirmationFilterTest,
       size_of_confirmation_types, 1);
 
   ConfirmationType::Value confirmationTypesForAd3[] = {
-    ConfirmationType::Value::CLICK,  // Trump
-    ConfirmationType::Value::VIEW,
-    ConfirmationType::Value::DISMISS,
+    ConfirmationType::Value::kClicked,  // Trump
+    ConfirmationType::Value::kViewed,
+    ConfirmationType::Value::kDismissed,
   };
 
   size_of_confirmation_types = sizeof(confirmationTypesForAd3) /
@@ -393,9 +393,9 @@ TEST_F(BatAdsHistoryConfirmationFilterTest,
       ads_history_filter_->Apply(ads_history_);
 
   // Assert
-  TestFiltering(kTestAdUuids[0], ConfirmationType::Value::VIEW);
-  TestFiltering(kTestAdUuids[1], ConfirmationType::Value::CLICK);
-  TestFiltering(kTestAdUuids[2], ConfirmationType::Value::CLICK);
+  TestFiltering(kTestAdUuids[0], ConfirmationType::Value::kViewed);
+  TestFiltering(kTestAdUuids[1], ConfirmationType::Value::kClicked);
+  TestFiltering(kTestAdUuids[2], ConfirmationType::Value::kClicked);
 }
 
 }  // namespace ads

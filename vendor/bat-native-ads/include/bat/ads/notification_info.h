@@ -16,10 +16,11 @@ namespace ads {
 
 struct ADS_EXPORT NotificationInfo {
   NotificationInfo();
-  NotificationInfo(const NotificationInfo& info);
+  NotificationInfo(
+      const NotificationInfo& info);
   ~NotificationInfo();
 
-  const std::string ToJson() const;
+  std::string ToJson() const;
   Result FromJson(
       const std::string& json,
       std::string* error_description = nullptr);
@@ -31,7 +32,7 @@ struct ADS_EXPORT NotificationInfo {
   std::string text;
   std::string url;
   std::string uuid;
-  ConfirmationType type;
+  ConfirmationType type = ConfirmationType::kUnknown;
 };
 
 }  // namespace ads

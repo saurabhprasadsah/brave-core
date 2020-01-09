@@ -834,8 +834,8 @@ void AdsServiceImpl::OnClose(
     const bool by_user,
     base::OnceClosure completed_closure) {
   if (connected()) {
-    auto type = by_user ? ads::NotificationEventType::DISMISSED
-        : ads::NotificationEventType::TIMEOUT;
+    auto type = by_user ? ads::NotificationEventType::kDismissed
+        : ads::NotificationEventType::kTimedOut;
 
     bat_ads_->OnNotificationEvent(id, ToMojomNotificationEventType(type));
   }
@@ -1038,7 +1038,7 @@ void AdsServiceImpl::OnGetAdsHistory(
     ad_content_dictionary.SetKey("brandUrl",
         base::Value(entry.ad_content.brand_url));
     ad_content_dictionary.SetKey("likeAction",
-        base::Value(entry.ad_content.like_action));
+        base::Value(static_cast<int>(entry.ad_content.like_action)));
     ad_content_dictionary.SetKey(
         "adAction", base::Value(std::string(entry.ad_content.ad_action)));
     ad_content_dictionary.SetKey("savedAd",
@@ -1893,20 +1893,20 @@ bool AdsServiceImpl::connected() {
 
 void AdsServiceImpl::GetClientInfo(ads::ClientInfo* client_info) const {
 #if defined(OS_MACOSX)
-  client_info->platform = ads::ClientInfoPlatformType::MACOS;
+  client_info->platform = ads::ClientInfoPlatformType::kMacOS;
 #elif defined(OS_WIN)
-  client_info->platform = ads::ClientInfoPlatformType::WINDOWS;
+  client_info->platform = ads::ClientInfoPlatformType::kWindows;
 #elif defined(OS_LINUX)
-  client_info->platform = ads::ClientInfoPlatformType::LINUX;
+  client_info->platform = ads::ClientInfoPlatformType::kLinux;
 #elif defined(OS_ANDROID)
-  client_info->platform = ads::ClientInfoPlatformType::ANDROID_OS;
+  client_info->platform = ads::ClientInfoPlatformType::kAndroidOS;
 #else
   NOTREACHED();
-  client_info->platform = ads::ClientInfoPlatformType::UNKNOWN;
+  client_info->platform = ads::ClientInfoPlatformType::kUnknown;
 #endif
 }
 
-const std::string AdsServiceImpl::GetLocale() const {
+std::string AdsServiceImpl::GetLocale() const {
   return LocaleHelper::GetInstance()->GetLocale();
 }
 
@@ -1922,7 +1922,7 @@ bool AdsServiceImpl::IsForeground() const {
   return BackgroundHelper::GetInstance()->IsForeground();
 }
 
-const std::vector<std::string> AdsServiceImpl::GetUserModelLanguages() const {
+std::vector<std::string> AdsServiceImpl::GetUserModelLanguages() const {
   std::vector<std::string> languages;
 
   for (const auto& user_model_resource_id : g_user_model_resource_ids) {
@@ -2095,7 +2095,7 @@ void AdsServiceImpl::Reset(
           AsWeakPtr(), std::move(callback)));
 }
 
-const std::string AdsServiceImpl::LoadJsonSchema(
+std::string AdsServiceImpl::LoadJsonSchema(
     const std::string& name) {
   const auto resource_id = GetSchemaResourceId(name);
   return LoadDataResourceAndDecompressIfNeeded(resource_id);

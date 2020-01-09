@@ -7,39 +7,11 @@
 
 namespace ads {
 
-CampaignInfo::CampaignInfo() :
-    campaign_id(""),
-    priority(0),
-    name(""),
-    start_at(""),
-    end_at(""),
-    daily_cap(0),
-    advertiser_id(""),
-    geo_targets({}),
-    creative_sets({}) {}
+CampaignInfo::CampaignInfo() = default;
 
-CampaignInfo::CampaignInfo(const std::string& campaign_id) :
-    campaign_id(campaign_id),
-    priority(0),
-    name(""),
-    start_at(""),
-    end_at(""),
-    daily_cap(0),
-    advertiser_id(""),
-    geo_targets({}),
-    creative_sets({}) {}
+CampaignInfo::CampaignInfo(
+    const CampaignInfo& info) = default;
 
-CampaignInfo::CampaignInfo(const CampaignInfo& info) :
-    campaign_id(info.campaign_id),
-    priority(info.priority),
-    name(info.name),
-    start_at(info.start_at),
-    end_at(info.end_at),
-    daily_cap(info.daily_cap),
-    advertiser_id(info.advertiser_id),
-    geo_targets(info.geo_targets),
-    creative_sets(info.creative_sets) {}
-
-CampaignInfo::~CampaignInfo() {}
+CampaignInfo::~CampaignInfo() = default;
 
 }  // namespace ads

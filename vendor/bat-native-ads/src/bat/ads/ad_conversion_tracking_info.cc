@@ -4,17 +4,16 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "bat/ads/ad_conversion_tracking_info.h"
-
 #include "bat/ads/internal/json_helper.h"
 
 namespace ads {
 
 AdConversionTrackingInfo::AdConversionTrackingInfo() = default;
 
-AdConversionTrackingInfo::~AdConversionTrackingInfo() = default;
-
 AdConversionTrackingInfo::AdConversionTrackingInfo(
     const AdConversionTrackingInfo& info) = default;
+
+AdConversionTrackingInfo::~AdConversionTrackingInfo() = default;
 
 std::string AdConversionTrackingInfo::ToJson() const {
   std::string json;
@@ -33,7 +32,7 @@ Result AdConversionTrackingInfo::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("creative_set_id")) {
@@ -52,10 +51,12 @@ Result AdConversionTrackingInfo::FromJson(
     observation_window = document["observation_window"].GetUint();
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const AdConversionTrackingInfo& info) {
+void SaveToJson(
+    JsonWriter* writer,
+    const AdConversionTrackingInfo& info) {
   writer->StartObject();
 
   writer->String("creative_set_id");

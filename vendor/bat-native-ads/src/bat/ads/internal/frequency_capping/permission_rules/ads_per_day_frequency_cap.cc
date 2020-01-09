@@ -32,8 +32,8 @@ bool AdsPerDayFrequencyCap::IsAllowed() {
   return respects_day_limit;
 }
 
-const std::string AdsPerDayFrequencyCap::GetLastMessage() const {
-    return last_message_;
+std::string AdsPerDayFrequencyCap::GetLastMessage() const {
+  return last_message_;
 }
 
 bool AdsPerDayFrequencyCap::AreAdsPerDayBelowAllowedThreshold() const {

@@ -8,11 +8,8 @@
 namespace confirmations {
 
 ConfirmationInfo::ConfirmationInfo()
-    : type(ConfirmationType::UNKNOWN),
-      payment_token(nullptr),
-      blinded_payment_token(nullptr),
-      timestamp_in_seconds(0),
-      created(false) {}
+    : payment_token(nullptr),
+      blinded_payment_token(nullptr) {}
 
 ConfirmationInfo::ConfirmationInfo(
     const ConfirmationInfo& info) = default;

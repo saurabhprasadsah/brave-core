@@ -9,7 +9,8 @@
 
 namespace helper {
 
-std::vector<uint8_t> String::decode_hex(const std::string& hexadecimal) {
+std::vector<uint8_t> String::decode_hex(
+    const std::string& hexadecimal) {
   DCHECK(!hexadecimal.empty());
 
   std::vector<uint8_t> bytes;

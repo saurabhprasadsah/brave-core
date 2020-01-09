@@ -14,10 +14,11 @@ namespace ads {
 
 struct SavedAd {
   SavedAd();
-  explicit SavedAd(const SavedAd& ad);
+  SavedAd(
+      const SavedAd& ad);
   ~SavedAd();
 
-  const std::string ToJson() const;
+  std::string ToJson() const;
   Result FromJson(
       const std::string& json,
       std::string* error_description = nullptr);

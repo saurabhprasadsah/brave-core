@@ -75,32 +75,25 @@ std::string GetDisplayUrl(const std::string& url) {
 
 namespace ads {
 
-AdsImpl::AdsImpl(AdsClient* ads_client) :
-    is_first_run_(true),
-    is_foreground_(false),
-    media_playing_({}),
-    active_tab_id_(0),
-    active_tab_url_(""),
-    previous_tab_url_(""),
-    page_score_cache_({}),
-    last_shown_notification_info_(NotificationInfo()),
-    collect_activity_timer_id_(0),
-    delivering_notifications_timer_id_(0),
-    sustained_ad_interaction_timer_id_(0),
-    last_sustained_ad_domain_(""),
-    next_easter_egg_timestamp_in_seconds_(0),
-    client_(std::make_unique<Client>(this, ads_client)),
-    bundle_(std::make_unique<Bundle>(this, ads_client)),
-    ads_serve_(std::make_unique<AdsServe>(this, ads_client, bundle_.get())),
-    frequency_capping_(std::make_unique<FrequencyCapping>(client_.get())),
-    notifications_(std::make_unique<Notifications>(this, ads_client)),
-    ad_conversions_(std::make_unique<AdConversionTracking>(
-        this, ads_client, client_.get())),
-    user_model_(nullptr),
-    is_initialized_(false),
-    is_confirmations_ready_(false),
-    ads_client_(ads_client) {
-}
+AdsImpl::AdsImpl(AdsClient* ads_client)
+    : is_first_run_(true),
+      is_foreground_(false),
+      active_tab_id_(0),
+      collect_activity_timer_id_(0),
+      delivering_notifications_timer_id_(0),
+      sustained_ad_interaction_timer_id_(0),
+      next_easter_egg_timestamp_in_seconds_(0),
+      client_(std::make_unique<Client>(this, ads_client)),
+      bundle_(std::make_unique<Bundle>(this, ads_client)),
+      ads_serve_(std::make_unique<AdsServe>(this, ads_client, bundle_.get())),
+      frequency_capping_(std::make_unique<FrequencyCapping>(client_.get())),
+      notifications_(std::make_unique<Notifications>(this, ads_client)),
+      ad_conversions_(std::make_unique<AdConversionTracking>(
+          this, ads_client, client_.get())),
+      user_model_(nullptr),
+      is_initialized_(false),
+      is_confirmations_ready_(false),
+      ads_client_(ads_client) {}
 
 AdsImpl::~AdsImpl() {
   StopCollectingActivity();
@@ -117,7 +110,7 @@ void AdsImpl::Initialize(
   if (IsInitialized()) {
     BLOG(INFO) << "Already initialized ads";
 
-    initialize_callback_(FAILED);
+    initialize_callback_(Result::kFailed);
     return;
   }
 
@@ -128,8 +121,8 @@ void AdsImpl::Initialize(
 
 void AdsImpl::InitializeStep2(
     const Result result) {
-  if (result != SUCCESS) {
-    initialize_callback_(FAILED);
+  if (result != Result::kSuccess) {
+    initialize_callback_(Result::kFailed);
     return;
   }
 
@@ -139,8 +132,8 @@ void AdsImpl::InitializeStep2(
 
 void AdsImpl::InitializeStep3(
     const Result result) {
-  if (result != SUCCESS) {
-    initialize_callback_(FAILED);
+  if (result != Result::kSuccess) {
+    initialize_callback_(Result::kFailed);
     return;
   }
 
@@ -150,8 +143,8 @@ void AdsImpl::InitializeStep3(
 
 void AdsImpl::InitializeStep4(
     const Result result) {
-  if (result != SUCCESS) {
-    initialize_callback_(FAILED);
+  if (result != Result::kSuccess) {
+    initialize_callback_(Result::kFailed);
     return;
   }
 
@@ -164,8 +157,8 @@ void AdsImpl::InitializeStep4(
 
 void AdsImpl::InitializeStep5(
     const Result result) {
-  if (result != SUCCESS) {
-    initialize_callback_(FAILED);
+  if (result != Result::kSuccess) {
+    initialize_callback_(Result::kFailed);
     return;
   }
 
@@ -177,7 +170,7 @@ void AdsImpl::InitializeStep5(
 
   ads_client_->SetIdleThreshold(kIdleThresholdInSeconds);
 
-  initialize_callback_(SUCCESS);
+  initialize_callback_(Result::kSuccess);
 
   ad_conversions_->ProcessQueue();
 
@@ -252,13 +245,13 @@ void AdsImpl::Shutdown(
   if (!is_initialized_) {
     BLOG(WARNING) << "Shutdown failed as not initialized";
 
-    callback(FAILED);
+    callback(Result::kFailed);
     return;
   }
 
   notifications_->RemoveAll(true);
 
-  callback(SUCCESS);
+  callback(Result::kSuccess);
 }
 
 void AdsImpl::LoadUserModel() {
@@ -273,7 +266,7 @@ void AdsImpl::OnUserModelLoaded(
     const std::string& json) {
   auto language = client_->GetUserModelLanguage();
 
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to load user model for " << language << " language";
     return;
   }
@@ -284,7 +277,7 @@ void AdsImpl::OnUserModelLoaded(
   InitializeUserModel(json, language);
 
   if (!IsInitialized()) {
-    InitializeStep5(SUCCESS);
+    InitializeStep5(Result::kSuccess);
   }
 }
 
@@ -305,7 +298,8 @@ bool AdsImpl::IsMobile() const {
   ClientInfo client_info;
   ads_client_->GetClientInfo(&client_info);
 
-  if (client_info.platform != ANDROID_OS && client_info.platform != IOS) {
+  if (client_info.platform != ClientInfoPlatformType::kAndroidOS &&
+      client_info.platform != ClientInfoPlatformType::kIOS) {
     return false;
   }
 
@@ -341,16 +335,10 @@ bool AdsImpl::IsForeground() const {
 }
 
 void AdsImpl::OnIdle() {
-  // TODO(Terry Mancey): Implement Log (#44)
-  // 'Idle state changed', { idleState: action.get('idleState') }
-
   BLOG(INFO) << "Browser state changed to idle";
 }
 
 void AdsImpl::OnUnIdle() {
-  // TODO(Terry Mancey): Implement Log (#44)
-  // 'Idle state changed', { idleState: action.get('idleState') }
-
   if (!IsInitialized()) {
     BLOG(WARNING) << "OnUnIdle failed as not initialized";
     return;
@@ -412,22 +400,22 @@ void AdsImpl::OnNotificationEvent(
   }
 
   switch (type) {
-    case ads::NotificationEventType::VIEWED: {
+    case ads::NotificationEventType::kViewed: {
       NotificationEventViewed(id, notification);
       break;
     }
 
-    case ads::NotificationEventType::CLICKED: {
+    case ads::NotificationEventType::kClicked: {
       NotificationEventClicked(id, notification);
       break;
     }
 
-    case ads::NotificationEventType::DISMISSED: {
+    case ads::NotificationEventType::kDismissed: {
       NotificationEventDismissed(id, notification);
       break;
     }
 
-    case ads::NotificationEventType::TIMEOUT: {
+    case ads::NotificationEventType::kTimedOut: {
       NotificationEventTimedOut(id, notification);
       break;
     }
@@ -439,8 +427,8 @@ void AdsImpl::NotificationEventViewed(
     const NotificationInfo& notification) {
   GenerateAdReportingNotificationShownEvent(notification);
 
-  ConfirmAd(notification, ConfirmationType::VIEW);
-  GenerateAdsHistoryEntry(notification, ConfirmationType::VIEW);
+  ConfirmAd(notification, ConfirmationType::kViewed);
+  GenerateAdsHistoryEntry(notification, ConfirmationType::kViewed);
 }
 
 void AdsImpl::NotificationEventClicked(
@@ -449,10 +437,10 @@ void AdsImpl::NotificationEventClicked(
   notifications_->Remove(id, true);
 
   GenerateAdReportingNotificationResultEvent(notification,
-      NotificationResultInfoResultType::CLICKED);
+      NotificationResultType::kClicked);
 
-  ConfirmAd(notification, ConfirmationType::CLICK);
-  GenerateAdsHistoryEntry(notification, ConfirmationType::CLICK);
+  ConfirmAd(notification, ConfirmationType::kClicked);
+  GenerateAdsHistoryEntry(notification, ConfirmationType::kClicked);
 }
 
 void AdsImpl::NotificationEventDismissed(
@@ -461,10 +449,10 @@ void AdsImpl::NotificationEventDismissed(
   notifications_->Remove(id, false);
 
   GenerateAdReportingNotificationResultEvent(notification,
-      NotificationResultInfoResultType::DISMISSED);
+      NotificationResultType::kDismissed);
 
-  ConfirmAd(notification, ConfirmationType::DISMISS);
-  GenerateAdsHistoryEntry(notification, ConfirmationType::DISMISS);
+  ConfirmAd(notification, ConfirmationType::kDismissed);
+  GenerateAdsHistoryEntry(notification, ConfirmationType::kDismissed);
 }
 
 void AdsImpl::NotificationEventTimedOut(
@@ -473,7 +461,7 @@ void AdsImpl::NotificationEventTimedOut(
   notifications_->Remove(id, false);
 
   GenerateAdReportingNotificationResultEvent(notification,
-      NotificationResultInfoResultType::TIMEOUT);
+      NotificationResultType::kTimedOut);
 }
 
 bool AdsImpl::ShouldNotDisturb() const {
@@ -501,7 +489,7 @@ bool AdsImpl::IsAndroid() const {
   ClientInfo client_info;
   ads_client_->GetClientInfo(&client_info);
 
-  if (client_info.platform != ANDROID_OS) {
+  if (client_info.platform != ClientInfoPlatformType::kAndroidOS) {
     return false;
   }
 
@@ -558,7 +546,7 @@ void AdsImpl::RemoveAllHistory(
     RemoveAllHistoryCallback callback) {
   client_->RemoveAllHistory();
 
-  callback(SUCCESS);
+  callback(Result::kSuccess);
 }
 
 void AdsImpl::SetConfirmationsIsReady(
@@ -604,8 +592,8 @@ AdContent::LikeAction AdsImpl::ToggleAdThumbUp(
     const std::string& creative_set_id,
     const AdContent::LikeAction& action) {
   auto like_action = client_->ToggleAdThumbUp(id, creative_set_id, action);
-  if (like_action == AdContent::LIKE_ACTION_THUMBS_UP) {
-    ConfirmAction(id, creative_set_id, ConfirmationType::UPVOTE);
+  if (like_action == AdContent::LikeAction::kThumbsUp) {
+    ConfirmAction(id, creative_set_id, ConfirmationType::kUpvoted);
   }
 
   return like_action;
@@ -616,8 +604,8 @@ AdContent::LikeAction AdsImpl::ToggleAdThumbDown(
     const std::string& creative_set_id,
     const AdContent::LikeAction& action) {
   auto like_action = client_->ToggleAdThumbDown(id, creative_set_id, action);
-  if (like_action == AdContent::LIKE_ACTION_THUMBS_DOWN) {
-    ConfirmAction(id, creative_set_id, ConfirmationType::DOWNVOTE);
+  if (like_action == AdContent::LikeAction::kThumbsDown) {
+    ConfirmAction(id, creative_set_id, ConfirmationType::kDownvoted);
   }
 
   return like_action;
@@ -648,7 +636,7 @@ bool AdsImpl::ToggleFlagAd(
     const bool flagged) {
   auto flag_ad = client_->ToggleFlagAd(id, creative_set_id, flagged);
   if (flag_ad) {
-    ConfirmAction(id, creative_set_id, ConfirmationType::FLAG);
+    ConfirmAction(id, creative_set_id, ConfirmationType::kFlagged);
   }
 
   return flag_ad;
@@ -661,7 +649,7 @@ void AdsImpl::ChangeLocale(
   if (!ShouldClassifyPagesIfTargeted()) {
     client_->SetUserModelLanguage(language);
 
-    InitializeStep5(SUCCESS);
+    InitializeStep5(Result::kSuccess);
     return;
   }
 
@@ -767,9 +755,9 @@ void AdsImpl::OnGetAdConversions(
 
     ConfirmationType confirmation_type;
     if (ad_conversion.type == "postview") {
-      confirmation_type = ConfirmationType::VIEW;
+      confirmation_type = ConfirmationType::kViewed;
     } else if (ad_conversion.type == "postclick") {
-      confirmation_type = ConfirmationType::CLICK;
+      confirmation_type = ConfirmationType::kClicked;
     } else {
       BLOG(WARNING) << "Unsupported ad conversion type: " << ad_conversion.type;
       continue;
@@ -989,7 +977,7 @@ void AdsImpl::ServeSampleAd() {
 void AdsImpl::OnLoadSampleBundle(
     const Result result,
     const std::string& json) {
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to load sample bundle";
 
     return;
@@ -1002,7 +990,7 @@ void AdsImpl::OnLoadSampleBundle(
   std::string json_schema =
       ads_client_->LoadJsonSchema(_bundle_schema_resource_name);
   auto json_result = state.FromJson(json, json_schema, &error_description);
-  if (json_result != SUCCESS) {
+  if (json_result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to parse sample bundle (" << error_description
         << "): " << json;
 
@@ -1018,9 +1006,6 @@ void AdsImpl::OnLoadSampleBundle(
   auto categories = state.categories.begin();
   auto categories_count = state.categories.size();
   if (categories_count == 0) {
-    // TODO(Terry Mancey): Implement Log (#44)
-    // 'Notification not made', { reason: 'no categories' }
-
     BLOG(INFO) << "Notification not made: No sample bundle categories";
 
     return;
@@ -1034,9 +1019,6 @@ void AdsImpl::OnLoadSampleBundle(
 
   auto ads_count = ads.size();
   if (ads_count == 0) {
-    // TODO(Terry Mancey): Implement Log (#44)
-    // 'Notification not made', { reason: 'no ads for category', category }
-
     BLOG(INFO) << "Notification not made: No sample bundle ads found for \""
         << category << "\" sample category";
 
@@ -1099,10 +1081,6 @@ void AdsImpl::CheckReadyAdServe(
     }
 
     if (ShouldNotDisturb()) {
-      // TODO(Terry Mancey): Implement Log (#44)
-      // 'Notification not made', { reason: 'do not disturb while not in
-      // foreground' }
-
       FailedToServeAd("Should not disturb");
       return;
     }
@@ -1349,11 +1327,6 @@ bool AdsImpl::IsAdValid(
   if (ad_info.advertiser.empty() ||
       ad_info.notification_text.empty() ||
       ad_info.notification_url.empty()) {
-    // TODO(Terry Mancey): Implement Log (#44)
-    // 'Notification not made', { reason: 'incomplete ad information',
-    // category, winnerOverTime, arbitraryKey, notificationUrl,
-    // notificationText, advertiser
-
     BLOG(INFO) << "Notification not made: Incomplete ad information"
         << std::endl << "  advertiser: " << ad_info.advertiser
         << std::endl << "  notificationText: " << ad_info.notification_text
@@ -1390,10 +1363,6 @@ bool AdsImpl::ShowAd(
   notification_info->url = helper::Uri::GetUri(ad.notification_url);
   notification_info->creative_set_id = ad.creative_set_id;
   notification_info->uuid = ad.uuid;
-
-  // TODO(Terry Mancey): Implement Log (#44)
-  // 'Notification shown', {category, winnerOverTime, arbitraryKey,
-  // notificationUrl, notificationText, advertiser, uuid, hierarchy}
 
   BLOG(INFO) << "Ad notification shown:"
       << std::endl << "  id: " << notification_info->id
@@ -1579,9 +1548,6 @@ void AdsImpl::NotificationAllowedCheck(
     const bool serve) {
   auto ok = ads_client_->ShouldShowNotifications();
 
-  // TODO(Terry Mancey): Implement Log (#44)
-  // appConstants.APP_ON_NATIVE_NOTIFICATION_AVAILABLE_CHECK, {err, result}
-
   auto previous = client_->GetAvailable();
 
   if (ok != previous) {
@@ -1597,26 +1563,16 @@ void AdsImpl::NotificationAllowedCheck(
   }
 
   if (!ok) {
-    // TODO(Terry Mancey): Implement Log (#44)
-    // 'Notification not made', { reason: 'notifications not presently allowed'
-    // }
-
     FailedToServeAd("Notifications not allowed");
     return;
   }
 
   if (!ads_client_->IsNetworkConnectionAvailable()) {
-    // TODO(Terry Mancey): Implement Log (#44)
-    // 'Notification not made', { reason: 'network connection not available' }
-
     FailedToServeAd("Network connection not available");
     return;
   }
 
   if (IsCatalogOlderThanOneDay()) {
-    // TODO(Terry Mancey): Implement Log (#44)
-    // 'Notification not made', { reason: 'catalog older than one day' }
-
     FailedToServeAd("Catalog older than one day");
     return;
   }
@@ -1650,7 +1606,7 @@ void AdsImpl::SustainAdInteractionIfNeeded() {
 
   BLOG(INFO) << "Sustained ad interaction";
 
-  ConfirmAd(last_shown_notification_info_, ConfirmationType::LANDED);
+  ConfirmAd(last_shown_notification_info_, ConfirmationType::kLanded);
 }
 
 void AdsImpl::StopSustainingAdInteraction() {
@@ -1787,7 +1743,7 @@ void AdsImpl::GenerateAdReportingNotificationShownEvent(
 
 void AdsImpl::GenerateAdReportingNotificationResultEvent(
     const NotificationInfo& info,
-    const NotificationResultInfoResultType type) {
+    const NotificationResultType type) {
   if (is_first_run_) {
     is_first_run_ = false;
 
@@ -1811,7 +1767,7 @@ void AdsImpl::GenerateAdReportingNotificationResultEvent(
 
   writer.String("notificationType");
   switch (type) {
-    case NotificationResultInfoResultType::CLICKED: {
+    case NotificationResultType::kClicked: {
       writer.String("clicked");
 
       last_shown_notification_info_ = NotificationInfo(info);
@@ -1819,14 +1775,14 @@ void AdsImpl::GenerateAdReportingNotificationResultEvent(
       break;
     }
 
-    case NotificationResultInfoResultType::DISMISSED: {
+    case NotificationResultType::kDismissed: {
       writer.String("dismissed");
 
       break;
     }
 
-    case NotificationResultInfoResultType::TIMEOUT: {
-      writer.String("timeout");
+    case NotificationResultType::kTimedOut: {
+      writer.String("timed_out");
 
       break;
     }

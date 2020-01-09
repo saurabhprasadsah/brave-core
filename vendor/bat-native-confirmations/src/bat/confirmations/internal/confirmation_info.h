@@ -11,8 +11,7 @@
 
 #include "bat/confirmations/confirmation_type.h"
 #include "bat/confirmations/internal/token_info.h"
-
-#include "wrapper.hpp"  // NOLINT
+#include "wrapper.hpp"
 
 using challenge_bypass_ristretto::Token;
 using challenge_bypass_ristretto::BlindedToken;
@@ -27,13 +26,13 @@ struct ConfirmationInfo {
 
   std::string id;
   std::string creative_instance_id;
-  ConfirmationType type;
+  ConfirmationType type = ConfirmationType::kUnknown;
   TokenInfo token_info;
   Token payment_token;
   BlindedToken blinded_payment_token;
   std::string credential;
-  uint64_t timestamp_in_seconds;
-  bool created;
+  uint64_t timestamp_in_seconds = 0;
+  bool created = false;
 };
 
 }  // namespace confirmations

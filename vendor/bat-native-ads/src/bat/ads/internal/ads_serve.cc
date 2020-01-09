@@ -19,14 +19,16 @@ using std::placeholders::_3;
 
 namespace ads {
 
-AdsServe::AdsServe(AdsImpl* ads, AdsClient* ads_client, Bundle* bundle) :
-    url_(""),
-    next_catalog_check_timestamp_in_seconds(0),
-    next_retry_start_timer_in_(0),
-    catalog_last_updated_(0),
-    ads_(ads),
-    ads_client_(ads_client),
-    bundle_(bundle) {
+AdsServe::AdsServe(
+    AdsImpl* ads,
+    AdsClient* ads_client,
+    Bundle* bundle)
+    : next_catalog_check_timestamp_in_seconds(0),
+      next_retry_start_timer_in_(0),
+      catalog_last_updated_(0),
+      ads_(ads),
+      ads_client_(ads_client),
+      bundle_(bundle) {
   BuildUrl();
 }
 
@@ -68,9 +70,6 @@ void AdsServe::OnCatalogDownloaded(
   auto should_retry = false;
 
   if (response_status_code / 100 == 2) {
-    // TODO(Terry Mancey): Implement Log (#44)
-    // 'Catalog downloaded', [ 'version', 'catalog', 'status' ]
-
     if (!response.empty()) {
       BLOG(INFO) << "Successfully downloaded catalog";
     }
@@ -79,16 +78,10 @@ void AdsServe::OnCatalogDownloaded(
       should_retry = true;
     }
   } else if (response_status_code == 304) {
-    // TODO(Terry Mancey): Implement Log (#44)
-    // 'Catalog current', { method, server, path }
-
     BLOG(INFO) << "Catalog is already up to dates";
 
     UpdateNextCatalogCheck();
   } else {
-    // TODO(Terry Mancey): Implement Log (#44)
-    // 'Catalog download failed', { error, method, server, path }
-
     std::string formatted_headers = "";
     for (auto header = headers.begin(); header != headers.end(); ++header) {
       formatted_headers += header->first + ": " + header->second;
@@ -162,11 +155,6 @@ bool AdsServe::ProcessCatalog(const std::string& json) {
 
   BLOG(INFO) << "Catalog parsed";
 
-  // TODO(Terry Mancey): Implement Log (#44)
-  // 'Catalog parsed', underscore.extend(underscore.clone(header),
-  // { status: 'processed', campaigns: underscore.keys(campaigns).length,
-  // creativeSets: underscore.keys(creativeSets).length
-
   if (!catalog.HasChanged(bundle_->GetCatalogId())) {
     BLOG(WARNING) << "Catalog id " << catalog.GetId() <<
         " matches current catalog id " << bundle_->GetCatalogId();
@@ -194,7 +182,7 @@ bool AdsServe::ProcessCatalog(const std::string& json) {
 }
 
 void AdsServe::OnCatalogSaved(const Result result) {
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     // If the catalog fails to save, we will retry the next time we collect
     // activity
 
@@ -234,7 +222,7 @@ void AdsServe::ResetCatalog() {
 }
 
 void AdsServe::OnCatalogReset(const Result result) {
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to reset catalog";
 
     return;

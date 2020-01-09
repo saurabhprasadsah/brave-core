@@ -101,7 +101,7 @@ class ADS_EXPORT AdsClient {
       ClientInfo* info) const = 0;
 
   // Should return an array of supported User Model languages
-  virtual const std::vector<std::string>
+  virtual std::vector<std::string>
       GetUserModelLanguages() const = 0;
 
   // Should load the User Model for the specified language, user models are a
@@ -183,23 +183,23 @@ class ADS_EXPORT AdsClient {
       URLRequestCallback callback) = 0;
 
   // Should save a value to persistent storage. The callback takes one argument
-  // — |Result| should be set to |SUCCESS| if successful; otherwise, should be
-  // set to |FAILED|
+  // — |Result| should be set to |Result::kSuccess| if successful; otherwise, should be
+  // set to |Result::kFailed|
   virtual void Save(
       const std::string& name,
       const std::string& value,
       OnSaveCallback callback) = 0;
 
   // Should save the bundle state to persistent storage. The callback takes one
-  // argument — |Result| should be set to |SUCCESS| if successful; otherwise,
-  // should be set to |FAILED|
+  // argument — |Result| should be set to |Result::kSuccess| if successful; otherwise,
+  // should be set to |Result::kFailed|
   virtual void SaveBundleState(
       std::unique_ptr<BundleState> state,
       OnSaveCallback callback) = 0;
 
   // Should load a value from persistent storage. The callback takes 2 arguments
-  // — |Result| should be set to |SUCCESS| if successful; otherwise, should be
-  // set to |FAILED|. |value| should contain the persisted value
+  // — |Result| should be set to |Result::kSuccess| if successful; otherwise, should be
+  // set to |Result::kFailed|. |value| should contain the persisted value
   virtual void Load(
       const std::string& name, OnLoadCallback callback) = 0;
 
@@ -219,21 +219,21 @@ class ADS_EXPORT AdsClient {
       const std::string& name) = 0;
 
   // Should load the sample bundle from persistent storage. The callback takes 2
-  // arguments — |Result| should be set to |SUCCESS| if successful; otherwise,
-  // should be set to |FAILED|. |value| should contain the sample bundle
+  // arguments — |Result| should be set to |Result::kSuccess| if successful; otherwise,
+  // should be set to |Result::kFailed|. |value| should contain the sample bundle
   virtual void LoadSampleBundle(
       OnLoadSampleBundleCallback callback) = 0;
 
   // Should reset a previously persisted value. The callback takes one argument
-  // — |Result| should be set to |SUCCESS| if successful; otherwise, should be
-  // set to |FAILED|
+  // — |Result| should be set to |Result::kSuccess| if successful; otherwise, should be
+  // set to |Result::kFailed|
   virtual void Reset(
       const std::string& name, OnResetCallback callback) = 0;
 
   // Should fetch all ads for the specified |category| where the current time is
   // between the ad |start_timestamp| and |end_timestamp| from the previously
   // persisted bundle state. The callback takes 3 arguments — |Result| should be
-  // set to |SUCCESS| if successful; otherwise, should be set to |FAILED|.
+  // set to |Result::kSuccess| if successful; otherwise, should be set to |Result::kFailed|.
   // |category| should contain the category. |ads| should contain an array of
   // ads
   virtual void GetAds(
@@ -242,7 +242,7 @@ class ADS_EXPORT AdsClient {
 
   // Should fetch all ad conversions for the specified |url| from the previously
   // persisted bundle state. The callback takes 3 arguments — |Result| should be
-  // set to |SUCCESS| if successful; otherwise, should be set to |FAILED|. |url|
+  // set to |Result::kSuccess| if successful; otherwise, should be set to |Result::kFailed|. |url|
   // should contain the url. |ad_conversions| should contain an array of ad
   // conversions
   virtual void GetAdConversions(

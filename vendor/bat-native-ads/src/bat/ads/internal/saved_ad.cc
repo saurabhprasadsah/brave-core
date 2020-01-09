@@ -9,17 +9,14 @@
 
 namespace ads {
 
-SavedAd::SavedAd() :
-    uuid(""),
-    creative_set_id("") {}
+SavedAd::SavedAd() = default;
 
-SavedAd::SavedAd(const SavedAd& ad) :
-    uuid(ad.uuid),
-    creative_set_id(ad.creative_set_id) {}
+SavedAd::SavedAd(
+    const SavedAd& ad) = default;
 
 SavedAd::~SavedAd() = default;
 
-const std::string SavedAd::ToJson() const {
+std::string SavedAd::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -36,7 +33,7 @@ Result SavedAd::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("uuid")) {
@@ -47,10 +44,12 @@ Result SavedAd::FromJson(
     creative_set_id = document["creative_set_id"].GetString();
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const SavedAd& ad) {
+void SaveToJson(
+    JsonWriter* writer,
+    const SavedAd& ad) {
   writer->StartObject();
 
   writer->String("uuid");

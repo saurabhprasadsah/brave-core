@@ -24,7 +24,8 @@ uint64_t Time::NowInSeconds() {
   return now.ToDoubleT();
 }
 
-uint64_t Time::MigrateTimestampToDoubleT(const uint64_t timestamp_in_seconds) {
+uint64_t Time::MigrateTimestampToDoubleT(
+    const uint64_t timestamp_in_seconds) {
   if (timestamp_in_seconds < 10000000000) {
     // Already migrated as DoubleT will never reach 10000000000 in our lifetime
     // and legacy timestamps are above 10000000000
@@ -41,7 +42,8 @@ uint64_t Time::MigrateTimestampToDoubleT(const uint64_t timestamp_in_seconds) {
   return date.ToDoubleT();
 }
 
-base::Time Time::FromDoubleT(const uint64_t timestamp_in_seconds) {
+base::Time Time::FromDoubleT(
+    const uint64_t timestamp_in_seconds) {
   if (timestamp_in_seconds == 0) {
     // Workaround for Windows crash when passing 0 to LocalExplode
     return base::Time::Now();

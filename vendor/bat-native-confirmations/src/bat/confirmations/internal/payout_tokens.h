@@ -27,7 +27,8 @@ class PayoutTokens {
 
   ~PayoutTokens();
 
-  void Payout(const WalletInfo& wallet_info);
+  void Payout(
+      const WalletInfo& wallet_info);
 
  private:
   WalletInfo wallet_info_;
@@ -39,7 +40,8 @@ class PayoutTokens {
       const std::string& response,
       const std::map<std::string, std::string>& headers);
 
-  void OnPayout(const Result result);
+  void OnPayout(
+      const Result result);
 
   void ScheduleNextPayout() const;
   uint64_t next_retry_backoff_count_;

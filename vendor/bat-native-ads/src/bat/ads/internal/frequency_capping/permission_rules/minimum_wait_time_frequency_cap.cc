@@ -42,8 +42,8 @@ bool MinimumWaitTimeFrequencyCap::IsAllowed() {
   return true;
 }
 
-const std::string MinimumWaitTimeFrequencyCap::GetLastMessage() const {
-    return last_message_;
+std::string MinimumWaitTimeFrequencyCap::GetLastMessage() const {
+  return last_message_;
 }
 
 bool MinimumWaitTimeFrequencyCap::AreAdsAllowedAfterMinimumWaitTime(

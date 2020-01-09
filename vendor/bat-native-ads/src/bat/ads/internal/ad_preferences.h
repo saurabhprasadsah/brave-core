@@ -20,10 +20,11 @@ struct SavedAd;
 
 struct AdPreferences {
   AdPreferences();
-  explicit AdPreferences(const AdPreferences& prefs);
+  AdPreferences(
+      const AdPreferences& prefs);
   ~AdPreferences();
 
-  const std::string ToJson() const;
+  std::string ToJson() const;
   Result FromJson(
       const std::string& json,
       std::string* error_description = nullptr);

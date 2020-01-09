@@ -40,8 +40,8 @@ bool AdsPerHourFrequencyCap::IsAllowed() {
   return true;
 }
 
-const std::string AdsPerHourFrequencyCap::GetLastMessage() const {
-    return last_message_;
+std::string AdsPerHourFrequencyCap::GetLastMessage() const {
+  return last_message_;
 }
 
 bool AdsPerHourFrequencyCap::AreAdsPerHourBelowAllowedThreshold(

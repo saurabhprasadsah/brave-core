@@ -55,11 +55,11 @@ class AdsTabsTest : public ::testing::Test {
 
               std::string value;
               if (!Load(path, &value)) {
-                callback(FAILED, value);
+                callback(Result::kFailed, value);
                 return;
               }
 
-              callback(SUCCESS, value);
+              callback(Result::kSuccess, value);
             }));
 
     ON_CALL(*mock_ads_client_, Save(_, _, _))
@@ -68,7 +68,7 @@ class AdsTabsTest : public ::testing::Test {
                 const std::string& name,
                 const std::string& value,
                 OnSaveCallback callback) {
-              callback(SUCCESS);
+              callback(Result::kSuccess);
             }));
 
     EXPECT_CALL(*mock_ads_client_, LoadUserModelForLanguage(_, _))
@@ -84,11 +84,11 @@ class AdsTabsTest : public ::testing::Test {
 
               std::string value;
               if (!Load(path, &value)) {
-                callback(FAILED, value);
+                callback(Result::kFailed, value);
                 return;
               }
 
-              callback(SUCCESS, value);
+              callback(Result::kSuccess, value);
             }));
 
     EXPECT_CALL(*mock_ads_client_, LoadJsonSchema(_))
@@ -109,7 +109,7 @@ class AdsTabsTest : public ::testing::Test {
   }
 
   void OnInitialize(const Result result) {
-    EXPECT_EQ(Result::SUCCESS, result);
+    EXPECT_EQ(Result::kSuccess, result);
   }
 
   void TearDown() override {

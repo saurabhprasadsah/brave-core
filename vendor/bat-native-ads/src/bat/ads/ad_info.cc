@@ -9,29 +9,14 @@
 
 namespace ads {
 
-AdInfo::AdInfo() :
-    daily_cap(0),
-    per_day(0),
-    total_max(0) {}
+AdInfo::AdInfo() = default;
 
-AdInfo::AdInfo(const AdInfo& info) :
-    creative_set_id(info.creative_set_id),
-    campaign_id(info.campaign_id),
-    start_timestamp(info.start_timestamp),
-    end_timestamp(info.end_timestamp),
-    daily_cap(info.daily_cap),
-    per_day(info.per_day),
-    total_max(info.total_max),
-    regions(info.regions),
-    advertiser(info.advertiser),
-    category(info.category),
-    notification_text(info.notification_text),
-    notification_url(info.notification_url),
-    uuid(info.uuid) {}
+AdInfo::AdInfo(
+    const AdInfo& info) = default;
 
 AdInfo::~AdInfo() = default;
 
-const std::string AdInfo::ToJson() const {
+std::string AdInfo::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -48,7 +33,7 @@ Result AdInfo::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("creative_set_id")) {
@@ -107,10 +92,12 @@ Result AdInfo::FromJson(
     uuid = document["uuid"].GetString();
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const AdInfo& info) {
+void SaveToJson(
+    JsonWriter* writer,
+    const AdInfo& info) {
   writer->StartObject();
 
   writer->String("creative_set_id");

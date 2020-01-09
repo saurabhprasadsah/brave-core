@@ -14,8 +14,7 @@ namespace ads {
 
 TotalMaxFrequencyCap::TotalMaxFrequencyCap(
     const FrequencyCapping* const frequency_capping)
-    : frequency_capping_(frequency_capping) {
-}
+    : frequency_capping_(frequency_capping) {}
 
 TotalMaxFrequencyCap::~TotalMaxFrequencyCap() = default;
 
@@ -31,8 +30,8 @@ bool TotalMaxFrequencyCap::ShouldExclude(
   return false;
 }
 
-const std::string TotalMaxFrequencyCap::GetLastMessage() const {
-    return last_message_;
+std::string TotalMaxFrequencyCap::GetLastMessage() const {
+  return last_message_;
 }
 
 bool TotalMaxFrequencyCap::DoesAdRespectMaximumCap(

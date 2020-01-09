@@ -24,14 +24,17 @@ class Security {
       const std::string& key_id,
       const std::vector<uint8_t>& private_key);
 
-  static std::vector<Token> GenerateTokens(const int count);
+  static std::vector<Token> GenerateTokens(
+      const int count);
 
   static std::vector<BlindedToken> BlindTokens(
       const std::vector<Token>& tokens);
 
-  static std::vector<uint8_t> GetSHA256(const std::string& string);
+  static std::vector<uint8_t> GetSHA256(
+      const std::string& string);
 
-  static std::string GetBase64(const std::vector<uint8_t>& data);
+  static std::string GetBase64(
+      const std::vector<uint8_t>& data);
 };
 
 }  // namespace helper

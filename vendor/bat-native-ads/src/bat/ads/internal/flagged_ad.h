@@ -14,10 +14,11 @@ namespace ads {
 
 struct FlaggedAd {
   FlaggedAd();
-  explicit FlaggedAd(const FlaggedAd& ad);
+  FlaggedAd(
+      const FlaggedAd& ad);
   ~FlaggedAd();
 
-  const std::string ToJson() const;
+  std::string ToJson() const;
   Result FromJson(
       const std::string& json,
       std::string* error_description = nullptr);

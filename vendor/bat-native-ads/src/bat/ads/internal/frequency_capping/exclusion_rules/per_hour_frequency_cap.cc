@@ -31,8 +31,8 @@ bool PerHourFrequencyCap::ShouldExclude(
   return false;
 }
 
-const std::string PerHourFrequencyCap::GetLastMessage() const {
-    return last_message_;
+std::string PerHourFrequencyCap::GetLastMessage() const {
+  return last_message_;
 }
 
 bool PerHourFrequencyCap::DoesAdRespectPerHourCap(

@@ -19,7 +19,8 @@ class GetPaymentBalanceRequest {
   GetPaymentBalanceRequest();
   ~GetPaymentBalanceRequest();
 
-  std::string BuildUrl(const WalletInfo& wallet_info) const;
+  std::string BuildUrl(
+      const WalletInfo& wallet_info) const;
 
   URLRequestMethod GetMethod() const;
 

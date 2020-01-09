@@ -8,9 +8,9 @@
 
 namespace ads {
 
-enum Result {
-  SUCCESS,
-  FAILED
+enum class Result {
+  kSuccess,
+  kFailed
 };
 
 }  // namespace ads

@@ -14,8 +14,7 @@ namespace ads {
 
 DailyCapFrequencyCap::DailyCapFrequencyCap(
     const FrequencyCapping* const frequency_capping)
-    : frequency_capping_(frequency_capping) {
-}
+    : frequency_capping_(frequency_capping) {}
 
 DailyCapFrequencyCap::~DailyCapFrequencyCap() = default;
 
@@ -31,8 +30,8 @@ bool DailyCapFrequencyCap::ShouldExclude(
   return false;
 }
 
-const std::string DailyCapFrequencyCap::GetLastMessage() const {
-    return last_message_;
+std::string DailyCapFrequencyCap::GetLastMessage() const {
+  return last_message_;
 }
 
 bool DailyCapFrequencyCap::DoesAdRespectDailyCampaignCap(

@@ -15,7 +15,6 @@
 
 #include "bat/confirmations/confirmations_client.h"
 #include "bat/confirmations/confirmations.h"
-
 #include "testing/gmock/include/gmock/gmock.h"
 
 namespace confirmations {
@@ -30,8 +29,10 @@ class MockLogStreamImpl : public ledger::LogStream {
 
  private:
   // Not copyable, not assignable
-  MockLogStreamImpl(const MockLogStreamImpl&) = delete;
-  MockLogStreamImpl& operator=(const MockLogStreamImpl&) = delete;
+  MockLogStreamImpl(
+      const MockLogStreamImpl&) = delete;
+  MockLogStreamImpl& operator=(
+      const MockLogStreamImpl&) = delete;
 };
 
 class MockVerboseLogStreamImpl : public ledger::LogStream {
@@ -44,8 +45,10 @@ class MockVerboseLogStreamImpl : public ledger::LogStream {
 
  private:
   // Not copyable, not assignable
-  MockVerboseLogStreamImpl(const MockVerboseLogStreamImpl&) = delete;
-  MockVerboseLogStreamImpl& operator=(const MockVerboseLogStreamImpl&) = delete;
+  MockVerboseLogStreamImpl(
+      const MockVerboseLogStreamImpl&) = delete;
+  MockVerboseLogStreamImpl& operator=(
+      const MockVerboseLogStreamImpl&) = delete;
 };
 
 class MockConfirmationsClient : public ConfirmationsClient {

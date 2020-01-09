@@ -12,7 +12,6 @@
 #include <vector>
 
 #include "bat/ads/ads_client.h"
-
 #include "bat/ads/internal/campaign_info.h"
 
 namespace ads {
@@ -21,23 +20,29 @@ struct CatalogState;
 
 class Catalog {
  public:
-  explicit Catalog(AdsClient* ads_client);
+  explicit Catalog(
+      AdsClient* ads_client);
   ~Catalog();
 
-  bool FromJson(const std::string& json);  // Deserialize
+  bool FromJson(
+      const std::string& json);
 
-  const std::string GetId() const;
+  std::string GetId() const;
   uint64_t GetVersion() const;
   uint64_t GetPing() const;
 
-  bool HasChanged(const std::string& current_catalog_id);
+  bool HasChanged(
+      const std::string& current_catalog_id);
 
-  const std::vector<CampaignInfo>& GetCampaigns() const;
+  std::vector<CampaignInfo>& GetCampaigns() const;
 
-  const IssuersInfo& GetIssuers() const;
+  IssuersInfo GetIssuers() const;
 
-  void Save(const std::string& json, OnSaveCallback callback);
-  void Reset(OnSaveCallback callback);
+  void Save(
+      const std::string& json,
+      OnSaveCallback callback);
+  void Reset(
+      OnSaveCallback callback);
 
  private:
   AdsClient* ads_client_;  // NOT OWNED

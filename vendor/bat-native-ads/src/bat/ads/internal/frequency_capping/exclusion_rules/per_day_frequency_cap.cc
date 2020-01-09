@@ -31,8 +31,8 @@ bool PerDayFrequencyCap::ShouldExclude(
   return false;
 }
 
-const std::string PerDayFrequencyCap::GetLastMessage() const {
-    return last_message_;
+std::string PerDayFrequencyCap::GetLastMessage() const {
+  return last_message_;
 }
 
 bool PerDayFrequencyCap::DoesAdRespectPerDayCap(

@@ -10,7 +10,6 @@
 #include <vector>
 
 #include "bat/confirmations/internal/token_info.h"
-
 #include "base/values.h"
 
 namespace confirmations {
@@ -19,22 +18,28 @@ class ConfirmationsImpl;
 
 class UnblindedTokens {
  public:
-  explicit UnblindedTokens(ConfirmationsImpl* confirmations);
+  explicit UnblindedTokens(
+      ConfirmationsImpl* confirmations);
   ~UnblindedTokens();
 
   TokenInfo GetToken() const;
   std::vector<TokenInfo> GetAllTokens() const;
   base::Value GetTokensAsList();
 
-  void SetTokens(const std::vector<TokenInfo>& tokens);
-  void SetTokensFromList(const base::Value& list);
+  void SetTokens(
+      const std::vector<TokenInfo>& tokens);
+  void SetTokensFromList(
+      const base::Value& list);
 
-  void AddTokens(const std::vector<TokenInfo>& tokens);
+  void AddTokens(
+      const std::vector<TokenInfo>& tokens);
 
-  bool RemoveToken(const TokenInfo& unblinded_token);
+  bool RemoveToken(
+      const TokenInfo& unblinded_token);
   void RemoveAllTokens();
 
-  bool TokenExists(const TokenInfo& unblinded_token);
+  bool TokenExists(
+      const TokenInfo& unblinded_token);
 
   int Count() const;
 

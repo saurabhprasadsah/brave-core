@@ -9,7 +9,6 @@
 #include "bat/confirmations/internal/confirmations_impl.h"
 #include "bat/confirmations/internal/unblinded_tokens.h"
 #include "bat/confirmations/internal/redeem_payment_tokens_request.h"
-
 #include "brave_base/random.h"
 #include "net/http/http_status_code.h"
 
@@ -22,16 +21,17 @@ namespace confirmations {
 PayoutTokens::PayoutTokens(
     ConfirmationsImpl* confirmations,
     ConfirmationsClient* confirmations_client,
-    UnblindedTokens* unblinded_payment_tokens) :
-    next_retry_backoff_count_(0),
-    confirmations_(confirmations),
-    confirmations_client_(confirmations_client),
-    unblinded_payment_tokens_(unblinded_payment_tokens) {
+    UnblindedTokens* unblinded_payment_tokens)
+    : next_retry_backoff_count_(0),
+      confirmations_(confirmations),
+      confirmations_client_(confirmations_client),
+      unblinded_payment_tokens_(unblinded_payment_tokens) {
 }
 
 PayoutTokens::~PayoutTokens() = default;
 
-void PayoutTokens::Payout(const WalletInfo& wallet_info) {
+void PayoutTokens::Payout(
+    const WalletInfo& wallet_info) {
   DCHECK(!wallet_info.payment_id.empty());
   DCHECK(!wallet_info.private_key.empty());
 
@@ -111,7 +111,8 @@ void PayoutTokens::OnRedeemPaymentTokens(
   OnPayout(SUCCESS);
 }
 
-void PayoutTokens::OnPayout(const Result result) {
+void PayoutTokens::OnPayout(
+    const Result result) {
   if (result != SUCCESS) {
     BLOG(ERROR) << "Failed to payout tokens";
 

@@ -15,7 +15,8 @@ namespace confirmations {
 
 struct CONFIRMATIONS_EXPORT NotificationInfo {
   NotificationInfo();
-  explicit NotificationInfo(const NotificationInfo& info);
+  NotificationInfo(
+      const NotificationInfo& info);
   ~NotificationInfo();
 
   std::string id;
@@ -25,7 +26,7 @@ struct CONFIRMATIONS_EXPORT NotificationInfo {
   std::string text;
   std::string url;
   std::string uuid;
-  ConfirmationType type;
+  ConfirmationType type = ConfirmationType::kUnknown;
 };
 
 }  // namespace confirmations

@@ -7,23 +7,10 @@
 
 namespace confirmations {
 
-NotificationInfo::NotificationInfo() :
-    creative_set_id(""),
-    category(""),
-    advertiser(""),
-    text(""),
-    url(""),
-    uuid(""),
-    type(ConfirmationType::UNKNOWN) {}
+NotificationInfo::NotificationInfo() = default;
 
-NotificationInfo::NotificationInfo(const NotificationInfo& info) :
-    creative_set_id(info.creative_set_id),
-    category(info.category),
-    advertiser(info.advertiser),
-    text(info.text),
-    url(info.url),
-    uuid(info.uuid),
-    type(info.type) {}
+NotificationInfo::NotificationInfo(
+    const NotificationInfo& info) = default;
 
 NotificationInfo::~NotificationInfo() = default;
 

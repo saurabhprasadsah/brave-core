@@ -4,22 +4,18 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "bat/ads/internal/filtered_ad.h"
-
 #include "bat/ads/internal/json_helper.h"
 
 namespace ads {
 
-FilteredAd::FilteredAd() :
-    uuid(""),
-    creative_set_id("") {}
+FilteredAd::FilteredAd() = default;
 
-FilteredAd::FilteredAd(const FilteredAd& ad) :
-    uuid(ad.uuid),
-    creative_set_id(ad.creative_set_id) {}
+FilteredAd::FilteredAd(
+    const FilteredAd& ad) = default;
 
 FilteredAd::~FilteredAd() = default;
 
-const std::string FilteredAd::ToJson() const {
+std::string FilteredAd::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -36,7 +32,7 @@ Result FilteredAd::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("uuid")) {
@@ -47,10 +43,12 @@ Result FilteredAd::FromJson(
     creative_set_id = document["creative_set_id"].GetString();
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const FilteredAd& ad) {
+void SaveToJson(
+    JsonWriter* writer,
+    const FilteredAd& ad) {
   writer->StartObject();
 
   writer->String("uuid");

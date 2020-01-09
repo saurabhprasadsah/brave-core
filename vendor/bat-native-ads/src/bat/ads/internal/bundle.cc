@@ -24,14 +24,14 @@ using std::placeholders::_1;
 
 namespace ads {
 
-Bundle::Bundle(AdsImpl* ads, AdsClient* ads_client) :
-    catalog_id_(""),
-    catalog_version_(0),
-    catalog_ping_(0),
-    catalog_last_updated_timestamp_in_seconds_(0),
-    ads_(ads),
-    ads_client_(ads_client) {
-}
+Bundle::Bundle(
+    AdsImpl* ads,
+    AdsClient* ads_client)
+    : catalog_version_(0),
+      catalog_ping_(0),
+      catalog_last_updated_timestamp_in_seconds_(0),
+      ads_(ads),
+      ads_client_(ads_client) {}
 
 Bundle::~Bundle() = default;
 
@@ -49,9 +49,6 @@ bool Bundle::UpdateFromCatalog(const Catalog& catalog) {
       bundle_state->catalog_last_updated_timestamp_in_seconds, _1);
   ads_client_->SaveBundleState(std::move(bundle_state), callback);
 
-  // TODO(Terry Mancey): Implement Log (#44)
-  // 'Generated bundle'
-
   BLOG(INFO) << "Generated bundle";
 
   return true;
@@ -67,7 +64,7 @@ void Bundle::Reset() {
   ads_client_->SaveBundleState(std::move(bundle_state), callback);
 }
 
-const std::string Bundle::GetCatalogId() const {
+std::string Bundle::GetCatalogId() const {
   return catalog_id_;
 }
 
@@ -221,23 +218,28 @@ std::string Bundle::GetClientOS() {
   ads_client_->GetClientInfo(&client_info);
 
   switch (client_info.platform) {
-    case UNKNOWN: {
+    case ClientInfoPlatformType::Unknown: {
       NOTREACHED();
       return "";
     }
-    case WINDOWS: {
+
+    case ClientInfoPlatformType::kWindows: {
       return "windows";
     }
-    case MACOS: {
+
+    case ClientInfoPlatformType::kMacOS: {
       return "macos";
     }
-    case IOS: {
+
+    case ClientInfoPlatformType::kIOS: {
       return "ios";
     }
-    case ANDROID_OS: {
+
+    case ClientInfoPlatformType::kAndroidOS: {
       return "android";
     }
-    case LINUX: {
+
+    case ClientInfoPlatformType::kLinux: {
       return "linux";
     }
   }
@@ -249,7 +251,7 @@ void Bundle::OnStateSaved(
     const uint64_t& catalog_ping,
     const uint64_t& catalog_last_updated_timestamp_in_seconds,
     const Result result) {
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to save bundle state";
 
     // If the bundle fails to save, we will retry the next time a bundle is
@@ -274,7 +276,7 @@ void Bundle::OnStateReset(
     const uint64_t& catalog_ping,
     const uint64_t& catalog_last_updated_timestamp_in_seconds,
     const Result result) {
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to reset bundle state";
 
     return;

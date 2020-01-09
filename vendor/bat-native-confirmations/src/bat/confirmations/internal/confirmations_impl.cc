@@ -6,7 +6,6 @@
 #include <utility>
 
 #include "bat/confirmations/confirmation_type.h"
-
 #include "bat/confirmations/internal/confirmations_impl.h"
 #include "bat/confirmations/internal/logging.h"
 #include "bat/confirmations/internal/static_values.h"
@@ -15,12 +14,10 @@
 #include "bat/confirmations/internal/payout_tokens.h"
 #include "bat/confirmations/internal/unblinded_tokens.h"
 #include "bat/confirmations/internal/time.h"
-
 #include "base/json/json_reader.h"
 #include "base/json/json_writer.h"
 #include "base/time/time.h"
 #include "brave_base/random.h"
-
 #include "third_party/re2/src/re2/re2.h"
 
 using std::placeholders::_1;
@@ -689,7 +686,7 @@ bool ConfirmationsImpl::GetTransactionHistoryFromDictionary(
       info.confirmation_type = confirmation_type_value->GetString();
     } else {
       // confirmation type missing, fallback to default
-      ConfirmationType type(ConfirmationType::VIEW);
+      ConfirmationType type(ConfirmationType::kViewed);
       info.confirmation_type = std::string(type);
     }
 

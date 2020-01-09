@@ -9,7 +9,6 @@
 #include "bat/confirmations/internal/confirmations_client_mock.h"
 #include "bat/confirmations/internal/confirmations_impl.h"
 #include "bat/confirmations/internal/fetch_payment_token_request.h"
-
 #include "testing/gtest/include/gtest/gtest.h"
 
 // npm run test -- brave_unit_tests --filter=Confirmations*
@@ -25,11 +24,11 @@ class ConfirmationsFetchPaymentTokenRequestTest : public ::testing::Test {
 
   std::unique_ptr<FetchPaymentTokenRequest> request_;
 
-  ConfirmationsFetchPaymentTokenRequestTest() :
-      mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
-      confirmations_(std::make_unique<ConfirmationsImpl>(
-          mock_confirmations_client_.get())),
-      request_(std::make_unique<FetchPaymentTokenRequest>()) {
+  ConfirmationsFetchPaymentTokenRequestTest()
+      : mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
+        confirmations_(std::make_unique<ConfirmationsImpl>(
+            mock_confirmations_client_.get())),
+        request_(std::make_unique<FetchPaymentTokenRequest>()) {
     // You can do set-up work for each test here
   }
 

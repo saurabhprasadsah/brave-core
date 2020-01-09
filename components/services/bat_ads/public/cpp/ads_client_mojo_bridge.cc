@@ -322,7 +322,7 @@ void AdsClientMojoBridge::LoadSampleBundle(
 void AdsClientMojoBridge::ShowNotification(
     const std::string& notification_info) {
   auto info = std::make_unique<ads::NotificationInfo>();
-  if (info->FromJson(notification_info) == ads::Result::SUCCESS)
+  if (info->FromJson(notification_info) == ads::Result::kSuccess)
     ads_client_->ShowNotification(std::move(info));
 }
 
@@ -333,14 +333,14 @@ void AdsClientMojoBridge::CloseNotification(const std::string& id) {
 void AdsClientMojoBridge::SetCatalogIssuers(
     const std::string& issuers_info) {
   auto info = std::make_unique<ads::IssuersInfo>();
-  if (info->FromJson(issuers_info) == ads::Result::SUCCESS) {
+  if (info->FromJson(issuers_info) == ads::Result::kSuccess) {
     ads_client_->SetCatalogIssuers(std::move(info));
   }
 }
 
 void AdsClientMojoBridge::ConfirmAd(const std::string& notification_info) {
   auto info = std::make_unique<ads::NotificationInfo>();
-  if (info->FromJson(notification_info) == ads::Result::SUCCESS)
+  if (info->FromJson(notification_info) == ads::Result::kSuccess)
     ads_client_->ConfirmAd(std::move(info));
 }
 
@@ -370,7 +370,7 @@ void AdsClientMojoBridge::SaveBundleState(const std::string& bundle_state_json,
   auto schema = ads_client_->LoadJsonSchema(ads::_bundle_schema_resource_name);
 
   if (bundle_state->FromJson(bundle_state_json, schema) ==
-      ads::Result::SUCCESS) {
+      ads::Result::kSuccess) {
     ads_client_->SaveBundleState(std::move(bundle_state),
         std::bind(AdsClientMojoBridge::OnSaveBundleState, holder, _1));
   } else {

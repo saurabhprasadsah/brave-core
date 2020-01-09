@@ -12,7 +12,6 @@
 #include <memory>
 
 #include "bat/ads/ads_client.h"
-
 #include "bat/ads/internal/ads_impl.h"
 
 namespace ads {

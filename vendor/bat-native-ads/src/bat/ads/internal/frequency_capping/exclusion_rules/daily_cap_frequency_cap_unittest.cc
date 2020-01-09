@@ -68,8 +68,9 @@ class BraveAdsDailyCapFrequencyCapTest : public ::testing::Test {
         (frequency_capping_.get());
   }
 
-  void OnAdsImplInitialize(const Result result) {
-    EXPECT_EQ(Result::SUCCESS, result);
+  void OnAdsImplInitialize(
+      const Result result) {
+    EXPECT_EQ(Result::kSuccess, result);
   }
 
   void TearDown() override {

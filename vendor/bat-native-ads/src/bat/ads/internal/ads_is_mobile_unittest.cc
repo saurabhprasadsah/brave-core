@@ -18,9 +18,9 @@ class AdsIsMobileTest : public ::testing::Test {
   std::unique_ptr<MockAdsClient> mock_ads_client_;
   std::unique_ptr<AdsImpl> ads_;
 
-  AdsIsMobileTest() :
-      mock_ads_client_(std::make_unique<MockAdsClient>()),
-      ads_(std::make_unique<AdsImpl>(mock_ads_client_.get())) {
+  AdsIsMobileTest()
+      : mock_ads_client_(std::make_unique<MockAdsClient>()),
+        ads_(std::make_unique<AdsImpl>(mock_ads_client_.get())) {
     // You can do set-up work for each test here
   }
 
@@ -60,7 +60,7 @@ TEST_F(AdsIsMobileTest, IsMobile_iOS) {
 TEST_F(AdsIsMobileTest, IsMobile_Android) {
   // Arrange
   ClientInfo client_info;
-  client_info.platform = ANDROID_OS;
+  client_info.platform = ClientInfoPlatformType::kAndroidOS;
 
   // Act
   EXPECT_CALL(*mock_ads_client_, GetClientInfo(_))

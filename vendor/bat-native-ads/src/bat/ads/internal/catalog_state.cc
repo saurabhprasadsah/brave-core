@@ -9,17 +9,10 @@
 
 namespace ads {
 
-CatalogState::CatalogState() :
-    version(0),
-    ping(0),
-    issuers(IssuersInfo()) {}
+CatalogState::CatalogState() = default;
 
-CatalogState::CatalogState(const CatalogState& state) :
-    catalog_id(state.catalog_id),
-    version(state.version),
-    ping(state.ping),
-    campaigns(state.campaigns),
-    issuers(state.issuers) {}
+CatalogState::CatalogState(
+    const CatalogState& state) = default;
 
 CatalogState::~CatalogState() = default;
 
@@ -31,7 +24,7 @@ Result CatalogState::FromJson(
   catalog.Parse(json.c_str());
 
   auto result = helper::JSON::Validate(&catalog, json_schema);
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     if (error_description != nullptr) {
       *error_description = helper::JSON::GetLastError(&catalog);
     }
@@ -49,9 +42,7 @@ Result CatalogState::FromJson(
 
   new_version = catalog["version"].GetUint64();
   if (new_version != 1) {
-    // TODO(Terry Mancey): Implement Log (#44)
-    // 'patch invalid', { reason: 'unsupported version', version: version }
-    return SUCCESS;
+    return Result::kSuccess;
   }
 
   new_ping = catalog["ping"].GetUint64();
@@ -82,8 +73,8 @@ Result CatalogState::FromJson(
       DayPartInfo day_part_info;
 
       day_part_info.dow = day_part["dow"].GetString();
-      day_part_info.startMinute = day_part["startMinute"].GetUint();
-      day_part_info.endMinute = day_part["endMinute"].GetUint();
+      day_part_info.start_minute = day_part["startMinute"].GetUint();
+      day_part_info.end_minute = day_part["endMinute"].GetUint();
 
       campaign_info.day_parts.push_back(day_part_info);
     }
@@ -107,7 +98,7 @@ Result CatalogState::FromJson(
               "with creativeSetId: " + creative_set_info.creative_set_id;
         }
 
-        return FAILED;
+        return Result::kFailed;
       }
 
       for (const auto& segment : segments) {
@@ -166,7 +157,7 @@ Result CatalogState::FromJson(
                 creative_info.creative_instance_id;
           }
 
-          return FAILED;
+          return Result::kFailed;
         }
         creative_info.type.name = name;
 
@@ -214,7 +205,7 @@ Result CatalogState::FromJson(
   campaigns = new_campaigns;
   issuers = new_issuers;
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
 }  // namespace ads

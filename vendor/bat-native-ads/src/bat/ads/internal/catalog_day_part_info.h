@@ -11,13 +11,9 @@
 namespace ads {
 
 struct DayPartInfo {
-  DayPartInfo();
-  DayPartInfo(const DayPartInfo& info);
-  ~DayPartInfo();
-
   std::string dow;
-  unsigned int startMinute;
-  unsigned int endMinute;
+  unsigned int start_minute = 0;
+  unsigned int end_minute = 0;
 };
 
 }  // namespace ads

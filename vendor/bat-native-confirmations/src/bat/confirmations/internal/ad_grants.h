@@ -9,7 +9,6 @@
 #include <string>
 
 #include "bat/confirmations/confirmations_client.h"
-
 #include "base/values.h"
 
 namespace confirmations {
@@ -24,8 +23,10 @@ class AdGrants {
 
   ~AdGrants();
 
-  bool SetFromJson(const std::string& json);
-  bool SetFromDictionary(base::DictionaryValue* dictionary);
+  bool SetFromJson(
+      const std::string& json);
+  bool SetFromDictionary(
+      base::DictionaryValue* dictionary);
 
   double GetBalance() const;
 

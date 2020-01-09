@@ -14,10 +14,11 @@ namespace ads {
 
 struct FilteredAd {
   FilteredAd();
-  explicit FilteredAd(const FilteredAd& ad);
+  FilteredAd(
+      const FilteredAd& ad);
   ~FilteredAd();
 
-  const std::string ToJson() const;
+  std::string ToJson() const;
   Result FromJson(
       const std::string& json,
       std::string* error_description = nullptr);

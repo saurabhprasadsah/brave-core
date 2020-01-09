@@ -23,79 +23,98 @@ class AdsImpl;
 
 class Client {
  public:
-  Client(AdsImpl* ads, AdsClient* ads_client);
+  Client(
+      AdsImpl* ads,
+      AdsClient* ads_client);
   ~Client();
 
-  void Initialize(InitializeCallback callback);
+  void Initialize(
+      InitializeCallback callback);
 
-  void AppendAdHistoryToAdsShownHistory(const AdHistory& ad_history);
-  const std::deque<AdHistory> GetAdsShownHistory() const;
-  AdContent::LikeAction ToggleAdThumbUp(const std::string& id,
-                                        const std::string& creative_set_id,
-                                        AdContent::LikeAction action);
-  AdContent::LikeAction ToggleAdThumbDown(const std::string& id,
-                                          const std::string& creative_set_id,
-                                          AdContent::LikeAction action);
+  void AppendAdHistoryToAdsShownHistory(
+      const AdHistory& ad_history);
+  std::deque<AdHistory> GetAdsShownHistory() const;
+  AdContent::LikeAction ToggleAdThumbUp(
+      const std::string& id,
+      const std::string& creative_set_id,
+      AdContent::LikeAction action);
+  AdContent::LikeAction ToggleAdThumbDown(
+      const std::string& id,
+      const std::string& creative_set_id,
+      AdContent::LikeAction action);
   CategoryContent::OptAction ToggleAdOptInAction(
       const std::string& category,
       CategoryContent::OptAction action);
   CategoryContent::OptAction ToggleAdOptOutAction(
       const std::string& category,
       CategoryContent::OptAction action);
-  bool ToggleSaveAd(const std::string& id,
-                    const std::string& creative_set_id,
-                    bool saved);
-  bool ToggleFlagAd(const std::string& id,
-                    const std::string& creative_set_id,
-                    bool flagged);
-  bool IsFilteredCategory(const std::string& category) const;
-  bool IsFilteredAd(const std::string& creative_set_id) const;
-  bool IsFlaggedAd(const std::string& creative_set_id) const;
+  bool ToggleSaveAd(
+      const std::string& id,
+      const std::string& creative_set_id,
+      bool saved);
+  bool ToggleFlagAd(
+      const std::string& id,
+      const std::string& creative_set_id,
+      bool flagged);
+  bool IsFilteredCategory(
+      const std::string& category) const;
+  bool IsFilteredAd(
+      const std::string& creative_set_id) const;
+  bool IsFlaggedAd(
+      const std::string& creative_set_id) const;
   void UpdateAdUUID();
-  void UpdateAdsUUIDSeen(const std::string& uuid, uint64_t value);
-  const std::map<std::string, uint64_t> GetAdsUUIDSeen();
-  void ResetAdsUUIDSeen(const std::vector<AdInfo>& ads);
+  void UpdateAdsUUIDSeen(
+      const std::string& uuid, uint64_t value);
+  std::map<std::string, uint64_t> GetAdsUUIDSeen();
+  void ResetAdsUUIDSeen(
+      const std::vector<AdInfo>& ads);
   void SetNextCheckServeAdTimestampInSeconds(
       const uint64_t timestamp_in_seconds);
   uint64_t GetNextCheckServeAdTimestampInSeconds();
-  void SetAvailable(const bool available);
+  void SetAvailable(
+      const bool available);
   bool GetAvailable() const;
-  void FlagShoppingState(const std::string& url, const uint64_t score);
+  void FlagShoppingState(
+      const std::string& url,
+      const uint64_t score);
   void UnflagShoppingState();
   bool GetShoppingState();
-  void FlagSearchState(const std::string& url, const uint64_t score);
-  void UnflagSearchState(const std::string& url);
+  void FlagSearchState(
+      const std::string& url,
+      const uint64_t score);
+  void UnflagSearchState(
+      const std::string& url);
   bool GetSearchState();
   void UpdateLastUserActivity();
   uint64_t GetLastUserActivity();
   void UpdateLastUserIdleStopTime();
-  void SetUserModelLanguage(const std::string& language);
-  const std::string GetUserModelLanguage();
+  void SetUserModelLanguage(
+      const std::string& language);
+  std::string GetUserModelLanguage();
   void SetUserModelLanguages(
       const std::vector<std::string>& languages);
-  const std::vector<std::string> GetUserModelLanguages();
-  void SetLastPageClassification(const std::string& classification);
-  const std::string GetLastPageClassification();
+  std::vector<std::string> GetUserModelLanguages();
+  void SetLastPageClassification(
+      const std::string& classification);
+  std::string GetLastPageClassification();
   void AppendPageScoreToPageScoreHistory(
       const std::vector<double>& page_score);
-  const std::deque<std::vector<double>> GetPageScoreHistory();
+  std::deque<std::vector<double>> GetPageScoreHistory();
   void AppendTimestampToCreativeSetHistoryForUuid(
       const std::string& uuid,
       const uint64_t timestamp_in_seconds);
-  const std::map<std::string, std::deque<uint64_t>>
-      GetCreativeSetHistory() const;
+  std::map<std::string, std::deque<uint64_t>> GetCreativeSetHistory() const;
   void AppendTimestampToAdConversionHistoryForUuid(
       const std::string& creative_set_id,
       const uint64_t timestamp_in_seconds);
-  const std::map<std::string, std::deque<uint64_t>>
-      GetAdConversionHistory() const;
+  std::map<std::string, std::deque<uint64_t>> GetAdConversionHistory() const;
   void AppendTimestampToCampaignHistoryForUuid(
       const std::string& uuid,
       const uint64_t timestamp_in_seconds);
-  const std::map<std::string, std::deque<uint64_t>>
-      GetCampaignHistory() const;
+  std::map<std::string, std::deque<uint64_t>> GetCampaignHistory() const;
   std::string GetVersionCode() const;
-  void SetVersionCode(const std::string& value);
+  void SetVersionCode(
+      const std::string& value);
 
   void RemoveAllHistory();
 
@@ -105,12 +124,16 @@ class Client {
   InitializeCallback callback_;
 
   void SaveState();
-  void OnStateSaved(const Result result);
+  void OnStateSaved(
+      const Result result);
 
   void LoadState();
-  void OnStateLoaded(const Result result, const std::string& json);
+  void OnStateLoaded(
+      const Result result,
+      const std::string& json);
 
-  bool FromJson(const std::string& json);
+  bool FromJson(
+      const std::string& json);
 
   AdsImpl* ads_;  // NOT OWNED
   AdsClient* ads_client_;  // NOT OWNED

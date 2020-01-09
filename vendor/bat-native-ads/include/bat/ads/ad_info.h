@@ -16,10 +16,11 @@ namespace ads {
 
 struct ADS_EXPORT AdInfo {
   AdInfo();
-  AdInfo(const AdInfo& info);
+  AdInfo(
+      const AdInfo& info);
   ~AdInfo();
 
-  const std::string ToJson() const;
+  std::string ToJson() const;
   Result FromJson(
       const std::string& json,
       std::string* error_description = nullptr);
@@ -28,9 +29,9 @@ struct ADS_EXPORT AdInfo {
   std::string campaign_id;
   std::string start_timestamp;
   std::string end_timestamp;
-  unsigned int daily_cap;
-  unsigned int per_day;
-  unsigned int total_max;
+  unsigned int daily_cap = 0;
+  unsigned int per_day = 0;
+  unsigned int total_max = 0;
   std::vector<std::string> regions;
   std::string advertiser;
   std::string category;

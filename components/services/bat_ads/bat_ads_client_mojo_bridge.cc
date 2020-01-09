@@ -115,7 +115,7 @@ bool BatAdsClientMojoBridge::CanShowBackgroundNotifications() const {
   return can_show;
 }
 
-const std::string BatAdsClientMojoBridge::GetLocale() const {
+std::string BatAdsClientMojoBridge::GetLocale() const {
   if (!connected()) {
     return "en-US";
   }
@@ -175,8 +175,7 @@ void BatAdsClientMojoBridge::GetClientInfo(
   info->FromJson(out_info);
 }
 
-const std::vector<std::string>
-BatAdsClientMojoBridge::GetUserModelLanguages() const {
+std::vector<std::string> BatAdsClientMojoBridge::GetUserModelLanguages() const {
   if (!connected()) {
     return {};
   }
@@ -197,7 +196,7 @@ void BatAdsClientMojoBridge::LoadUserModelForLanguage(
     const std::string& language,
     ads::OnLoadCallback callback) const {
   if (!connected()) {
-    callback(ads::Result::FAILED, "");
+    callback(ads::Result::kFailed, "");
     return;
   }
 
@@ -328,7 +327,7 @@ void BatAdsClientMojoBridge::Save(
     const std::string& value,
     ads::OnSaveCallback callback) {
   if (!connected()) {
-    callback(ads::Result::FAILED);
+    callback(ads::Result::kFailed);
     return;
   }
 
@@ -347,7 +346,7 @@ void BatAdsClientMojoBridge::Load(
     const std::string& name,
     ads::OnLoadCallback callback) {
   if (!connected()) {
-    callback(ads::Result::FAILED, "");
+    callback(ads::Result::kFailed, "");
     return;
   }
 
@@ -364,14 +363,14 @@ void BatAdsClientMojoBridge::Reset(
     const std::string& name,
     ads::OnResetCallback callback) {
   if (!connected()) {
-    callback(ads::Result::FAILED);
+    callback(ads::Result::kFailed);
     return;
   }
 
   bat_ads_client_->Reset(name, base::BindOnce(&OnReset, std::move(callback)));
 }
 
-const std::string BatAdsClientMojoBridge::LoadJsonSchema(
+std::string BatAdsClientMojoBridge::LoadJsonSchema(
     const std::string& name) {
   if (!connected()) {
     return "";
@@ -427,8 +426,8 @@ void OnGetAds(
 
   for (const auto& json : ad_info_json_list) {
     ads::AdInfo ad_info;
-    if (ad_info.FromJson(json) != ads::Result::SUCCESS) {
-      callback(ads::Result::FAILED, categories, {});
+    if (ad_info.FromJson(json) != ads::Result::kSuccess) {
+      callback(ads::Result::kFailed, categories, {});
       return;
     }
 
@@ -442,7 +441,7 @@ void BatAdsClientMojoBridge::GetAds(
     const std::vector<std::string>& categories,
     ads::OnGetAdsCallback callback) {
   if (!connected()) {
-    callback(ads::Result::FAILED, categories, std::vector<ads::AdInfo>());
+    callback(ads::Result::kFailed, categories, std::vector<ads::AdInfo>());
     return;
   }
 
@@ -459,8 +458,8 @@ void OnGetAdConversions(
 
   for (const auto& json : ad_conversion_json_list) {
     ads::AdConversionTrackingInfo ad_conversion;
-    if (ad_conversion.FromJson(json) != ads::Result::SUCCESS) {
-      callback(ads::Result::FAILED, url, {});
+    if (ad_conversion.FromJson(json) != ads::Result::kSuccess) {
+      callback(ads::Result::kFailed, url, {});
       return;
     }
 
@@ -474,7 +473,7 @@ void BatAdsClientMojoBridge::GetAdConversions(
     const std::string& url,
     ads::OnGetAdConversionsCallback callback) {
   if (!connected()) {
-    callback(ads::Result::FAILED, url,
+    callback(ads::Result::kFailed, url,
         std::vector<ads::AdConversionTrackingInfo>());
     return;
   }

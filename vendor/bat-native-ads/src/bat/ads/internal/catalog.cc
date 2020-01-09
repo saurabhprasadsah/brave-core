@@ -13,11 +13,12 @@
 
 namespace ads {
 
-Catalog::Catalog(AdsClient* ads_client) :
-    ads_client_(ads_client),
-    catalog_state_(nullptr) {}
+Catalog::Catalog(
+    AdsClient* ads_client)
+    : ads_client_(ads_client),
+      catalog_state_(nullptr) {}
 
-Catalog::~Catalog() {}
+Catalog::~Catalog() = default;
 
 bool Catalog::FromJson(const std::string& json) {
   auto catalog_state = std::make_unique<CatalogState>();
@@ -25,7 +26,7 @@ bool Catalog::FromJson(const std::string& json) {
   std::string error_description;
   auto result = LoadFromJson(catalog_state.get(), json, json_schema,
       &error_description);
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to parse catalog JSON (" << error_description
         << "): " << json;
 
@@ -39,7 +40,7 @@ bool Catalog::FromJson(const std::string& json) {
   return true;
 }
 
-const std::string Catalog::GetId() const {
+std::string Catalog::GetId() const {
   return catalog_state_->catalog_id;
 }
 
@@ -51,11 +52,11 @@ uint64_t Catalog::GetPing() const {
   return catalog_state_->ping;
 }
 
-const std::vector<CampaignInfo>& Catalog::GetCampaigns() const {
+std::vector<CampaignInfo>& Catalog::GetCampaigns() const {
   return catalog_state_->campaigns;
 }
 
-const IssuersInfo& Catalog::GetIssuers() const {
+IssuersInfo Catalog::GetIssuers() const {
   return catalog_state_->issuers;
 }
 

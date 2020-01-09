@@ -18,7 +18,7 @@ namespace confirmations {
 
 #define BAT_LEDGER_PRODUCTION_SERVER "https://ledger.mercury.basicattentiontoken.org"  // NOLINT
 #define BAT_LEDGER_STAGING_SERVER "https://ledger-staging.mercury.basicattentiontoken.org"  // NOLINT
-#define BAT_LEDGER_DEVELOPMENT_SERVER "https://ledger.rewards.brave.software"  // NOLINT
+#define BAT_LEDGER_DEVELOPMENT_SERVER "https://ledger.rewards.brave.software"
 
 static const int kNextPaymentDay = 5;
 

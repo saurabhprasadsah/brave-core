@@ -18,7 +18,6 @@
 #include "bat/confirmations/issuers_info.h"
 #include "bat/confirmations/internal/confirmation_info.h"
 #include "bat/confirmations/internal/ads_rewards.h"
-
 #include "base/values.h"
 
 namespace confirmations {
@@ -30,26 +29,33 @@ class PayoutTokens;
 
 class ConfirmationsImpl : public Confirmations {
  public:
-  explicit ConfirmationsImpl(ConfirmationsClient* confirmations_client);
+  explicit ConfirmationsImpl(
+      ConfirmationsClient* confirmations_client);
   ~ConfirmationsImpl() override;
 
   void Initialize(OnInitializeCallback callback) override;
 
   // Wallet
-  void SetWalletInfo(std::unique_ptr<WalletInfo> info) override;
+  void SetWalletInfo(
+      std::unique_ptr<WalletInfo> info) override;
 
   // Catalog issuers
-  void SetCatalogIssuers(std::unique_ptr<IssuersInfo> info) override;
+  void SetCatalogIssuers(
+      std::unique_ptr<IssuersInfo> info) override;
   std::map<std::string, std::string> GetCatalogIssuers() const;
-  bool IsValidPublicKeyForCatalogIssuers(const std::string& public_key) const;
-  double GetEstimatedRedemptionValue(const std::string& public_key) const;
+  bool IsValidPublicKeyForCatalogIssuers(
+      const std::string& public_key) const;
+  double GetEstimatedRedemptionValue(
+      const std::string& public_key) const;
 
   // Confirmations
-  void AppendConfirmationToQueue(const ConfirmationInfo& confirmation_info);
+  void AppendConfirmationToQueue(
+      const ConfirmationInfo& confirmation_info);
   void StartRetryingFailedConfirmations();
 
   // Ads rewards
-  void UpdateAdsRewards(const bool should_refresh) override;
+  void UpdateAdsRewards(
+      const bool should_refresh) override;
 
   void UpdateAdsRewards(
       const double estimated_pending_rewards,
@@ -75,17 +81,21 @@ class ConfirmationsImpl : public Confirmations {
       const ConfirmationType confirmation_type);
 
   // Scheduled events
-  bool OnTimer(const uint32_t timer_id) override;
+  bool OnTimer(
+      const uint32_t timer_id) override;
 
   // Refill tokens
-  void StartRetryingToGetRefillSignedTokens(const uint64_t start_timer_in);
+  void StartRetryingToGetRefillSignedTokens(
+      const uint64_t start_timer_in);
   void RefillTokensIfNecessary() const;
 
   // Redeem unblinded tokens
-  void ConfirmAd(std::unique_ptr<NotificationInfo> info) override;
-  void ConfirmAction(const std::string& uuid,
-                     const std::string& creative_set_id,
-                     const ConfirmationType& type) override;
+  void ConfirmAd(
+      std::unique_ptr<NotificationInfo> info) override;
+  void ConfirmAction(
+      const std::string& uuid,
+      const std::string& creative_set_id,
+      const ConfirmationType& type) override;
 
   // Payout redeemed tokens
   void UpdateNextTokenRedemptionDate();
@@ -111,8 +121,10 @@ class ConfirmationsImpl : public Confirmations {
 
   // Confirmations
   uint32_t retry_failed_confirmations_timer_id_;
-  void RemoveConfirmationFromQueue(const ConfirmationInfo& confirmation_info);
-  void StartRetryingFailedConfirmations(const uint64_t start_timer_in);
+  void RemoveConfirmationFromQueue(
+      const ConfirmationInfo& confirmation_info);
+  void StartRetryingFailedConfirmations(
+      const uint64_t start_timer_in);
   bool IsRetryingFailedConfirmations() const;
   void RetryFailedConfirmations();
   void StopRetryingFailedConfirmations();
@@ -151,14 +163,18 @@ class ConfirmationsImpl : public Confirmations {
   uint64_t next_token_redemption_date_in_seconds_;
 
   // State
-  void OnStateSaved(const Result result);
+  void OnStateSaved(
+      const Result result);
 
   bool state_has_loaded_;
   void LoadState();
-  void OnStateLoaded(Result result, const std::string& json);
+  void OnStateLoaded(
+      Result result,
+      const std::string& json);
 
   void ResetState();
-  void OnStateReset(const Result result);
+  void OnStateReset(
+      const Result result);
 
   std::string ToJSON() const;
 
@@ -172,7 +188,8 @@ class ConfirmationsImpl : public Confirmations {
   base::Value GetTransactionHistoryAsDictionary(
       const std::vector<TransactionInfo>& transaction_history) const;
 
-  bool FromJSON(const std::string& json);
+  bool FromJSON(
+      const std::string& json);
 
   bool ParseCatalogIssuersFromJSON(
       base::DictionaryValue* dictionary);
@@ -206,8 +223,10 @@ class ConfirmationsImpl : public Confirmations {
   ConfirmationsClient* confirmations_client_;  // NOT OWNED
 
   // Not copyable, not assignable
-  ConfirmationsImpl(const ConfirmationsImpl&) = delete;
-  ConfirmationsImpl& operator=(const ConfirmationsImpl&) = delete;
+  ConfirmationsImpl(
+      const ConfirmationsImpl&) = delete;
+  ConfirmationsImpl& operator=(
+      const ConfirmationsImpl&) = delete;
 };
 
 }  // namespace confirmations

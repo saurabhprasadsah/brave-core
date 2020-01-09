@@ -26,7 +26,7 @@ void LocaleHelper::set_for_testing(
   g_locale_helper_for_testing = locale_helper;
 }
 
-const std::string LocaleHelper::GetLocale() const {
+std::string LocaleHelper::GetLocale() const {
   return kDefaultLocale;
 }
 

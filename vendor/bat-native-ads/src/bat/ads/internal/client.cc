@@ -44,11 +44,13 @@ std::vector<ads::FilteredCategory>::iterator FindFilteredCategoryByName(
 
 namespace ads {
 
-Client::Client(AdsImpl* ads, AdsClient* ads_client) :
-    is_initialized_(false),
-    ads_(ads),
-    ads_client_(ads_client),
-    client_state_(new ClientState()) {
+Client::Client(
+    AdsImpl* ads,
+    AdsClient* ads_client)
+    : is_initialized_(false),
+      ads_(ads),
+      ads_client_(ads_client),
+      client_state_(new ClientState()) {
   (void)ads_;
 }
 
@@ -72,7 +74,7 @@ void Client::AppendAdHistoryToAdsShownHistory(
   SaveState();
 }
 
-const std::deque<AdHistory> Client::GetAdsShownHistory() const {
+std::deque<AdHistory> Client::GetAdsShownHistory() const {
   return client_state_->ads_shown_history;
 }
 
@@ -81,10 +83,10 @@ AdContent::LikeAction Client::ToggleAdThumbUp(
     const std::string& creative_set_id,
     const AdContent::LikeAction action) {
   AdContent::LikeAction like_action;
-  if (action == AdContent::LIKE_ACTION_THUMBS_UP) {
-    like_action = AdContent::LIKE_ACTION_NONE;
+  if (action == AdContent::LikeAction::kThumbsUp) {
+    like_action = AdContent::LikeAction::kNone;
   } else {
-    like_action = AdContent::LIKE_ACTION_THUMBS_UP;
+    like_action = AdContent::LikeAction::kThumbsUp;
   }
 
   // Remove this ad from the filtered ads list
@@ -110,15 +112,15 @@ AdContent::LikeAction Client::ToggleAdThumbDown(
     const std::string& creative_set_id,
     const AdContent::LikeAction action) {
   AdContent::LikeAction like_action;
-  if (action == AdContent::LIKE_ACTION_THUMBS_DOWN) {
-    like_action = AdContent::LIKE_ACTION_NONE;
+  if (action == AdContent::LikeAction::kThumbsDown) {
+    like_action = AdContent::LikeAction::kNone;
   } else {
-    like_action = AdContent::LIKE_ACTION_THUMBS_DOWN;
+    like_action = AdContent::LikeAction::kThumbsDown;
   }
 
   // Update this ad in the filtered ads list
   auto it_ad = FindFilteredAdByUUID(&client_state_->ad_prefs.filtered_ads, id);
-  if (like_action == AdContent::LIKE_ACTION_NONE) {
+  if (like_action == AdContent::LikeAction::kNone) {
     if (it_ad != client_state_->ad_prefs.filtered_ads.end()) {
       client_state_->ad_prefs.filtered_ads.erase(it_ad);
     }
@@ -147,10 +149,10 @@ CategoryContent::OptAction Client::ToggleAdOptInAction(
     const std::string& category,
     const CategoryContent::OptAction action) {
   CategoryContent::OptAction opt_action;
-  if (action == CategoryContent::OPT_ACTION_OPT_IN) {
-    opt_action = CategoryContent::OPT_ACTION_NONE;
+  if (action == CategoryContent::OptAction::kOptIn) {
+    opt_action = CategoryContent::OptAction::kNone;
   } else {
-    opt_action = CategoryContent::OPT_ACTION_OPT_IN;
+    opt_action = CategoryContent::OptAction::kOptIn;
   }
 
   // Remove this category from the filtered categories list
@@ -176,16 +178,16 @@ CategoryContent::OptAction Client::ToggleAdOptOutAction(
     const std::string& category,
     const CategoryContent::OptAction action) {
   CategoryContent::OptAction opt_action;
-  if (action == CategoryContent::OPT_ACTION_OPT_OUT) {
-    opt_action = CategoryContent::OPT_ACTION_NONE;
+  if (action == CategoryContent::OptAction::kOptOut) {
+    opt_action = CategoryContent::OptAction::kNone;
   } else {
-    opt_action = CategoryContent::OPT_ACTION_OPT_OUT;
+    opt_action = CategoryContent::OptAction::kOptOut;
   }
 
   // Update this category in the filtered categories list
   auto it = FindFilteredCategoryByName(
       &client_state_->ad_prefs.filtered_categories, category);
-  if (opt_action == 0) {
+  if (opt_action == CategoryContent::OptAction::kNone) {
     if (it != client_state_->ad_prefs.filtered_categories.end()) {
       client_state_->ad_prefs.filtered_categories.erase(it);
     }
@@ -346,7 +348,7 @@ void Client::UpdateAdsUUIDSeen(
   SaveState();
 }
 
-const std::map<std::string, uint64_t> Client::GetAdsUUIDSeen() {
+std::map<std::string, uint64_t> Client::GetAdsUUIDSeen() {
   return client_state_->ads_uuid_seen;
 }
 
@@ -455,7 +457,7 @@ void Client::SetUserModelLanguage(const std::string& language) {
   SaveState();
 }
 
-const std::string Client::GetUserModelLanguage() {
+std::string Client::GetUserModelLanguage() {
   return client_state_->user_model_language;
 }
 
@@ -466,7 +468,7 @@ void Client::SetUserModelLanguages(
   SaveState();
 }
 
-const std::vector<std::string> Client::GetUserModelLanguages() {
+std::vector<std::string> Client::GetUserModelLanguages() {
   return client_state_->user_model_languages;
 }
 
@@ -477,7 +479,7 @@ void Client::SetLastPageClassification(
   SaveState();
 }
 
-const std::string Client::GetLastPageClassification() {
+std::string Client::GetLastPageClassification() {
   return client_state_->last_page_classification;
 }
 
@@ -492,7 +494,7 @@ void Client::AppendPageScoreToPageScoreHistory(
   SaveState();
 }
 
-const std::deque<std::vector<double>> Client::GetPageScoreHistory() {
+std::deque<std::vector<double>> Client::GetPageScoreHistory() {
   return client_state_->page_score_history;
 }
 
@@ -510,8 +512,8 @@ void Client::AppendTimestampToCreativeSetHistoryForUuid(
   SaveState();
 }
 
-const std::map<std::string, std::deque<uint64_t>>
-    Client::GetCreativeSetHistory() const {
+std::map<std::string, std::deque<uint64_t>>
+Client::GetCreativeSetHistory() const {
   return client_state_->creative_set_history;
 }
 
@@ -534,7 +536,7 @@ void Client::AppendTimestampToAdConversionHistoryForUuid(
   SaveState();
 }
 
-const std::map<std::string, std::deque<uint64_t>>
+std::map<std::string, std::deque<uint64_t>>
     Client::GetAdConversionHistory() const {
   return client_state_->ad_conversion_history;
 }
@@ -552,8 +554,7 @@ void Client::AppendTimestampToCampaignHistoryForUuid(
   SaveState();
 }
 
-const std::map<std::string, std::deque<uint64_t>>
-    Client::GetCampaignHistory() const {
+std::map<std::string, std::deque<uint64_t>> Client::GetCampaignHistory() const {
   return client_state_->campaign_history;
 }
 
@@ -589,7 +590,7 @@ void Client::SaveState() {
 }
 
 void Client::OnStateSaved(const Result result) {
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to save client state";
 
     return;
@@ -606,28 +607,28 @@ void Client::LoadState() {
 void Client::OnStateLoaded(const Result result, const std::string& json) {
   is_initialized_ = true;
 
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to load client state, resetting to default values";
 
     client_state_.reset(new ClientState());
   } else {
     if (!FromJson(json)) {
       BLOG(ERROR) << "Failed to parse client state: " << json;
-      callback_(FAILED);
+      callback_(Result::kFailed);
       return;
     }
 
     BLOG(INFO) << "Successfully loaded client state";
   }
 
-  callback_(SUCCESS);
+  callback_(Result::kSuccess);
 }
 
 bool Client::FromJson(const std::string& json) {
   ClientState state;
   std::string error_description;
   auto result = LoadFromJson(&state, json, &error_description);
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to parse client JSON (" << error_description <<
         "): " << json;
 

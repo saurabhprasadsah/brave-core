@@ -15,11 +15,11 @@
 - (void)eventLog:(const std::string &)json;
 - (void)getAds:(const std::vector<std::string> &)categories callback:(ads::OnGetAdsCallback)callback;
 - (void)getAdConversions:(const std::string &)url callback:(ads::OnGetAdConversionsCallback)callback;
-- (const std::string)getLocale;
+- (std::string)getLocale;
 - (uint64_t)getAdsPerDay;
 - (uint64_t)getAdsPerHour;
 - (void)getClientInfo:(ads::ClientInfo *)info;
-- (const std::vector<std::string>)getUserModelLanguages;
+- (std::vector<std::string>)getUserModelLanguages;
 - (bool)isAdsEnabled;
 - (bool)shouldAllowAdConversionTracking;
 - (bool)isForeground;
@@ -28,7 +28,7 @@
 - (bool)shouldShowNotifications;
 - (void)killTimer:(uint32_t)timer_id;
 - (void)load:(const std::string &)name callback:(ads::OnLoadCallback)callback;
-- (const std::string)loadJsonSchema:(const std::string &)name;
+- (std::string)loadJsonSchema:(const std::string &)name;
 - (void)loadSampleBundle:(ads::OnLoadSampleBundleCallback)callback;
 - (void)loadUserModelForLanguage:(const std::string &)language callback:(ads::OnLoadCallback)callback;
 - (std::unique_ptr<ads::LogStream>)log:(const char *)file line:(const int)line logLevel:(const ads::LogLevel)log_level;

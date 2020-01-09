@@ -267,7 +267,7 @@ void Notifications::SaveState() {
 }
 
 void Notifications::OnStateSaved(const Result result) {
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to save notifications state";
     return;
   }
@@ -285,7 +285,7 @@ void Notifications::OnStateLoaded(
     const std::string& json) {
   is_initialized_ = true;
 
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR)
         << "Failed to load notifications state, resetting to default values";
 
@@ -294,14 +294,14 @@ void Notifications::OnStateLoaded(
     if (!FromJson(json)) {
       BLOG(ERROR) << "Failed to parse notifications state: " << json;
 
-      callback_(FAILED);
+      callback_(Result::kFailed);
       return;
     }
 
     BLOG(INFO) << "Successfully loaded notifications state";
   }
 
-  callback_(SUCCESS);
+  callback_(Result::kSuccess);
 }
 
 bool Notifications::FromJson(const std::string& json) {

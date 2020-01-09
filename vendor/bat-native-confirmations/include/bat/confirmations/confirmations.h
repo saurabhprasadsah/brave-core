@@ -94,8 +94,10 @@ class CONFIRMATIONS_EXPORT Confirmations {
 
  private:
   // Not copyable, not assignable
-  Confirmations(const Confirmations&) = delete;
-  Confirmations& operator=(const Confirmations&) = delete;
+  Confirmations(
+      const Confirmations&) = delete;
+  Confirmations& operator=(
+      const Confirmations&) = delete;
 };
 
 }  // namespace confirmations

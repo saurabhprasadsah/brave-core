@@ -8,7 +8,7 @@
 
 #include <string>
 
-#include "wrapper.hpp"  // NOLINT
+#include "wrapper.hpp"
 
 using challenge_bypass_ristretto::UnblindedToken;
 
@@ -16,7 +16,8 @@ namespace confirmations {
 
 struct TokenInfo {
   TokenInfo();
-  TokenInfo(const TokenInfo& info);
+  TokenInfo(
+      const TokenInfo& info);
   ~TokenInfo();
 
   UnblindedToken unblinded_token;

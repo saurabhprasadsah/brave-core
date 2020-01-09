@@ -12,7 +12,8 @@
 
 namespace helper {
 
-std::string Uri::GetUri(const std::string& url) {
+std::string Uri::GetUri(
+    const std::string& url) {
   auto http_scheme = std::string(url::kHttpScheme) +
       std::string(url::kStandardSchemeSeparator);
 

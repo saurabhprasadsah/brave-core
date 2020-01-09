@@ -10,7 +10,6 @@
 #include "bat/confirmations/internal/confirmations_client_mock.h"
 #include "bat/confirmations/internal/confirmations_impl.h"
 #include "bat/confirmations/internal/string_helper.h"
-
 #include "testing/gtest/include/gtest/gtest.h"
 
 // npm run test -- brave_unit_tests --filter=Confirmations*
@@ -24,10 +23,10 @@ class ConfirmationsStringHelperTest : public ::testing::Test {
   std::unique_ptr<MockConfirmationsClient> mock_confirmations_client_;
   std::unique_ptr<ConfirmationsImpl> confirmations_;
 
-  ConfirmationsStringHelperTest() :
-      mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
-      confirmations_(std::make_unique<ConfirmationsImpl>(
-          mock_confirmations_client_.get())) {
+  ConfirmationsStringHelperTest()
+      : mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
+        confirmations_(std::make_unique<ConfirmationsImpl>(
+            mock_confirmations_client_.get())) {
     // You can do set-up work for each test here
   }
 

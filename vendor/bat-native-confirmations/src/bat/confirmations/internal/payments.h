@@ -12,7 +12,6 @@
 
 #include "bat/confirmations/confirmations_client.h"
 #include "bat/confirmations/internal/payment_info.h"
-
 #include "base/time/time.h"
 #include "base/values.h"
 
@@ -28,8 +27,10 @@ class Payments {
 
   ~Payments();
 
-  bool SetFromJson(const std::string& json);
-  bool SetFromDictionary(base::DictionaryValue* dictionary);
+  bool SetFromJson(
+      const std::string& json);
+  bool SetFromDictionary(
+      base::DictionaryValue* dictionary);
   base::Value GetAsList();
 
   double GetBalance() const;
@@ -38,11 +39,13 @@ class Payments {
       const base::Time& time,
       const uint64_t token_redemption_date_in_seconds) const;
 
-  uint64_t GetTransactionCountForMonth(const base::Time& time) const;
+  uint64_t GetTransactionCountForMonth(
+      const base::Time& time) const;
 
  private:
   std::vector<PaymentInfo> payments_;
-  std::vector<PaymentInfo> GetPaymentsFromList(base::ListValue* list) const;
+  std::vector<PaymentInfo> GetPaymentsFromList(
+      base::ListValue* list) const;
   bool GetBalanceFromDictionary(
       base::DictionaryValue* dictionary,
       double* balance) const;
@@ -53,12 +56,16 @@ class Payments {
       base::DictionaryValue* dictionary,
       uint64_t* transaction_count) const;
 
-  bool HasPendingBalanceForTransactionMonth(const std::string& month) const;
+  bool HasPendingBalanceForTransactionMonth(
+      const std::string& month) const;
 
-  PaymentInfo GetPaymentForTransactionMonth(const std::string& month) const;
+  PaymentInfo GetPaymentForTransactionMonth(
+      const std::string& month) const;
 
-  std::string GetTransactionMonth(const base::Time& time) const;
-  std::string GetPreviousTransactionMonth(const base::Time& time) const;
+  std::string GetTransactionMonth(
+      const base::Time& time) const;
+  std::string GetPreviousTransactionMonth(
+      const base::Time& time) const;
 
   std::string GetFormattedTransactionMonth(
       const int year,

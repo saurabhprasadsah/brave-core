@@ -11,14 +11,10 @@
 
 namespace ads {
 
-CategoryContent::CategoryContent() :
-    category(""),
-    opt_action(CategoryContent::OPT_ACTION_NONE) {}
+CategoryContent::CategoryContent() = default;
 
 CategoryContent::CategoryContent(
-    const CategoryContent& properties)
-    : category(properties.category),
-      opt_action(properties.opt_action) {}
+    const CategoryContent& properties) = default;
 
 CategoryContent::~CategoryContent() = default;
 
@@ -33,7 +29,7 @@ bool CategoryContent::operator!=(
   return !(*this == rhs);
 }
 
-const std::string CategoryContent::ToJson() const {
+std::string CategoryContent::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -50,7 +46,7 @@ Result CategoryContent::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("category")) {
@@ -61,17 +57,19 @@ Result CategoryContent::FromJson(
     opt_action = static_cast<OptAction>(document["opt_action"].GetInt());
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const CategoryContent& content) {
+void SaveToJson(
+    JsonWriter* writer,
+    const CategoryContent& content) {
   writer->StartObject();
 
   writer->String("category");
   writer->String(content.category.c_str());
 
   writer->String("opt_action");
-  writer->Int(content.opt_action);
+  writer->Int(static_cast<int>(content.opt_action));
 
   writer->EndObject();
 }

@@ -15,7 +15,6 @@
 
 #include "bat/ads/ads_client.h"
 #include "bat/ads/ads.h"
-
 #include "testing/gmock/include/gmock/gmock.h"
 
 namespace ads {
@@ -58,7 +57,7 @@ class MockAdsClient : public AdsClient {
   MOCK_CONST_METHOD1(GetClientInfo, void(
       ClientInfo* info));
 
-  MOCK_CONST_METHOD0(GetUserModelLanguages, const std::vector<std::string>());
+  MOCK_CONST_METHOD0(GetUserModelLanguages, std::vector<std::string>());
 
   MOCK_CONST_METHOD2(LoadUserModelForLanguage, void(
       const std::string& language,

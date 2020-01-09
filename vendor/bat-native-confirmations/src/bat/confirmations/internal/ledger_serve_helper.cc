@@ -4,7 +4,6 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "bat/confirmations/confirmations.h"
-
 #include "bat/confirmations/internal/ledger_serve_helper.h"
 #include "bat/confirmations/internal/static_values.h"
 

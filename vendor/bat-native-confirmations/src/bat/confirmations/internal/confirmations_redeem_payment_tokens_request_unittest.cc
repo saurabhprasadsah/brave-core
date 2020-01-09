@@ -10,14 +10,11 @@
 #include <sstream>
 
 #include "bat/confirmations/wallet_info.h"
-
 #include "bat/confirmations/internal/confirmations_client_mock.h"
 #include "bat/confirmations/internal/confirmations_impl.h"
 #include "bat/confirmations/internal/redeem_payment_tokens_request.h"
 #include "bat/confirmations/internal/unblinded_tokens.h"
-
 #include "base/files/file_path.h"
-
 #include "testing/gtest/include/gtest/gtest.h"
 
 // npm run test -- brave_unit_tests --filter=Confirmations*
@@ -38,13 +35,13 @@ class ConfirmationsRedeemPaymentTokensRequestTest : public ::testing::Test {
 
   std::unique_ptr<RedeemPaymentTokensRequest> request_;
 
-  ConfirmationsRedeemPaymentTokensRequestTest() :
-      mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
-      confirmations_(std::make_unique<ConfirmationsImpl>(
-          mock_confirmations_client_.get())),
-      unblinded_tokens_(std::make_unique<UnblindedTokens>(
-          confirmations_.get())),
-      request_(std::make_unique<RedeemPaymentTokensRequest>()) {
+  ConfirmationsRedeemPaymentTokensRequestTest()
+      : mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
+        confirmations_(std::make_unique<ConfirmationsImpl>(
+            mock_confirmations_client_.get())),
+        unblinded_tokens_(std::make_unique<UnblindedTokens>(
+            confirmations_.get())),
+        request_(std::make_unique<RedeemPaymentTokensRequest>()) {
     // You can do set-up work for each test here
   }
 
@@ -104,7 +101,9 @@ class ConfirmationsRedeemPaymentTokensRequestTest : public ::testing::Test {
         "brave/vendor/bat-native-confirmations/test/data"));
   }
 
-  bool Load(const base::FilePath path, std::string* value) {
+  bool Load(
+      const base::FilePath path,
+      std::string* value) {
     if (!value) {
       return false;
     }
@@ -121,7 +120,8 @@ class ConfirmationsRedeemPaymentTokensRequestTest : public ::testing::Test {
     return true;
   }
 
-  std::vector<TokenInfo> GetUnblindedTokens(const int count) {
+  std::vector<TokenInfo> GetUnblindedTokens(
+      const int count) {
     std::vector<std::string> tokens_base64 = {
       "PLowz2WF2eGD5zfwZjk9p76HXBLDKMq/3EAZHeG/fE2XGQ48jyte+Ve50ZlasOuYL5mwA8CU2aFMlJrt3DDgC3B1+VD/uyHPfa/+bwYRrpVH5YwNSDEydVx8S4r+BYVY",  // NOLINT
       "hfrMEltWLuzbKQ02Qixh5C/DWiJbdOoaGaidKZ7Mv+cRq5fyxJqemE/MPlARPhl6NgXPHUeyaxzd6/Lk6YHlfXbBA023DYvGMHoKm15NP/nWnZ1V3iLkgOOHZuk80Z4K",  // NOLINT

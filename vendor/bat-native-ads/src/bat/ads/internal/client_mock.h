@@ -14,7 +14,10 @@ namespace ads {
 
 class ClientMock : public Client {
  public:
-  ClientMock(AdsImpl* ads, AdsClient* ads_client): Client(ads, ads_client) { }
+  ClientMock(
+      AdsImpl* ads,
+      AdsClient* ads_client)
+      : Client(ads, ads_client) {}
 
   void GeneratePastAdHistoryFromNow(
       const std::string uuid,
@@ -26,7 +29,7 @@ class ClientMock : public Client {
       const int64_t time_offset_per_ad_in_seconds,
       const uint8_t count);
 
-    void GeneratePastCampaignHistoryFromNow(
+  void GeneratePastCampaignHistoryFromNow(
       const std::string campaign_id,
       const int64_t time_offset_per_ad_in_seconds,
       const uint8_t count);

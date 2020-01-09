@@ -15,7 +15,7 @@
 namespace ads {
 
 struct ADS_EXPORT AdConversionInfo {
-  uint64_t timestamp_in_seconds;
+  uint64_t timestamp_in_seconds = 0;
   std::string creative_set_id;
   std::string uuid;
 };

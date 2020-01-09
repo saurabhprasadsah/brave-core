@@ -13,7 +13,6 @@
 #include "bat/ads/internal/ads_impl.h"
 #include "bat/ads/internal/client.h"
 #include "bat/ads/internal/ad_conversion_info.h"
-
 #include "base/values.h"
 
 namespace ads {

@@ -7,15 +7,16 @@
 
 namespace helper {
 
-const std::string GetDescription(const ads::Result result) {
+const std::string GetDescription(
+    const ads::Result result) {
   std::string description = "";
 
   switch (result) {
-    case ads::Result::SUCCESS:
+    case ads::Result::kSuccess:
       description = "Successful";
       break;
 
-    case ads::Result::FAILED:
+    case ads::Result::kFailed:
       description = "Failed";
       break;
   }

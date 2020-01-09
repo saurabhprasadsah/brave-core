@@ -355,7 +355,7 @@ BATClassAdsBridge(BOOL, isTesting, setTesting, _is_testing)
   if (![self isAdsServiceRunning]) { return; }
   ads->ToggleAdThumbUp(identifier.UTF8String,
                        creativeSetID.UTF8String,
-                       ads::AdContent::LikeAction::LIKE_ACTION_THUMBS_UP);
+                       ads::AdContent::LikeAction::kThumbsUp);
 }
 
 
@@ -364,7 +364,7 @@ BATClassAdsBridge(BOOL, isTesting, setTesting, _is_testing)
   if (![self isAdsServiceRunning]) { return; }
   ads->ToggleAdThumbDown(identifier.UTF8String,
                          creativeSetID.UTF8String,
-                         ads::AdContent::LikeAction::LIKE_ACTION_THUMBS_DOWN);
+                         ads::AdContent::LikeAction::kThumbsDown);
 }
 
 - (void)confirmAd:(std::unique_ptr<ads::NotificationInfo>)info

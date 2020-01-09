@@ -11,7 +11,6 @@
 
 #include "bat/confirmations/confirmations_client.h"
 #include "bat/confirmations/wallet_info.h"
-
 #include "wrapper.hpp"
 
 using challenge_bypass_ristretto::BlindedToken;

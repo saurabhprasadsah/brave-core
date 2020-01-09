@@ -10,23 +10,14 @@
 
 namespace ads {
 
-BundleState::BundleState()
-    : catalog_version(0),
-      catalog_ping(0),
-      catalog_last_updated_timestamp_in_seconds(0) {}
+BundleState::BundleState() = default;
 
-BundleState::BundleState(const BundleState& state)
-    : catalog_id(state.catalog_id),
-      catalog_version(state.catalog_version),
-      catalog_ping(state.catalog_ping),
-      catalog_last_updated_timestamp_in_seconds(
-          state.catalog_last_updated_timestamp_in_seconds),
-      categories(state.categories),
-      ad_conversions(state.ad_conversions) {}
+BundleState::BundleState(
+    const BundleState& state) = default;
 
 BundleState::~BundleState() = default;
 
-const std::string BundleState::ToJson() const {
+std::string BundleState::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -40,7 +31,7 @@ Result BundleState::FromJson(
   bundle.Parse(json.c_str());
 
   auto result = helper::JSON::Validate(&bundle, json_schema);
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     if (error_description != nullptr) {
       *error_description = helper::JSON::GetLastError(&bundle);
     }
@@ -140,10 +131,12 @@ Result BundleState::FromJson(
 
   ad_conversions = new_ad_conversions;
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const BundleState& state) {
+void SaveToJson(
+    JsonWriter* writer,
+    const BundleState& state) {
   writer->StartObject();
 
   writer->String("categories");

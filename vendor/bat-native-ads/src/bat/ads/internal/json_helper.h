@@ -9,7 +9,6 @@
 #include <string>
 
 #include "bat/ads/result.h"
-
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"
 #include "rapidjson/stringbuffer.h"
@@ -33,21 +32,47 @@ struct NotificationInfo;
 
 using JsonWriter = rapidjson::Writer<rapidjson::StringBuffer>;
 
-void SaveToJson(JsonWriter* writer, const AdContent& content);
-void SaveToJson(JsonWriter* writer, const AdHistory& history);
-void SaveToJson(JsonWriter* writer, const AdInfo& info);
-void SaveToJson(JsonWriter* writer, const AdConversionTrackingInfo& info);
-void SaveToJson(JsonWriter* writer, const AdPreferences& prefs);
-void SaveToJson(JsonWriter* writer, const AdsHistory& history);
-void SaveToJson(JsonWriter* writer, const BundleState& state);
-void SaveToJson(JsonWriter* writer, const CategoryContent& content);
-void SaveToJson(JsonWriter* writer, const ClientInfo& info);
-void SaveToJson(JsonWriter* writer, const ClientState& state);
-void SaveToJson(JsonWriter* writer, const IssuersInfo& info);
-void SaveToJson(JsonWriter* writer, const NotificationInfo& info);
+void SaveToJson(
+    JsonWriter* writer,
+    const AdContent& content);
+void SaveToJson(
+    JsonWriter* writer,
+    const AdHistory& history);
+void SaveToJson(
+    JsonWriter* writer,
+    const AdInfo& info);
+void SaveToJson(
+    JsonWriter* writer,
+    const AdConversionTrackingInfo& info);
+void SaveToJson(
+    JsonWriter* writer,
+    const AdPreferences& prefs);
+void SaveToJson(
+    JsonWriter* writer,
+    const AdsHistory& history);
+void SaveToJson(
+  JsonWriter* writer,
+  const BundleState& state);
+void SaveToJson(
+    JsonWriter* writer,
+    const CategoryContent& content);
+void SaveToJson(
+    JsonWriter* writer,
+    const ClientInfo& info);
+void SaveToJson(
+    JsonWriter* writer,
+    const ClientState& state);
+void SaveToJson(
+    JsonWriter* writer,
+    const IssuersInfo& info);
+void SaveToJson(
+    JsonWriter* writer,
+    const NotificationInfo& info);
 
 template <typename T>
-void SaveToJson(const T& t, std::string* json) {
+void SaveToJson(
+    const T& t,
+    std::string* json) {
   if (!json) {
     return;
   }
@@ -86,7 +111,8 @@ class JSON {
       rapidjson::Document* document,
       const std::string& json_schema);
 
-  static std::string GetLastError(rapidjson::Document* document);
+  static std::string GetLastError(
+      rapidjson::Document* document);
 };
 
 }  // namespace helper

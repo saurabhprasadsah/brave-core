@@ -18,19 +18,20 @@ namespace ads {
 
 struct BundleState {
   BundleState();
-  explicit BundleState(const BundleState& state);
+  BundleState(
+      const BundleState& state);
   ~BundleState();
 
-  const std::string ToJson() const;
+  std::string ToJson() const;
   Result FromJson(
       const std::string& json,
       const std::string& json_schema,
       std::string* error_description = nullptr);
 
   std::string catalog_id;
-  uint64_t catalog_version;
-  uint64_t catalog_ping;
-  uint64_t catalog_last_updated_timestamp_in_seconds;
+  uint64_t catalog_version = 0;
+  uint64_t catalog_ping = 0;
+  uint64_t catalog_last_updated_timestamp_in_seconds = 0;
   std::map<std::string, std::vector<AdInfo>> categories;
   std::vector<AdConversionTrackingInfo> ad_conversions;
 };

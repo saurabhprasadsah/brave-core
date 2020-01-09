@@ -19,7 +19,8 @@ class GetAdGrantsRequest {
   GetAdGrantsRequest();
   ~GetAdGrantsRequest();
 
-  std::string BuildUrl(const WalletInfo& wallet_info) const;
+  std::string BuildUrl(
+      const WalletInfo& wallet_info) const;
 
   URLRequestMethod GetMethod() const;
 };

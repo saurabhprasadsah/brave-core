@@ -172,9 +172,9 @@ void BatAdsImpl::ToggleAdThumbUp(
     const std::string& creative_set_id,
     const int action,
     ToggleAdThumbUpCallback callback) {
-  int like_action =
+  ads::AdContent::LikeAction like_action =
       ads_->ToggleAdThumbUp(id, creative_set_id, ToAdsLikeAction(action));
-  std::move(callback).Run(id, like_action);
+  std::move(callback).Run(id, static_cast<int>(like_action));
 }
 
 void BatAdsImpl::ToggleAdThumbDown(
@@ -182,25 +182,27 @@ void BatAdsImpl::ToggleAdThumbDown(
     const std::string& creative_set_id,
     const int action,
     ToggleAdThumbDownCallback callback) {
-  int like_action =
+  ads::AdContent::LikeAction like_action =
       ads_->ToggleAdThumbDown(id, creative_set_id, ToAdsLikeAction(action));
-  std::move(callback).Run(id, like_action);
+  std::move(callback).Run(id, static_cast<int>(like_action));
 }
 
 void BatAdsImpl::ToggleAdOptInAction(
     const std::string& category,
     const int action,
     ToggleAdOptInActionCallback callback) {
-  int opt_action = ads_->ToggleAdOptInAction(category, ToAdsOptAction(action));
-  std::move(callback).Run(category, opt_action);
+  ads::CategoryContent::OptAction opt_action =
+      ads_->ToggleAdOptInAction(category, ToAdsOptAction(action));
+  std::move(callback).Run(category, static_cast<int>(opt_action));
 }
 
 void BatAdsImpl::ToggleAdOptOutAction(
     const std::string& category,
     const int action,
     ToggleAdOptOutActionCallback callback) {
-  int opt_action = ads_->ToggleAdOptOutAction(category, ToAdsOptAction(action));
-  std::move(callback).Run(category, opt_action);
+  ads::CategoryContent::OptAction opt_action =
+      ads_->ToggleAdOptOutAction(category, ToAdsOptAction(action));
+  std::move(callback).Run(category, static_cast<int>(opt_action));
 }
 
 void BatAdsImpl::ToggleSaveAd(

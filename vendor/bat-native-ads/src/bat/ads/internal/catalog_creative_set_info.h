@@ -18,13 +18,13 @@ namespace ads {
 
 struct CreativeSetInfo {
   CreativeSetInfo();
-  explicit CreativeSetInfo(const std::string& creative_set_id);
-  CreativeSetInfo(const CreativeSetInfo& info);
+  CreativeSetInfo(
+      const CreativeSetInfo& info);
   ~CreativeSetInfo();
 
   std::string creative_set_id;
-  unsigned int per_day;
-  unsigned int total_max;
+  unsigned int per_day = 0;
+  unsigned int total_max = 0;
   std::vector<SegmentInfo> segments;
   std::vector<OsInfo> oses;
   std::vector<CreativeInfo> creatives;

@@ -12,7 +12,6 @@
 #include "bat/confirmations/confirmations_client.h"
 #include "bat/confirmations/wallet_info.h"
 #include "bat/confirmations/internal/token_info.h"
-
 #include "base/values.h"
 
 namespace confirmations {
@@ -22,15 +21,17 @@ class RedeemPaymentTokensRequest {
   RedeemPaymentTokensRequest();
   ~RedeemPaymentTokensRequest();
 
-  std::string BuildUrl(const WalletInfo& wallet_info) const;
+  std::string BuildUrl(
+      const WalletInfo& wallet_info) const;
 
   URLRequestMethod GetMethod() const;
 
   std::string BuildBody(
-    const std::vector<TokenInfo>& tokens,
-    const std::string& payload) const;
+      const std::vector<TokenInfo>& tokens,
+      const std::string& payload) const;
 
-  std::string CreatePayload(const WalletInfo& wallet_info) const;
+  std::string CreatePayload(
+      const WalletInfo& wallet_info) const;
 
   std::vector<std::string> BuildHeaders() const;
   std::string GetAcceptHeaderValue() const;

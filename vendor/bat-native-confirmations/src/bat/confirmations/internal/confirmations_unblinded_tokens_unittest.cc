@@ -13,9 +13,7 @@
 #include "bat/confirmations/internal/confirmations_impl.h"
 #include "bat/confirmations/internal/security_helper.h"
 #include "bat/confirmations/internal/unblinded_tokens.h"
-
 #include "base/files/file_path.h"
-
 #include "testing/gtest/include/gtest/gtest.h"
 
 // npm run test -- brave_unit_tests --filter=Confirmations*
@@ -34,12 +32,12 @@ class ConfirmationsUnblindedTokensTest : public ::testing::Test {
 
   std::unique_ptr<UnblindedTokens> unblinded_tokens_;
 
-  ConfirmationsUnblindedTokensTest() :
-      mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
-      confirmations_(std::make_unique<ConfirmationsImpl>(
-          mock_confirmations_client_.get())),
-      unblinded_tokens_(std::make_unique<UnblindedTokens>(
-          confirmations_.get())) {
+  ConfirmationsUnblindedTokensTest()
+      : mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
+        confirmations_(std::make_unique<ConfirmationsImpl>(
+            mock_confirmations_client_.get())),
+        unblinded_tokens_(std::make_unique<UnblindedTokens>(
+            confirmations_.get())) {
     // You can do set-up work for each test here
   }
 
@@ -99,7 +97,9 @@ class ConfirmationsUnblindedTokensTest : public ::testing::Test {
         "brave/vendor/bat-native-confirmations/test/data"));
   }
 
-  bool Load(const base::FilePath path, std::string* value) {
+  bool Load(
+      const base::FilePath path,
+      std::string* value) {
     if (!value) {
       return false;
     }
@@ -116,7 +116,8 @@ class ConfirmationsUnblindedTokensTest : public ::testing::Test {
     return true;
   }
 
-  std::vector<TokenInfo> GetUnblindedTokens(const int count) {
+  std::vector<TokenInfo> GetUnblindedTokens(
+      const int count) {
     std::vector<std::string> tokens_base64 = {
       "PLowz2WF2eGD5zfwZjk9p76HXBLDKMq/3EAZHeG/fE2XGQ48jyte+Ve50ZlasOuYL5mwA8CU2aFMlJrt3DDgC3B1+VD/uyHPfa/+bwYRrpVH5YwNSDEydVx8S4r+BYVY",  // NOLINT
       "hfrMEltWLuzbKQ02Qixh5C/DWiJbdOoaGaidKZ7Mv+cRq5fyxJqemE/MPlARPhl6NgXPHUeyaxzd6/Lk6YHlfXbBA023DYvGMHoKm15NP/nWnZ1V3iLkgOOHZuk80Z4K",  // NOLINT
@@ -145,7 +146,8 @@ class ConfirmationsUnblindedTokensTest : public ::testing::Test {
     return unblinded_tokens;
   }
 
-  std::vector<TokenInfo> GetRandomUnblindedTokens(const int count) {
+  std::vector<TokenInfo> GetRandomUnblindedTokens(
+      const int count) {
     std::vector<TokenInfo> unblinded_tokens;
 
     auto tokens = helper::Security::GenerateTokens(count);
@@ -161,7 +163,8 @@ class ConfirmationsUnblindedTokensTest : public ::testing::Test {
     return unblinded_tokens;
   }
 
-  base::Value GetUnblindedTokensAsList(const int count) {
+  base::Value GetUnblindedTokensAsList(
+      const int count) {
     base::Value list(base::Value::Type::LIST);
 
     auto tokens = GetUnblindedTokens(count);

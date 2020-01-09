@@ -9,15 +9,14 @@
 
 namespace ads {
 
-ClientInfo::ClientInfo() :
-    platform(ClientInfoPlatformType::UNKNOWN) {}
+ClientInfo::ClientInfo() = default;
 
-ClientInfo::ClientInfo(const ClientInfo& info) :
-    platform(info.platform) {}
+ClientInfo::ClientInfo(
+    const ClientInfo& info) = default;
 
 ClientInfo::~ClientInfo() = default;
 
-const std::string ClientInfo::ToJson() const {
+std::string ClientInfo::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -34,7 +33,7 @@ Result ClientInfo::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("platform")) {
@@ -42,14 +41,16 @@ Result ClientInfo::FromJson(
         (document["platform"].GetInt());
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const ClientInfo& info) {
+void SaveToJson(
+    JsonWriter* writer,
+    const ClientInfo& info) {
   writer->StartObject();
 
   writer->String("platform");
-  writer->Int(info.platform);
+  writer->Int(static_cast<int>(info.platform));
 
   writer->EndObject();
 }

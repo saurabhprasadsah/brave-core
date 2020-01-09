@@ -8,7 +8,6 @@
 #include "bat/confirmations/internal/create_confirmation_request.h"
 #include "bat/confirmations/internal/ads_serve_helper.h"
 #include "bat/confirmations/internal/security_helper.h"
-
 #include "base/logging.h"
 #include "base/json/json_writer.h"
 #include "base/values.h"

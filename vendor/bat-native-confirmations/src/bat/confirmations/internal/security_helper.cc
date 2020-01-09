@@ -11,10 +11,8 @@
 #include <algorithm>
 
 #include "bat/confirmations/internal/security_helper.h"
-
 #include "base/base64.h"
-
-#include "tweetnacl.h"  // NOLINT
+#include "tweetnacl.h"
 
 namespace helper {
 
@@ -60,7 +58,8 @@ std::string Security::Sign(
       GetBase64(signature) + "\"";
 }
 
-std::vector<Token> Security::GenerateTokens(const int count) {
+std::vector<Token> Security::GenerateTokens(
+    const int count) {
   DCHECK_GT(count, 0);
 
   std::vector<Token> tokens;
@@ -88,7 +87,8 @@ std::vector<BlindedToken> Security::BlindTokens(
   return blinded_tokens;
 }
 
-std::vector<uint8_t> Security::GetSHA256(const std::string& string) {
+std::vector<uint8_t> Security::GetSHA256(
+    const std::string& string) {
   DCHECK(!string.empty());
 
   std::vector<uint8_t> string_sha256(SHA256_DIGEST_LENGTH);
@@ -96,7 +96,8 @@ std::vector<uint8_t> Security::GetSHA256(const std::string& string) {
   return string_sha256;
 }
 
-std::string Security::GetBase64(const std::vector<uint8_t>& data) {
+std::string Security::GetBase64(
+    const std::vector<uint8_t>& data) {
   DCHECK_NE(data.size(), 0UL);
 
   size_t size = 0;

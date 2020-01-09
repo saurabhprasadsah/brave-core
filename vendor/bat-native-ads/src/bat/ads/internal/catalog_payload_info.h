@@ -11,10 +11,6 @@
 namespace ads {
 
 struct PayloadInfo {
-  PayloadInfo();
-  explicit PayloadInfo(const PayloadInfo& info);
-  ~PayloadInfo();
-
   std::string body;
   std::string title;
   std::string target_url;

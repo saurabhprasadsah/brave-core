@@ -4,20 +4,18 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "bat/ads/internal/filtered_category.h"
-
 #include "bat/ads/internal/json_helper.h"
 
 namespace ads {
 
-FilteredCategory::FilteredCategory() :
-    name("") {}
+FilteredCategory::FilteredCategory() = default;
 
-FilteredCategory::FilteredCategory(const FilteredCategory& category) :
-    name(category.name) {}
+FilteredCategory::FilteredCategory(
+    const FilteredCategory& category) = default;
 
 FilteredCategory::~FilteredCategory() = default;
 
-const std::string FilteredCategory::ToJson() const {
+std::string FilteredCategory::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -34,14 +32,14 @@ Result FilteredCategory::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("name")) {
     name = document["name"].GetString();
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
 void SaveToJson(JsonWriter* writer, const FilteredCategory& category) {

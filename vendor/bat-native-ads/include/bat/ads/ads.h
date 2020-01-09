@@ -98,16 +98,16 @@ class ADS_EXPORT Ads {
 
   // Should be called to initialize ads, i.e. when launching the browser or when
   // ads is implicitly enabled by a user on the client. The callback takes one
-  // argument — |Result| should be set to |SUCCESS| if successful; otherwise,
-  // should be set to |FAILED|
+  // argument — |Result| should be set to |Result::kSuccess| if successful; otherwise,
+  // should be set to |Result::kFailed|
   virtual void Initialize(
       InitializeCallback callback) = 0;
 
   // Should be called to shutdown ads when a user implicitly disables ads.
   // Shutting down ads will call |CloseNotification| for each ad notification in
   // the Notification Center on the client. The callback takes one argument —
-  // |Result| should be set to |SUCCESS| if successful; otherwise, should be set
-  // to |FAILED|
+  // |Result| should be set to |Result::kSuccess| if successful; otherwise, should be set
+  // to |Result::kFailed|
   virtual void Shutdown(
       ShutdownCallback callback) = 0;
 
@@ -197,8 +197,8 @@ class ADS_EXPORT Ads {
       const NotificationEventType type) = 0;
 
   // Should be called to remove all cached history. The callback takes one
-  // argument — |Result| should be set to |SUCCESS| if successful; otherwise,
-  // should be set to |FAILED|
+  // argument — |Result| should be set to |Result::kSuccess| if successful; otherwise,
+  // should be set to |Result::kFailed|
   virtual void RemoveAllHistory(
       RemoveAllHistoryCallback callback) = 0;
 

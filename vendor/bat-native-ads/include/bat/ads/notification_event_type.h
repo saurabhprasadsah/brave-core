@@ -9,10 +9,10 @@
 namespace ads {
 
 enum class NotificationEventType {
-  VIEWED,
-  CLICKED,
-  DISMISSED,
-  TIMEOUT
+  kViewed,
+  kClicked,
+  kDismissed,
+  kTimedOut
 };
 
 }  // namespace ads

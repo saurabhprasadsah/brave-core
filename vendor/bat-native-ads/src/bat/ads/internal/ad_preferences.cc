@@ -13,21 +13,14 @@
 
 namespace ads {
 
-AdPreferences::AdPreferences() :
-    filtered_ads({}),
-    filtered_categories({}),
-    saved_ads({}),
-    flagged_ads({}) {}
+AdPreferences::AdPreferences() = default;
 
-AdPreferences::AdPreferences(const AdPreferences& prefs) :
-    filtered_ads(prefs.filtered_ads),
-    filtered_categories(prefs.filtered_categories),
-    saved_ads(prefs.saved_ads),
-    flagged_ads(prefs.flagged_ads) {}
+AdPreferences::AdPreferences(
+    const AdPreferences& prefs) = default;
 
 AdPreferences::~AdPreferences() = default;
 
-const std::string AdPreferences::ToJson() const {
+std::string AdPreferences::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -44,12 +37,12 @@ Result AdPreferences::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   for (const auto& ad : document["filtered_ads"].GetArray()) {
     if (!ad["uuid"].IsString() || !ad["creative_set_id"].IsString()) {
-      return FAILED;
+      return Result::kFailed;
     }
 
     FilteredAd filtered_ad;
@@ -60,7 +53,7 @@ Result AdPreferences::FromJson(
 
   for (const auto& ad : document["filtered_categories"].GetArray()) {
     if (!ad["name"].IsString()) {
-      return FAILED;
+      return Result::kFailed;
     }
 
     FilteredCategory filtered_category;
@@ -70,7 +63,7 @@ Result AdPreferences::FromJson(
 
   for (const auto& ad : document["saved_ads"].GetArray()) {
     if (!ad["uuid"].IsString() || !ad["creative_set_id"].IsString()) {
-      return FAILED;
+      return Result::kFailed;
     }
 
     SavedAd saved_ad;
@@ -81,7 +74,7 @@ Result AdPreferences::FromJson(
 
   for (const auto& ad : document["flagged_ads"].GetArray()) {
     if (!ad["uuid"].IsString() || !ad["creative_set_id"].IsString()) {
-      return FAILED;
+      return Result::kFailed;
     }
 
     FlaggedAd flagged_ad;
@@ -90,10 +83,12 @@ Result AdPreferences::FromJson(
     flagged_ads.push_back(flagged_ad);
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const AdPreferences& prefs) {
+void SaveToJson(
+    JsonWriter* writer,
+    const AdPreferences& prefs) {
   writer->StartObject();
 
   writer->String("filtered_ads");

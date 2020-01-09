@@ -15,15 +15,10 @@
 
 namespace ads {
 
-AdHistory::AdHistory()
-    : timestamp_in_seconds(0) {}
+AdHistory::AdHistory() = default;
 
 AdHistory::AdHistory(
-    const AdHistory& properties)
-    : timestamp_in_seconds(properties.timestamp_in_seconds),
-      uuid(properties.uuid),
-      ad_content(properties.ad_content),
-      category_content(properties.category_content) {}
+    const AdHistory& properties) = default;
 
 AdHistory::~AdHistory() = default;
 
@@ -40,7 +35,7 @@ bool AdHistory::operator!=(
   return !(*this == rhs);
 }
 
-const std::string AdHistory::ToJson() const {
+std::string AdHistory::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -57,7 +52,7 @@ Result AdHistory::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("timestamp_in_seconds")) {
@@ -75,8 +70,8 @@ Result AdHistory::FromJson(
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     const auto& value = document["ad_content"];
     if (!value.Accept(writer) ||
-        ad_content.FromJson(buffer.GetString()) != SUCCESS) {
-      return FAILED;
+        ad_content.FromJson(buffer.GetString()) != Result::kSuccess) {
+      return Result::kFailed;
     }
   }
 
@@ -85,15 +80,17 @@ Result AdHistory::FromJson(
     rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
     const auto& value = document["category_content"];
     if (!value.Accept(writer) ||
-        category_content.FromJson(buffer.GetString()) != SUCCESS) {
-      return FAILED;
+        category_content.FromJson(buffer.GetString()) != Result::kSuccess) {
+      return Result::kFailed;
     }
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const AdHistory& history) {
+void SaveToJson(
+    JsonWriter* writer,
+    const AdHistory& history) {
   writer->StartObject();
 
   writer->String("timestamp_in_seconds");

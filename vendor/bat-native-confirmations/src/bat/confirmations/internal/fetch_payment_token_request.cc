@@ -5,7 +5,6 @@
 
 #include "bat/confirmations/internal/fetch_payment_token_request.h"
 #include "bat/confirmations/internal/ads_serve_helper.h"
-
 #include "base/logging.h"
 
 namespace confirmations {

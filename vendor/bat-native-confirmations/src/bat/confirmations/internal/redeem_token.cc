@@ -15,7 +15,6 @@
 #include "bat/confirmations/internal/create_confirmation_request.h"
 #include "bat/confirmations/internal/fetch_payment_token_request.h"
 #include "bat/confirmations/internal/time.h"
-
 #include "base/logging.h"
 #include "base/guid.h"
 #include "base/json/json_reader.h"
@@ -40,12 +39,11 @@ RedeemToken::RedeemToken(
     ConfirmationsImpl* confirmations,
     ConfirmationsClient* confirmations_client,
     UnblindedTokens* unblinded_tokens,
-    UnblindedTokens* unblinded_payment_tokens) :
-    confirmations_(confirmations),
-    confirmations_client_(confirmations_client),
-    unblinded_tokens_(unblinded_tokens),
-    unblinded_payment_tokens_(unblinded_payment_tokens) {
-}
+    UnblindedTokens* unblinded_payment_tokens)
+    : confirmations_(confirmations),
+      confirmations_client_(confirmations_client),
+      unblinded_tokens_(unblinded_tokens),
+      unblinded_payment_tokens_(unblinded_payment_tokens) {}
 
 RedeemToken::~RedeemToken() = default;
 

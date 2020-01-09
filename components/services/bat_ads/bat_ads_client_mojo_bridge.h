@@ -43,7 +43,7 @@ class BatAdsClientMojoBridge : public ads::AdsClient {
 
   bool IsForeground() const override;
 
-  const std::vector<std::string> GetUserModelLanguages() const override;
+  std::vector<std::string> GetUserModelLanguages() const override;
   void LoadUserModelForLanguage(
       const std::string& language,
       ads::OnLoadCallback callback) const override;

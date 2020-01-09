@@ -12,15 +12,14 @@
 
 namespace ads {
 
-AdsHistory::AdsHistory() :
-    entries() {}
+AdsHistory::AdsHistory() = default;
 
-AdsHistory::AdsHistory(const AdsHistory& history) :
-    entries(history.entries) {}
+AdsHistory::AdsHistory(
+    const AdsHistory& history) = default;
 
 AdsHistory::~AdsHistory() = default;
 
-const std::string AdsHistory::ToJson() const {
+std::string AdsHistory::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -37,7 +36,7 @@ Result AdsHistory::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("ads_history")) {
@@ -46,13 +45,13 @@ Result AdsHistory::FromJson(
       rapidjson::StringBuffer buffer;
       rapidjson::Writer<rapidjson::StringBuffer> writer(buffer);
       if (ad_history.Accept(writer) &&
-          history.FromJson(buffer.GetString()) == SUCCESS) {
+          history.FromJson(buffer.GetString()) == Result::kSuccess) {
         entries.push_back(history);
       }
     }
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
 void SaveToJson(

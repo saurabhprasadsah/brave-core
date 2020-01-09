@@ -7,12 +7,10 @@
 #include <memory>
 
 #include "bat/confirmations/wallet_info.h"
-
 #include "bat/confirmations/internal/confirmations_client_mock.h"
 #include "bat/confirmations/internal/confirmations_impl.h"
 #include "bat/confirmations/internal/create_confirmation_request.h"
 #include "bat/confirmations/internal/security_helper.h"
-
 #include "testing/gtest/include/gtest/gtest.h"
 
 // npm run test -- brave_unit_tests --filter=Confirmations*
@@ -28,11 +26,11 @@ class ConfirmationsCreateConfirmationRequestTest : public ::testing::Test {
 
   std::unique_ptr<CreateConfirmationRequest> request_;
 
-  ConfirmationsCreateConfirmationRequestTest() :
-      mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
-      confirmations_(std::make_unique<ConfirmationsImpl>(
-          mock_confirmations_client_.get())),
-      request_(std::make_unique<CreateConfirmationRequest>()) {
+  ConfirmationsCreateConfirmationRequestTest()
+      : mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
+        confirmations_(std::make_unique<ConfirmationsImpl>(
+            mock_confirmations_client_.get())),
+        request_(std::make_unique<CreateConfirmationRequest>()) {
     // You can do set-up work for each test here
   }
 

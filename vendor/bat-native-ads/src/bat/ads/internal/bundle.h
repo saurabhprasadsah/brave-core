@@ -11,7 +11,6 @@
 #include <memory>
 
 #include "bat/ads/ads_client.h"
-
 #include "bat/ads/internal/ads_impl.h"
 #include "bat/ads/internal/catalog.h"
 
@@ -22,7 +21,10 @@ struct BundleState;
 
 class Bundle {
  public:
-  Bundle(AdsImpl* ads, AdsClient* ads_client);
+  Bundle(
+      AdsImpl* ads,
+      AdsClient* ads_client);
+ 
   ~Bundle();
 
   bool UpdateFromCatalog(const Catalog& catalog);

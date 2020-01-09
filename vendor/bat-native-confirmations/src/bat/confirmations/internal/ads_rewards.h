@@ -15,7 +15,6 @@
 #include "bat/confirmations/wallet_info.h"
 #include "bat/confirmations/internal/payments.h"
 #include "bat/confirmations/internal/ad_grants.h"
-
 #include "base/values.h"
 
 namespace confirmations {
@@ -30,12 +29,16 @@ class AdsRewards {
 
   ~AdsRewards();
 
-  void Update(const WalletInfo& wallet_info, const bool should_refresh);
+  void Update(
+      const WalletInfo& wallet_info,
+      const bool should_refresh);
 
   base::Value GetAsDictionary();
-  bool SetFromDictionary(base::DictionaryValue* dictionary);
+  bool SetFromDictionary(
+      base::DictionaryValue* dictionary);
 
-  bool OnTimer(const uint32_t timer_id);
+  bool OnTimer(
+      const uint32_t timer_id);
 
  private:
   WalletInfo wallet_info_;

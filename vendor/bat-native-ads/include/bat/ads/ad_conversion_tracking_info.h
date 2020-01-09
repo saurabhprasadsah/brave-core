@@ -15,9 +15,9 @@ namespace ads {
 
 struct ADS_EXPORT AdConversionTrackingInfo {
   AdConversionTrackingInfo();
-  ~AdConversionTrackingInfo();
   AdConversionTrackingInfo(
       const AdConversionTrackingInfo& info);
+  ~AdConversionTrackingInfo();
 
   std::string ToJson() const;
   Result FromJson(
@@ -27,7 +27,7 @@ struct ADS_EXPORT AdConversionTrackingInfo {
   std::string creative_set_id;
   std::string type;
   std::string url_pattern;
-  unsigned int observation_window;
+  unsigned int observation_window = 0;
 };
 
 }  // namespace ads

@@ -8,14 +8,13 @@
 
 #include "bat/confirmations/internal/unblinded_tokens.h"
 #include "bat/confirmations/internal/confirmations_impl.h"
-
 #include "base/logging.h"
 
 namespace confirmations {
 
-UnblindedTokens::UnblindedTokens(ConfirmationsImpl* confirmations) :
-    confirmations_(confirmations) {
-}
+UnblindedTokens::UnblindedTokens(
+    ConfirmationsImpl* confirmations)
+    : confirmations_(confirmations) {}
 
 UnblindedTokens::~UnblindedTokens() = default;
 
@@ -49,7 +48,8 @@ void UnblindedTokens::SetTokens(
   confirmations_->SaveState();
 }
 
-void UnblindedTokens::SetTokensFromList(const base::Value& list) {
+void UnblindedTokens::SetTokensFromList(
+    const base::Value& list) {
   base::ListValue list_values(list.GetList());
 
   std::vector<TokenInfo> tokens;
@@ -108,7 +108,8 @@ void UnblindedTokens::AddTokens(
   confirmations_->SaveState();
 }
 
-bool UnblindedTokens::RemoveToken(const TokenInfo& token) {
+bool UnblindedTokens::RemoveToken(
+    const TokenInfo& token) {
   auto unblinded_token = token.unblinded_token;
   auto public_key = token.public_key;
 
@@ -134,7 +135,8 @@ void UnblindedTokens::RemoveAllTokens() {
   confirmations_->SaveState();
 }
 
-bool UnblindedTokens::TokenExists(const TokenInfo& token) {
+bool UnblindedTokens::TokenExists(
+    const TokenInfo& token) {
   auto unblinded_token = token.unblinded_token;
   auto public_key = token.public_key;
 

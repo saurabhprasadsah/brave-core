@@ -63,7 +63,7 @@ class BraveAdsMinimumWaitTimeFrequencyCapTest : public ::testing::Test {
   }
 
   void OnAdsImplInitialize(const Result result) {
-    EXPECT_EQ(Result::SUCCESS, result);
+    EXPECT_EQ(Result::kSuccess, result);
   }
 
   void TearDown() override {

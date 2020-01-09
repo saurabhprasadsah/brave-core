@@ -4,22 +4,18 @@
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 #include "bat/ads/internal/flagged_ad.h"
-
 #include "bat/ads/internal/json_helper.h"
 
 namespace ads {
 
-FlaggedAd::FlaggedAd() :
-    uuid(""),
-    creative_set_id("") {}
+FlaggedAd::FlaggedAd() = default;
 
-FlaggedAd::FlaggedAd(const FlaggedAd& ad) :
-    uuid(ad.uuid),
-    creative_set_id(ad.creative_set_id) {}
+FlaggedAd::FlaggedAd(
+    const FlaggedAd& ad) = default;
 
 FlaggedAd::~FlaggedAd() = default;
 
-const std::string FlaggedAd::ToJson() const {
+std::string FlaggedAd::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -36,7 +32,7 @@ Result FlaggedAd::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("uuid")) {
@@ -47,7 +43,7 @@ Result FlaggedAd::FromJson(
     creative_set_id = document["creative_set_id"].GetString();
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
 void SaveToJson(JsonWriter* writer, const FlaggedAd& ad) {

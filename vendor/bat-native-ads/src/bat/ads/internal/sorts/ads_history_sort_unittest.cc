@@ -48,7 +48,7 @@ class BatAdsHistorySortTest : public ::testing::Test {
   }
 
   void OnAdsImplInitialize(const Result result) {
-    EXPECT_EQ(Result::SUCCESS, result);
+    EXPECT_EQ(Result::kSuccess, result);
   }
 
   std::deque<AdHistory> GetUnsortedHistory() {

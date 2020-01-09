@@ -5,32 +5,15 @@
 
 #include "bat/ads/ad_content.h"
 #include "bat/ads/confirmation_type.h"
-
 #include "bat/ads/internal/json_helper.h"
-
 #include "base/logging.h"
 
 namespace ads {
 
-AdContent::AdContent() :
-    like_action(AdContent::LIKE_ACTION_NONE),
-    ad_action(ConfirmationType::UNKNOWN),
-    saved_ad(false),
-    flagged_ad(false) {}
+AdContent::AdContent() = default;
 
 AdContent::AdContent(
-    const AdContent& properties)
-    : uuid(properties.uuid),
-      creative_set_id(properties.creative_set_id),
-      brand(properties.brand),
-      brand_info(properties.brand_info),
-      brand_logo(properties.brand_logo),
-      brand_display_url(properties.brand_display_url),
-      brand_url(properties.brand_url),
-      like_action(properties.like_action),
-      ad_action(properties.ad_action),
-      saved_ad(properties.saved_ad),
-      flagged_ad(properties.flagged_ad) {}
+    const AdContent& properties) = default;
 
 AdContent::~AdContent() = default;
 
@@ -54,7 +37,7 @@ bool AdContent::operator!=(
   return !(*this == rhs);
 }
 
-const std::string AdContent::ToJson() const {
+std::string AdContent::ToJson() const {
   std::string json;
   SaveToJson(*this, &json);
   return json;
@@ -71,7 +54,7 @@ Result AdContent::FromJson(
       *error_description = helper::JSON::GetLastError(&document);
     }
 
-    return FAILED;
+    return Result::kFailed;
   }
 
   if (document.HasMember("uuid")) {
@@ -119,10 +102,12 @@ Result AdContent::FromJson(
     flagged_ad = document["flagged_ad"].GetBool();
   }
 
-  return SUCCESS;
+  return Result::kSuccess;
 }
 
-void SaveToJson(JsonWriter* writer, const AdContent& content) {
+void SaveToJson(
+    JsonWriter* writer,
+    const AdContent& content) {
   writer->StartObject();
 
   writer->String("uuid");
@@ -147,7 +132,7 @@ void SaveToJson(JsonWriter* writer, const AdContent& content) {
   writer->String(content.brand_url.c_str());
 
   writer->String("like_action");
-  writer->Int(content.like_action);
+  writer->Int(static_cast<int>(content.like_action));
 
   writer->String("ad_action");
   auto ad_action = std::string(content.ad_action);

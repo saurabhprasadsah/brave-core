@@ -11,10 +11,6 @@
 namespace ads {
 
 struct SegmentInfo {
-  SegmentInfo();
-  explicit SegmentInfo(const SegmentInfo& info);
-  ~SegmentInfo();
-
   std::string code;
   std::string name;
 };

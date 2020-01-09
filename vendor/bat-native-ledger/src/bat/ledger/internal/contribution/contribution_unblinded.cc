@@ -15,7 +15,7 @@
 #include "brave_base/random.h"
 #include "net/http/http_status_code.h"
 
-#include "wrapper.hpp"  // NOLINT
+#include "wrapper.hpp"
 
 using std::placeholders::_1;
 using std::placeholders::_2;

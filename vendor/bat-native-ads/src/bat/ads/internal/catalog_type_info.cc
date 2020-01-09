@@ -7,18 +7,11 @@
 
 namespace ads {
 
-TypeInfo::TypeInfo() :
-    code(""),
-    name(""),
-    platform(""),
-    version(0) {}
+TypeInfo::TypeInfo() = default;
 
-TypeInfo::TypeInfo(const TypeInfo& info) :
-    code(info.code),
-    name(info.name),
-    platform(info.platform),
-    version(info.version) {}
+TypeInfo::TypeInfo(
+    const TypeInfo& info) = default;
 
-TypeInfo::~TypeInfo() {}
+TypeInfo::~TypeInfo() = default;
 
 }  // namespace ads

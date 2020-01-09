@@ -14,10 +14,6 @@
 namespace ads {
 
 struct CreativeInfo {
-  CreativeInfo();
-  explicit CreativeInfo(const CreativeInfo& info);
-  ~CreativeInfo();
-
   std::string creative_instance_id;
   TypeInfo type;
   PayloadInfo payload;

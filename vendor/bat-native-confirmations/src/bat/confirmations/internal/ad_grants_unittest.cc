@@ -9,7 +9,6 @@
 #include "bat/confirmations/internal/confirmations_client_mock.h"
 #include "bat/confirmations/internal/confirmations_impl.h"
 #include "bat/confirmations/internal/ad_grants.h"
-
 #include "testing/gtest/include/gtest/gtest.h"
 
 // npm run test -- brave_unit_tests --filter=Confirmations*
@@ -22,12 +21,12 @@ class ConfirmationsAdGrantsTest : public ::testing::Test {
   std::unique_ptr<ConfirmationsImpl> confirmations_;
   std::unique_ptr<AdGrants> ad_grants_;
 
-  ConfirmationsAdGrantsTest() :
-      mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
-      confirmations_(std::make_unique<ConfirmationsImpl>(
-          mock_confirmations_client_.get())),
-      ad_grants_(std::make_unique<AdGrants>(confirmations_.get(),
-          mock_confirmations_client_.get())) {
+  ConfirmationsAdGrantsTest()
+      : mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
+        confirmations_(std::make_unique<ConfirmationsImpl>(
+            mock_confirmations_client_.get())),
+        ad_grants_(std::make_unique<AdGrants>(confirmations_.get(),
+            mock_confirmations_client_.get())) {
     // You can do set-up work for each test here
   }
 

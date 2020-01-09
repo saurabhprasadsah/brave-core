@@ -6,6 +6,7 @@
 #ifndef BAT_CONFIRMATIONS_INTERNAL_STRING_HELPER_H_
 #define BAT_CONFIRMATIONS_INTERNAL_STRING_HELPER_H_
 
+#include <stdint.h>
 #include <string>
 #include <vector>
 
@@ -13,7 +14,8 @@ namespace helper {
 
 class String {
  public:
-  static std::vector<uint8_t> decode_hex(const std::string& hexadecimal);
+  static std::vector<uint8_t> decode_hex(
+      const std::string& hexadecimal);
 };
 
 }  // namespace helper

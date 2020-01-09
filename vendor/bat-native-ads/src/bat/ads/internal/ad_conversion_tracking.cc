@@ -144,7 +144,7 @@ void AdConversionTracking::ProcessQueueItem(
         << " with creative set id " << creative_set_id << " triggered on "
             << Time::FromDoubleT(timestamp_in_seconds);
 
-    ads_->ConfirmAction(uuid, creative_set_id, ConfirmationType::CONVERSION);
+    ads_->ConfirmAction(uuid, creative_set_id, ConfirmationType::kConversion);
   }
 
   Remove(uuid);
@@ -224,7 +224,7 @@ void AdConversionTracking::SaveState() {
 }
 
 void AdConversionTracking::OnStateSaved(const Result result) {
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to save ad conversions state";
     return;
   }
@@ -275,7 +275,7 @@ void AdConversionTracking::OnStateLoaded(
     const std::string& json) {
   is_initialized_ = true;
 
-  if (result != SUCCESS) {
+  if (result != Result::kSuccess) {
     BLOG(ERROR) << "Failed to load ad conversions state, resetting to default "
         "values";
 
@@ -284,14 +284,14 @@ void AdConversionTracking::OnStateLoaded(
     if (!FromJson(json)) {
       BLOG(ERROR) << "Failed to parse ad conversions state: " << json;
 
-      callback_(FAILED);
+      callback_(Result::kFailed);
       return;
     }
 
     BLOG(INFO) << "Successfully loaded ad conversions state";
   }
 
-  callback_(SUCCESS);
+  callback_(Result::kSuccess);
 }
 
 bool AdConversionTracking::FromJson(

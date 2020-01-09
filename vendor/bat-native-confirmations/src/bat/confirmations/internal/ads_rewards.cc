@@ -10,7 +10,6 @@
 #include "bat/confirmations/internal/confirmations_impl.h"
 #include "bat/confirmations/internal/get_payment_balance_request.h"
 #include "bat/confirmations/internal/get_ad_grants_request.h"
-
 #include "net/http/http_status_code.h"
 #include "brave_base/random.h"
 
@@ -22,13 +21,15 @@ namespace confirmations {
 
 AdsRewards::AdsRewards(
     ConfirmationsImpl* confirmations,
-    ConfirmationsClient* confirmations_client) :
-    next_retry_backoff_count_(0),
-    retry_timer_id_(0),
-    payments_(std::make_unique<Payments>(confirmations, confirmations_client)),
-    ad_grants_(std::make_unique<AdGrants>(confirmations, confirmations_client)),
-    confirmations_(confirmations),
-    confirmations_client_(confirmations_client) {
+    ConfirmationsClient* confirmations_client)
+    : next_retry_backoff_count_(0),
+      retry_timer_id_(0),
+      payments_(std::make_unique<Payments>(
+          confirmations, confirmations_client)),
+      ad_grants_(std::make_unique<AdGrants>(
+          confirmations, confirmations_client)),
+      confirmations_(confirmations),
+      confirmations_client_(confirmations_client) {
 }
 
 AdsRewards::~AdsRewards() {
@@ -67,7 +68,8 @@ base::Value AdsRewards::GetAsDictionary() {
   return dictionary;
 }
 
-bool AdsRewards::SetFromDictionary(base::DictionaryValue* dictionary) {
+bool AdsRewards::SetFromDictionary(
+    base::DictionaryValue* dictionary) {
   DCHECK(dictionary);
 
   auto* ads_rewards_value = dictionary->FindKey("ads_rewards");
@@ -94,7 +96,8 @@ bool AdsRewards::SetFromDictionary(base::DictionaryValue* dictionary) {
   return success;
 }
 
-bool AdsRewards::OnTimer(const uint32_t timer_id) {
+bool AdsRewards::OnTimer(
+    const uint32_t timer_id) {
   BLOG(INFO) << "OnTimer: " << std::endl
       << "  timer_id: " << std::to_string(timer_id) << std::endl
       << "  retry_timer_id_: " << std::to_string(retry_timer_id_) << std::endl;
@@ -229,7 +232,8 @@ void AdsRewards::OnGetAdGrants(
   OnAdsRewards(SUCCESS);
 }
 
-void AdsRewards::OnAdsRewards(const Result result) {
+void AdsRewards::OnAdsRewards(
+    const Result result) {
   if (result != SUCCESS) {
     BLOG(ERROR) << "Failed to retrieve ads rewards";
     Retry();

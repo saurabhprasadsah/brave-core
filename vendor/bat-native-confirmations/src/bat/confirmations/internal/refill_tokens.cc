@@ -14,7 +14,6 @@
 #include "bat/confirmations/internal/unblinded_tokens.h"
 #include "bat/confirmations/internal/request_signed_tokens_request.h"
 #include "bat/confirmations/internal/get_signed_tokens_request.h"
-
 #include "base/logging.h"
 #include "base/json/json_reader.h"
 #include "net/http/http_status_code.h"
@@ -32,10 +31,10 @@ namespace confirmations {
 RefillTokens::RefillTokens(
     ConfirmationsImpl* confirmations,
     ConfirmationsClient* confirmations_client,
-    UnblindedTokens* unblinded_tokens) :
-    confirmations_(confirmations),
-    confirmations_client_(confirmations_client),
-    unblinded_tokens_(unblinded_tokens) {
+    UnblindedTokens* unblinded_tokens)
+    : confirmations_(confirmations),
+      confirmations_client_(confirmations_client),
+      unblinded_tokens_(unblinded_tokens) {
 }
 
 RefillTokens::~RefillTokens() = default;
@@ -337,7 +336,8 @@ int RefillTokens::CalculateAmountOfTokensToRefill() const {
   return kMaximumUnblindedTokens - unblinded_tokens_->Count();
 }
 
-void RefillTokens::GenerateAndBlindTokens(const int count) {
+void RefillTokens::GenerateAndBlindTokens(
+    const int count) {
   tokens_ = helper::Security::GenerateTokens(count);
   BLOG(INFO) << "Generated " << tokens_.size() << " tokens";
 

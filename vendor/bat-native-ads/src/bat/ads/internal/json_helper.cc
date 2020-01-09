@@ -11,27 +11,27 @@ ads::Result JSON::Validate(
     rapidjson::Document* document,
     const std::string& json_schema) {
   if (!document) {
-    return ads::Result::FAILED;
+    return ads::Result::kFailed;
   }
 
   if (document->HasParseError()) {
-    return ads::Result::FAILED;
+    return ads::Result::kFailed;
   }
 
   rapidjson::Document document_schema;
   document_schema.Parse(json_schema.c_str());
 
   if (document_schema.HasParseError()) {
-    return ads::Result::FAILED;
+    return ads::Result::kFailed;
   }
 
   rapidjson::SchemaDocument schema(document_schema);
   rapidjson::SchemaValidator validator(schema);
   if (!document->Accept(validator)) {
-    return ads::Result::FAILED;
+    return ads::Result::kFailed;
   }
 
-  return ads::Result::SUCCESS;
+  return ads::Result::kSuccess;
 }
 
 std::string JSON::GetLastError(rapidjson::Document* document) {

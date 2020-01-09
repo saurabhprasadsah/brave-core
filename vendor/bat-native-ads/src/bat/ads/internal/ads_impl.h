@@ -18,7 +18,6 @@
 #include "bat/ads/ad_info.h"
 #include "bat/ads/notification_event_type.h"
 #include "bat/ads/notification_info.h"
-
 #include "bat/ads/internal/ads_serve.h"
 #include "bat/ads/internal/bundle.h"
 #include "bat/ads/internal/client.h"
@@ -29,7 +28,6 @@
 #include "bat/ads/internal/event_type_load_info.h"
 #include "bat/ads/internal/notification_result_type.h"
 #include "bat/ads/internal/notifications.h"
-
 #include "bat/usermodel/user_model.h"
 
 namespace ads {
@@ -45,7 +43,9 @@ class PermissionRule;
 
 class AdsImpl : public Ads {
  public:
-  explicit AdsImpl(AdsClient* ads_client);
+  explicit AdsImpl(
+      AdsClient* ads_client);
+
   ~AdsImpl() override;
 
   bool is_first_run_;
@@ -310,7 +310,7 @@ class AdsImpl : public Ads {
       const NotificationInfo& info);
   void GenerateAdReportingNotificationResultEvent(
       const NotificationInfo& info,
-      const NotificationResultInfoResultType type);
+      const NotificationResultType type);
 
   void GenerateAdsHistoryEntry(
       const NotificationInfo& notification_info,

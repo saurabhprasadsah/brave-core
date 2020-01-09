@@ -13,7 +13,6 @@
 #include "bat/confirmations/internal/confirmations_impl.h"
 #include "bat/confirmations/internal/request_signed_tokens_request.h"
 #include "bat/confirmations/internal/security_helper.h"
-
 #include "testing/gtest/include/gtest/gtest.h"
 
 // npm run test -- brave_unit_tests --filter=Confirmations*
@@ -29,11 +28,11 @@ class ConfirmationsRequestSignedTokensRequestTest : public ::testing::Test {
 
   std::unique_ptr<RequestSignedTokensRequest> request_;
 
-  ConfirmationsRequestSignedTokensRequestTest() :
-      mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
-      confirmations_(std::make_unique<ConfirmationsImpl>(
-          mock_confirmations_client_.get())),
-      request_(std::make_unique<RequestSignedTokensRequest>()) {
+  ConfirmationsRequestSignedTokensRequestTest()
+      : mock_confirmations_client_(std::make_unique<MockConfirmationsClient>()),
+        confirmations_(std::make_unique<ConfirmationsImpl>(
+            mock_confirmations_client_.get())),
+        request_(std::make_unique<RequestSignedTokensRequest>()) {
     // You can do set-up work for each test here
   }
 
@@ -62,7 +61,8 @@ class ConfirmationsRequestSignedTokensRequestTest : public ::testing::Test {
   }
 
   // Objects declared here can be used by all tests in the test case
-  std::vector<Token> GetTokens(const int count) {
+  std::vector<Token> GetTokens(
+      const int count) {
     std::vector<std::string> tokens_base64 = {
       "B2CbFJJ1gKJy9qs8NMburYj12VAqnVfFrQ2K2u0QwcBi1YoMMHQfRQeDbOQ62Z+WrCOTYLbZrBY7+j9hz2jLFL74KSQig7/PDbqIpmNYs6PpNUK3MpVc4dm5R9lkySQF",  // NOLINT
       "MHbZ2XgFtno4g7yq/tmFCr1sFuFrkE7D6JjVAmM70ZJrwH/EqYNaWL1qANSKXX9ghyiN8KUDThEhDTqhuBQ4v7gzNY2qHav9uiAmjqvLzDp7oxmUBFohmdkVlvWhxV0F",  // NOLINT
