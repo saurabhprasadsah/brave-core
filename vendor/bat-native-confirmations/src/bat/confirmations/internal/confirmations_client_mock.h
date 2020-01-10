@@ -407,6 +407,8 @@ class MockConfirmationsClient : public ConfirmationsClient {
   MOCK_METHOD2(RunDBTransaction, void(
       ledger::DBTransactionPtr transaction,
       ledger::RunDBTransactionCallback callback));
+
+  MOCK_METHOD1(GetCreateScript, void(ledger::GetCreateScriptCallback callback));
 };
 
 }  // namespace confirmations

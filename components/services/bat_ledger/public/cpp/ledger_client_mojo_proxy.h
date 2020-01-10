@@ -288,6 +288,9 @@ class LedgerClientMojoProxy : public mojom::BatLedgerClient,
       ledger::DBTransactionPtr transaction,
       RunDBTransactionCallback callback) override;
 
+  void GetCreateScript(
+      GetCreateScriptCallback callback) override;
+
  private:
   // workaround to pass base::OnceCallback into std::bind
   // also serves as a wrapper for passing ledger::LedgerCallbackHandler*
@@ -527,6 +530,11 @@ class LedgerClientMojoProxy : public mojom::BatLedgerClient,
   static void OnRunDBTransaction(
       CallbackHolder<RunDBTransactionCallback>* holder,
       ledger::DBCommandResponsePtr response);
+
+  static void OnGetCreateScript(
+      CallbackHolder<GetCreateScriptCallback>* holder,
+      const std::string& script,
+      const int table_version);
 
   ledger::LedgerClient* ledger_client_;
 
