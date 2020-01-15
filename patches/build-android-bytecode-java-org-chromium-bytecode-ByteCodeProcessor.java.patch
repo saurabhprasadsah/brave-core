@@ -1,0 +1,80 @@
+diff --git a/build/android/bytecode/java/org/chromium/bytecode/ByteCodeProcessor.java b/build/android/bytecode/java/org/chromium/bytecode/ByteCodeProcessor.java
+index 4a56332c061a775dae854a1d2946c855c2f4f66c..46c50b41300ed9c9ac3d6554e08a1ff0e73e21dc 100644
+--- a/build/android/bytecode/java/org/chromium/bytecode/ByteCodeProcessor.java
++++ b/build/android/bytecode/java/org/chromium/bytecode/ByteCodeProcessor.java
+@@ -9,6 +9,9 @@ import static org.objectweb.asm.ClassWriter.COMPUTE_FRAMES;
+ import org.objectweb.asm.ClassReader;
+ import org.objectweb.asm.ClassVisitor;
+ import org.objectweb.asm.ClassWriter;
++import org.objectweb.asm.Opcodes;
++import org.objectweb.asm.tree.ClassNode;
++import org.objectweb.asm.tree.MethodNode;
+ 
+ import java.io.BufferedInputStream;
+ import java.io.BufferedOutputStream;
+@@ -126,6 +129,52 @@ class ByteCodeProcessor {
+           chain = new TraceClassVisitor(chain, new PrintWriter(System.out));
+         }
+         */
++
++        // System.out.println(entry.getName());
++
++        if (entry.getName().contains("org/chromium/chrome/browser/bookmarks/BraveBookmarkModel")) {
++            ClassNode cn = new ClassNode();
++            reader.accept(cn, 0);
++
++            for (Object methodInst : cn.methods) {
++                MethodNode method = (MethodNode) methodInst;
++                if (method.name.equals("extensiveBookmarkChangesBeginning") ||
++                     method.name.equals("extensiveBookmarkChangesEnded") ||
++                     method.name.equals("createBookmarkItem")) {
++                    System.out.println(String.format("Transforming: [%s|%s]",method.name, method.desc));
++                    method.access &= ~Opcodes.ACC_PUBLIC;
++                    method.access |= Opcodes.ACC_PRIVATE;
++                    System.out.println(String.format("Access flags: [%s]", Integer.toBinaryString(method.access)));
++                }
++            }
++            cn.accept(writer);
++            byte[] patchedByteCode = writer.toByteArray();
++
++            return EntryDataPair.create(entry.getName(), patchedByteCode);
++        }
++
++        if (entry.getName().contains("org/chromium/chrome/browser/bookmarks/BookmarkBridge")) {
++
++            ClassNode cn = new ClassNode();
++            reader.accept(cn, 0);
++
++            for (Object methodInst : cn.methods) {
++                MethodNode method = (MethodNode) methodInst;
++                if (method.name.equals("extensiveBookmarkChangesBeginning") ||
++                     method.name.equals("extensiveBookmarkChangesEnded") ||
++                     method.name.equals("createBookmarkItem")) {
++                    System.out.println(String.format("Transforming: [%s|%s]",method.name, method.desc));
++                    method.access &= ~Opcodes.ACC_PRIVATE;
++                    method.access |= Opcodes.ACC_PUBLIC;
++                    System.out.println(String.format("Access flags: [%s]", Integer.toBinaryString(method.access)));
++                }
++            }
++            cn.accept(writer);
++            byte[] patchedByteCode = writer.toByteArray();
++
++            return EntryDataPair.create(entry.getName(), patchedByteCode);
++        }
++
+         if (sShouldUseThreadAnnotations) {
+             chain = new ThreadAssertionClassAdapter(chain);
+         }
+@@ -138,6 +187,7 @@ class ByteCodeProcessor {
+         }
+         reader.accept(chain, 0);
+         byte[] patchedByteCode = writer.toByteArray();
++
+         return EntryDataPair.create(entry.getName(), patchedByteCode);
+     }
+ 
+@@ -285,3 +335,4 @@ class ByteCodeProcessor {
+         process(inputJarPath, outputJarPath);
+     }
+ }
++
