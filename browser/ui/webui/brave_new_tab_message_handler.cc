@@ -19,6 +19,10 @@
 #include "components/prefs/pref_change_registrar.h"
 #include "components/prefs/pref_service.h"
 
+#if BUILDFLAG(ENABLE_BRAVE_PERF_PREDICTOR)
+#include "brave/components/brave_perf_predictor/common/pref_names.h"
+#endif
+
 namespace {
 
 bool IsPrivateNewTab(Profile* profile) {
@@ -42,7 +46,7 @@ base::DictionaryValue GetStatsDictionary(PrefService* prefs) {
 #if BUILDFLAG(ENABLE_BRAVE_PERF_PREDICTOR)
   stats_data.SetInteger(
     "bandwidthSavedStat",
-    prefs->GetUint64(kBandwidthSavedBytes));
+    prefs->GetUint64(brave_perf_predictor::prefs::kBandwidthSavedBytes));
 #endif
   return stats_data;
 }
