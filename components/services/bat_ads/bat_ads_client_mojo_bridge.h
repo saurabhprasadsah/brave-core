@@ -1,4 +1,5 @@
-/* Copyright (c) 2019 The Brave Authors. All rights reserved.
+/* Copyright (c) 2019 The Brave Authors. All rights 
+erved.
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this file,
  * You can obtain one at http://mozilla.org/MPL/2.0/. */
@@ -25,6 +26,8 @@ class BatAdsClientMojoBridge : public ads::AdsClient {
   // AdsClient implementation
   bool IsEnabled() const override;
 
+  bool ShouldShowPublisherAdsOnPariticipatingSites() const override;
+
   bool ShouldAllowAdConversionTracking() const override;
 
   bool CanShowBackgroundNotifications() const override;
@@ -49,7 +52,7 @@ class BatAdsClientMojoBridge : public ads::AdsClient {
       ads::OnLoadCallback callback) const override;
 
   void ShowNotification(
-      std::unique_ptr<ads::NotificationInfo> info) override;
+      std::unique_ptr<ads::AdNotificationInfo> info) override;
   bool ShouldShowNotifications() override;
   void CloseNotification(
       const std::string& id) override;
@@ -57,8 +60,10 @@ class BatAdsClientMojoBridge : public ads::AdsClient {
   void SetCatalogIssuers(
       std::unique_ptr<ads::IssuersInfo> info) override;
 
-  void ConfirmAd(
-      std::unique_ptr<ads::NotificationInfo> info) override;
+  void ConfirmAdNotification(
+      std::unique_ptr<ads::AdNotificationInfo> info) override;
+  void ConfirmPublisherAd(
+      const ads::PublisherAdInfo& info) override;
   void ConfirmAction(
       const std::string& uuid,
       const std::string& creative_set_id,
@@ -98,9 +103,15 @@ class BatAdsClientMojoBridge : public ads::AdsClient {
       std::unique_ptr<ads::BundleState> bundle_state,
       ads::OnSaveCallback callback) override;
 
-  void GetAds(
+  void GetCreativeAdNotifications(
       const std::vector<std::string>& categories,
-      ads::OnGetAdsCallback callback) override;
+      ads::OnGetCreativeAdNotificationsCallback callback) override;
+
+  void GetCreativePublisherAds(
+      const std::string& url,
+      const std::vector<std::string>& categories,
+      const std::vector<std::string>& sizes,
+      const ads::OnGetCreativePublisherAdsCallback callback) override;
 
   void GetAdConversions(
       const std::string& url,
