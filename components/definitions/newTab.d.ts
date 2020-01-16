@@ -1,6 +1,12 @@
+// Copyright (c) 2019 The Brave Authors. All rights reserved.
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this file,
+// you can obtain one at http://mozilla.org/MPL/2.0/.
+
 declare namespace NewTab {
   export interface ApplicationState {
     newTabData: State | undefined
+    topSitesData: TopSitesState | undefined
   }
 
   export interface Image {
@@ -11,16 +17,13 @@ declare namespace NewTab {
   }
 
   export interface Site {
-    index: number
+    id: string
     url: string
     title: string
     favicon: string
     letter: string
-    thumb: string
-    themeColor: string
-    computedThemeColor: string
-    pinned: boolean
-    bookmarked?: Bookmark
+    pinnedIndex: number | undefined
+    bookmarkInfo: chrome.bookmarks.BookmarkTreeNode | undefined
   }
 
   export interface Stats {
@@ -39,15 +42,24 @@ declare namespace NewTab {
     url: string
   }
 
-  export interface PersistentState {
-    topSites: Site[]
+  export interface TopSitesState {
     ignoredTopSites: Site[]
-    pinnedTopSites: Site[]
     gridSites: Site[]
+    shouldShowSiteRemovalNotification: boolean
+  }
+
+  export interface PageState {
     showEmptyPage: boolean
+    // TODO: this shouldn't be stored as a list but
+    // rather a property of each element on gridSites
     bookmarks: Record<string, Bookmark>
+  }
+
+  export interface RewardsState {
     rewardsState: RewardsWidgetState
   }
+
+  export type PersistentState = TopSitesState & PageState & RewardsState
 
   export interface EphemeralState {
     initialDataLoaded: boolean

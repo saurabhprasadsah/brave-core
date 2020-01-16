@@ -1,13 +1,21 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/. */
+// Copyright (c) 2019 The Brave Authors. All rights reserved.
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this file,
+// you can obtain one at http://mozilla.org/MPL/2.0/.
 
 // Utils
 import { debounce } from '../common/debounce'
 
 const keyName = 'new-tab-data'
 
-const defaultState: NewTab.State = {
+export const defaultTopSitesState: NewTab.TopSitesState = {
+  gridSites: [],
+  ignoredTopSites: [],
+  shouldShowSiteRemovalNotification: false
+}
+
+export const defaultState: NewTab.State = {
+  ...defaultTopSitesState,
   initialDataLoaded: false,
   textDirection: window.loadTimeData.getString('textdirection'),
   showBackgroundImage: false,
@@ -15,10 +23,6 @@ const defaultState: NewTab.State = {
   showClock: false,
   showTopSites: false,
   showRewards: false,
-  topSites: [],
-  ignoredTopSites: [],
-  pinnedTopSites: [],
-  gridSites: [],
   showEmptyPage: false,
   isIncognito: chrome.extension.inIncognitoContext,
   useAlternativePrivateSearchEngine: false,
@@ -61,9 +65,8 @@ const getPersistentData = (state: NewTab.State): NewTab.PersistentState => {
   // Don't save items which we aren't the source
   // of data for.
   const peristantState: NewTab.PersistentState = {
-    topSites: state.topSites,
     ignoredTopSites: state.ignoredTopSites,
-    pinnedTopSites: state.pinnedTopSites,
+    shouldShowSiteRemovalNotification: state.shouldShowSiteRemovalNotification,
     gridSites: state.gridSites,
     showEmptyPage: state.showEmptyPage,
     bookmarks: state.bookmarks,

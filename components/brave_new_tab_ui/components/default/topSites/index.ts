@@ -1,9 +1,9 @@
-/* This Source Code Form is subject to the terms of the Mozilla Public
- * License, v. 2.0. If a copy of the MPL was not distributed with this file,
- * You can obtain one at http://mozilla.org/MPL/2.0/. */
+// Copyright (c) 2019 The Brave Authors. All rights reserved.
+// This Source Code Form is subject to the terms of the Mozilla Public
+// License, v. 2.0. If a copy of the MPL was not distributed with this file,
+// you can obtain one at http://mozilla.org/MPL/2.0/.
 
 import styled from 'brave-ui/theme'
-import createWidget from '../widget'
 
 interface ListProps {
   blockNumber: number
@@ -49,7 +49,8 @@ interface TileActionProps {
   standalone?: boolean
 }
 
-export const TileAction = styled<TileActionProps, 'a'>('a')`
+export const TileAction = styled<TileActionProps, 'button'>('button')`
+  -webkit-appearance: none;
   box-sizing: border-box;
   transition: color 0.1s linear;
   color: #424242;
@@ -63,9 +64,9 @@ export const TileAction = styled<TileActionProps, 'a'>('a')`
   left: ${p => p.standalone && '6px'};
   border-radius: ${p => p.standalone && '4px'};
   margin: 0;
-  text-decoration: none;
   display: block;
   cursor: pointer;
+  border: 0;
 
   &:hover {
     color: #000;
@@ -77,7 +78,7 @@ interface TileProps {
 }
 
 export const Tile = styled<TileProps, 'div'>('div')`
-  background-color: ${p => p.isDragging ? 'rgba(255, 255, 255, 0.5)' : 'rgba(255, 255, 255, 0.8)'};
+  background: rgba(255, 255, 255, 0.8);
   position: relative;
   user-select: none;
   margin: 6px;
@@ -89,6 +90,8 @@ export const Tile = styled<TileProps, 'div'>('div')`
   width: 80px;
   height: 80px;
   font-size: 38px;
+  z-index: 3;
+  cursor: grab;
 
   &:hover {
     ${TileActionsContainer} {
@@ -100,8 +103,7 @@ export const Tile = styled<TileProps, 'div'>('div')`
 
 export const TileFavicon = styled<{}, 'img'>('img')`
   display: block;
-  height: 72px;
-  padding: 16px;
+  height: 52px;
 `
 
-export const ListWidget = createWidget(List)
+export const ListWidget = List

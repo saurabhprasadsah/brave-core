@@ -38,6 +38,8 @@ export function wireApiEventsToStore () {
       setRewardsFetchInterval()
     }
     getActions().setInitialData(initialData)
+    getActions().setFirstRenderTopSitesData(initialData)
+    getActions().updateTopSitesBookmarkInfo(initialData.topSites)
     // Listen for API changes and dispatch to store
     statsAPI.addChangeListener(updateStats)
     preferencesAPI.addChangeListener(updatePreferences)
