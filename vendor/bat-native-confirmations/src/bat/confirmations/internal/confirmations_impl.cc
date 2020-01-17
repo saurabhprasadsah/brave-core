@@ -869,6 +869,10 @@ void ConfirmationsImpl::SetCatalogIssuers(std::unique_ptr<IssuersInfo> info) {
     BLOG(INFO) << "    Public key: " << issuer.public_key;
   }
 
+  if (public_key_ != info->public_key) {
+    unblinded_tokens_->RemoveAllTokens();
+  }
+
   public_key_ = info->public_key;
 
   catalog_issuers_.clear();
