@@ -55,11 +55,13 @@
       <include name="IDR_BRAVE_NEW_TAB_BACKGROUND14" file="../img/newtab/ntp-14.webp" type="BINDATA" />
       <include name="IDR_BRAVE_NEW_TAB_BACKGROUND15" file="../img/newtab/ntp-15.webp" type="BINDATA" />
       <include name="IDR_BRAVE_NEW_TAB_BACKGROUND16" file="../img/newtab/ntp-16.webp" type="BINDATA" />
-      
+
       <!-- WebUI private new tab resources -->
       <!-- TODO: move to brave_new_tab_ui component -->
       <include name="IDR_BRAVE_PRIVATE_TAB_IMG" file="../img/newtab/private-window.svg" type="BINDATA" />
       <include name="IDR_BRAVE_PRIVATE_TAB_TOR_IMG" file="../img/newtab/private-window-tor.svg" type="BINDATA" />
+
+      <part file="../brave_perf_predictor/resources/brave_perf_predictor_resources.grdp" />
     </includes>
   </release>
 </grit>
