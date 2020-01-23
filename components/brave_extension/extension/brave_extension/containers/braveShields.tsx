@@ -33,6 +33,7 @@ import {
   SetAdvancedViewFirstAccess,
   ShieldsReady
 } from '../types/actions/shieldsPanelActions'
+import { shieldsHasFocus } from '../helpers/shieldsUtils'
 
 interface Props {
   actions: {
@@ -85,6 +86,19 @@ export default class Shields extends React.PureComponent<Props, State> {
 
   componentDidMount () {
     this.props.actions.shieldsReady()
+  }
+
+  componentDidUpdate (prevProps: Props) {
+    // If current URL does not match current URL data in Shields,
+    // close it immediately.
+    // See https://github.com/brave/brave-browser/issues/6601.
+    const previousURL: string = prevProps.shieldsPanelTabData.url
+    const currentURL: string = this.props.shieldsPanelTabData.url
+    if (previousURL !== currentURL) {
+      if (shieldsHasFocus(currentURL) === false) {
+        window.close()
+      }
+    }
   }
 
   render () {
