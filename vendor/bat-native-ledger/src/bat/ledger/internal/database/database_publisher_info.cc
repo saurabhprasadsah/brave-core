@@ -6,15 +6,11 @@
 #include <map>
 #include <utility>
 
-#include "base/bind.h"
 #include "base/strings/stringprintf.h"
 #include "bat/ledger/global_constants.h"
 #include "bat/ledger/internal/database/database_publisher_info.h"
-#include "bat/ledger/internal/database/database_table.h"
 #include "bat/ledger/internal/database/database_util.h"
 #include "bat/ledger/internal/ledger_impl.h"
-#include "sql/statement.h"
-#include "sql/transaction.h"
 
 using std::placeholders::_1;
 
@@ -193,9 +189,7 @@ void DatabasePublisherInfo::InsertOrUpdate(
       _1,
       callback);
 
-  ledger_->RunDBTransaction(
-      std::move(transaction),
-      transaction_callback);
+  ledger_->RunDBTransaction(std::move(transaction), transaction_callback);
 }
 
 void DatabasePublisherInfo::GetRecord(
@@ -240,9 +234,7 @@ void DatabasePublisherInfo::GetRecord(
       _1,
       callback);
 
-  ledger_->RunDBTransaction(
-      std::move(transaction),
-      transaction_callback);
+  ledger_->RunDBTransaction(std::move(transaction), transaction_callback);
 }
 
 void DatabasePublisherInfo::OnGetRecord(
@@ -323,9 +315,7 @@ void DatabasePublisherInfo::GetPanelRecord(
       _1,
       callback);
 
-  ledger_->RunDBTransaction(
-      std::move(transaction),
-      transaction_callback);
+  ledger_->RunDBTransaction(std::move(transaction), transaction_callback);
 }
 
 void DatabasePublisherInfo::OnGetPanelRecord(
@@ -383,9 +373,7 @@ void DatabasePublisherInfo::RestorePublishers(ledger::ResultCallback callback) {
       _1,
       callback);
 
-  ledger_->RunDBTransaction(
-      std::move(transaction),
-      transaction_callback);
+  ledger_->RunDBTransaction(std::move(transaction), transaction_callback);
 }
 
 void DatabasePublisherInfo::GetExcludedList(
@@ -421,9 +409,7 @@ void DatabasePublisherInfo::GetExcludedList(
       _1,
       callback);
 
-  ledger_->RunDBTransaction(
-      std::move(transaction),
-      transaction_callback);
+  ledger_->RunDBTransaction(std::move(transaction), transaction_callback);
 }
 
 void DatabasePublisherInfo::OnGetExcludedList(
