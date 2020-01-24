@@ -71,7 +71,8 @@ export const StyledWidgetMenu = styled<WidgetMenuProps, 'div'>('div')`
   position absolute;
   width: 166px;
   padding: 8px 0;
-  background: white;
+  background-color: ${p => p.theme.color.contextMenuBackground};
+  color:  ${p => p.theme.color.contextMenuForeground};
   box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.3);
   border-radius: 4px;
   top: 48px;
@@ -100,7 +101,7 @@ interface WidgetButtonProps {
 }
 export const StyledWidgetButton = styled<WidgetButtonProps, 'button'>('button')`
   border-style: none;
-  blackground: white;
+  background: transparent;
   padding: 0;
   display: flex;
   height: 30px;
@@ -113,6 +114,7 @@ export const StyledWidgetButton = styled<WidgetButtonProps, 'button'>('button')`
   outline-offset: -3px;
   &:hover {
     background: rgb(217, 221, 254);
+    color: initial;
   }
 `
 
