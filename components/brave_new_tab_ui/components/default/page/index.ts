@@ -16,6 +16,7 @@ interface PageProps {
   showClock: boolean
   showStats: boolean
   showRewards: boolean
+  showBinance: boolean
   showTopSites: boolean
   showBrandedWallpaper: boolean
 }
@@ -90,6 +91,15 @@ export const GridItemRewards = styled('section')`
     grid-column: 2 / span 2;
     justify-self: end;
   }
+`
+
+export const GridItemBinance = styled('section')`
+  grid-column: 3 / span 1;
+  grid-row-end: span 2;
+  @media screen and (max-width: ${breakpointLargeBlocks}) {
+    grid-column: 2 / span 2;
+    justify-self: end;
+  }   
 `
 
 export const GridItemTopSites = styled('section')`

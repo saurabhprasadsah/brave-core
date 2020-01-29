@@ -240,11 +240,10 @@ void BraveNewTabMessageHandler::OnJavascriptAllowed() {
   pref_change_registrar_.Add(kNewTabPageShowRewards,
     base::Bind(&BraveNewTabMessageHandler::OnPreferencesChanged,
     base::Unretained(this)));
-<<<<<<< HEAD
   pref_change_registrar_.Add(kBrandedWallpaperNotificationDismissed,
-=======
+    base::Bind(&BraveNewTabMessageHandler::OnPreferencesChanged,
+    base::Unretained(this)));
   pref_change_registrar_.Add(kNewTabPageShowBinance,
->>>>>>> Binance Widget Prototyping
     base::Bind(&BraveNewTabMessageHandler::OnPreferencesChanged,
     base::Unretained(this)));
 }
@@ -312,13 +311,10 @@ void BraveNewTabMessageHandler::HandleSaveNewTabPagePref(
     settingsKey = kNewTabPageShowStats;
   } else if (settingsKeyInput == "showRewards") {
     settingsKey = kNewTabPageShowRewards;
-<<<<<<< HEAD
   } else if (settingsKeyInput == "isBrandedWallpaperNotificationDismissed") {
     settingsKey = kBrandedWallpaperNotificationDismissed;
-=======
   } else if (settingsKeyInput == "showBinance") {
     settingsKey = kNewTabPageShowBinance;
->>>>>>> Binance Widget Prototyping
   } else {
     LOG(ERROR) << "Invalid setting key";
     return;

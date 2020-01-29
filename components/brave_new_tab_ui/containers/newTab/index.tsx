@@ -14,7 +14,8 @@ import SiteRemovalNotification from './notification'
 import {
   ClockWidget as Clock,
   ListWidget as List,
-  RewardsWidget as Rewards
+  RewardsWidget as Rewards,
+  BinanceWidget as Binance
 } from '../../components/default'
 import * as Page from '../../components/default/page'
 import BrandedWallpaperLogo from '../../components/default/brandedWallpaper/logo'
@@ -279,6 +280,38 @@ class NewTabPage extends React.Component<Props, State> {
     this.setState({ showSettingsMenu: !this.state.showSettingsMenu })
   }
 
+  renderBinanceContent () {
+    const { newTabData } = this.props
+
+    if (!newTabData.showBinance) {
+      return null
+    }
+
+    return (
+      <Page.GridItemBinance>
+        <Binance
+          {...newTabData.binanceState}
+          menuPosition={'left'}
+          hideWidget={this.toggleShowBinance}
+          connectBinance={this.connectBinance}
+          onBinanceDetails={this.binanceDetails}
+          onBinanceDeposit={this.depositBinance}
+          onBinanceTrade={this.tradeBinance}
+          onSetHideBalance={this.setHideBalance}
+          onGenerateNewKey={this.generateNewKey}
+          onBinanceBalances={this.setBinanceBalances}
+          onBinanceUserTLD={this.onBinanceUserTLD}
+          onBTCUSDPrice={this.setBTCUSDPrice}
+          onSetApiKeys={this.setApiKeys}
+          onApiKeysInvalid={this.onApiKeysInvalid}
+          onAssetBTCPrice={this.setAssetBTCPrice}
+          onDisconnectBinance={this.disconnectBinance}
+          textDirection={newTabData.textDirection}
+        />
+      </Page.GridItemBinance>
+    )
+  }
+
   renderRewardsContent () {
     const { newTabData } = this.props
     const {
@@ -324,6 +357,7 @@ class NewTabPage extends React.Component<Props, State> {
     const isShowingBrandedWallpaper = newTabData.brandedWallpaperData ? true : false
     const showTopSites = !!this.props.newTabData.gridSites.length && newTabData.showTopSites
     const rewardsContent = this.renderRewardsContent()
+    const binanceContent = this.renderBinanceContent()
 
     return (
       <Page.App dataIsReady={newTabData.initialDataLoaded}>
@@ -345,6 +379,7 @@ class NewTabPage extends React.Component<Props, State> {
             showStats={newTabData.showStats}
             showRewards={!!rewardsContent}
             showTopSites={showTopSites}
+            showBinance={!!binanceContent}
             showBrandedWallpaper={isShowingBrandedWallpaper}
         >
           {newTabData.showStats &&
@@ -402,6 +437,7 @@ class NewTabPage extends React.Component<Props, State> {
             : null
           }
             {rewardsContent}
+            {binanceContent}
           <Page.Footer>
             {isShowingBrandedWallpaper && newTabData.brandedWallpaperData &&
              newTabData.brandedWallpaperData.logo &&
