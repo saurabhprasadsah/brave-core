@@ -150,6 +150,8 @@ bool BraveMainDelegate::BasicStartupComplete(int* exit_code) {
   command_line.AppendSwitchASCII(switches::kSyncServiceURL,
                                  "https://no-thanks.invalid");
 
+  command_line.AppendSwitch(kDisableDatabases);
+
   // Enabled features.
   const std::unordered_set<const char*> enabled_features = {
       password_manager::features::kPasswordImport.name,
